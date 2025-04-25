@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
   <title>Gas Rate Calculator</title>
   <link rel="manifest" href="manifest.json" />
   <style>
+    /* Inlined CSS from the user's code for simplicity */
     body {
       font-family: Arial, sans-serif;
       padding: 2rem;
@@ -127,7 +129,6 @@
       display: flex;
       align-items: center;
       margin-bottom: 1rem;
-      justify-content: space-between;
     }
 
     .toggle-wrapper label {
@@ -140,45 +141,19 @@
       color: #e0d1ff;
     }
 
-    .toggle-controls {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    #darkModeToggle, #imperialToggle {
+    #darkModeToggle {
       position: absolute;
       opacity: 0;
       pointer-events: none;
     }
-
-    .mode-indicator {
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: #6a0dad;
-    }
-
-    .dark-mode .mode-indicator {
-      color: #e0d1ff;
-    }
-
   </style>
 </head>
 <body onload="init()">
   <div class="container">
     <div class="toggle-wrapper">
-      <div class="toggle-controls">
-        <label for="darkModeToggle" onclick="toggleDarkMode()">Dark Mode</label>
-        <input type="checkbox" id="darkModeToggle">
-      </div>
-      <div class="toggle-controls">
-        <label for="imperialToggle" onclick="toggleImperialMode()">Imperial</label>
-        <input type="checkbox" id="imperialToggle">
-      </div>
+      <label for="darkModeToggle" onclick="toggleDarkMode()">Dark Mode</label>
+      <input type="checkbox" id="darkModeToggle">
     </div>
-
-    <div class="mode-indicator" id="imperialStatus"></div>
 
     <h2>Gas Rate Calculator</h2>
 
