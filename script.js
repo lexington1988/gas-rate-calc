@@ -10,6 +10,19 @@ function init() {
     document.body.classList.add("dark-mode");
     document.getElementById("darkModeToggle").checked = true;
   }
+
+  // Preload and warm-up audio for mobile compatibility
+  const countdownBeep = document.getElementById("countdownBeep");
+  const alertSound = document.getElementById("alertSound");
+
+  [countdownBeep, alertSound].forEach((audio) => {
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }).catch(() => {
+      // Ignore autoplay error — this is expected before user interaction
+    });
+  });
 }
 
 function toggleMode() {
@@ -34,10 +47,9 @@ function startTimer() {
   const timeLeftEl = document.getElementById("timeLeft");
   const startBtn = document.getElementById("startBtn");
   const pauseBtn = document.getElementById("pauseBtn");
-  const countdownBeep = document.getElementById("countdownBeep");
   const alertSound = document.getElementById("alertSound");
+  const countdownBeep = document.getElementById("countdownBeep");
 
-  // Always reset the timer when Start is pressed
   clearInterval(timer);
   timer = null;
   isPaused = false;
@@ -63,8 +75,12 @@ function startTimer() {
       timeLeftEl.textContent = formatTime(secondsLeft);
 
       if (secondsLeft <= 5 && secondsLeft > 0) {
-        countdownBeep.currentTime = 0;
-        countdownBeep.play();
+        try {
+          countdownBeep.currentTime = 0;
+          countdownBeep.play();
+        } catch (e) {
+          // Just in case browser blocks it — silently fail
+        }
       }
 
       if (secondsLeft <= 0) {
@@ -76,7 +92,13 @@ function startTimer() {
         document.getElementById("calculateBtn").disabled = false;
         toggleInputs(false);
         pauseBtn.style.display = "none";
-        alertSound.play();
+
+        try {
+          alertSound.currentTime = 0;
+          alertSound.play();
+        } catch (e) {
+          // Silently fail
+        }
       }
     }
   }, 1000);
