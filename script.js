@@ -1,28 +1,58 @@
 let timer;
 let secondsLeft = 0;
 let isPaused = false;
+let isImperial = false;
+let stopwatchStartTime = 0;
 
 function init() {
   toggleMode();
 
-  const darkModeSetting = localStorage.getItem("darkMode");
-  if (darkModeSetting === "true") {
-    document.body.classList.add("dark-mode");
-    document.getElementById("darkModeToggle").checked = true;
-  }
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  const imperialToggle = document.getElementById("imperialToggle");
+  const darkModeSetting = localStorage.getItem("darkMode") === "true";
+  const imperialSetting = localStorage.getItem("imperialMode") === "true";
 
-  // Preload and warm-up audio for mobile compatibility
-  const countdownBeep = document.getElementById("countdownBeep");
-  const alertSound = document.getElementById("alertSound");
+  document.body.classList.toggle("dark-mode", darkModeSetting);
+  darkModeToggle.checked = darkModeSetting;
 
-  [countdownBeep, alertSound].forEach((audio) => {
-    audio.play().then(() => {
-      audio.pause();
-      audio.currentTime = 0;
-    }).catch(() => {
-      // Ignore autoplay error — this is expected before user interaction
-    });
+  isImperial = imperialSetting;
+  imperialToggle.checked = imperialSetting;
+  updateImperialStatus();
+  applyImperialRestrictions();
+
+  darkModeToggle.addEventListener("change", () => {
+    toggleDarkMode(darkModeToggle.checked);
   });
+
+  imperialToggle.addEventListener("change", () => {
+    toggleImperialMode(imperialToggle.checked);
+  });
+}
+
+function toggleDarkMode(enabled) {
+  document.body.classList.toggle("dark-mode", enabled);
+  localStorage.setItem("darkMode", enabled);
+}
+
+function toggleImperialMode(enabled) {
+  isImperial = enabled;
+  localStorage.setItem("imperialMode", enabled);
+  updateImperialStatus();
+  applyImperialRestrictions();
+  toggleMode(); // Update UI based on new imperial state
+}
+
+function updateImperialStatus() {
+  const status = document.getElementById("imperialStatus");
+  status.textContent = isImperial ? "Imperial Mode Active" : "";
+}
+
+function applyImperialRestrictions() {
+  const modeSelect = document.getElementById("mode");
+  const durationInput = document.getElementById("duration");
+
+  modeSelect.disabled = isImperial;
+  durationInput.disabled = isImperial;
 }
 
 function toggleMode() {
@@ -31,9 +61,9 @@ function toggleMode() {
   const manualDuration = document.getElementById("manualDuration");
   const calculateBtn = document.getElementById("calculateBtn");
 
-  if (mode === "manual") {
-    timerSection.style.display = "none";
-    manualDuration.style.display = "block";
+  if (mode === "manual" || isImperial) {
+    timerSection.style.display = isImperial ? "block" : "none";
+    manualDuration.style.display = isImperial ? "none" : "block";
     calculateBtn.disabled = false;
   } else {
     timerSection.style.display = "block";
@@ -48,60 +78,67 @@ function startTimer() {
   const startBtn = document.getElementById("startBtn");
   const pauseBtn = document.getElementById("pauseBtn");
   const alertSound = document.getElementById("alertSound");
-  const countdownBeep = document.getElementById("countdownBeep");
 
   clearInterval(timer);
   timer = null;
   isPaused = false;
+  secondsLeft = isImperial ? 0 : duration;
+  stopwatchStartTime = Date.now();
 
   timeLeftEl.classList.remove("highlight");
   timeLeftEl.style.color = "#6a0dad";
-  secondsLeft = duration;
-  startBtn.disabled = false;
   timeLeftEl.textContent = formatTime(secondsLeft);
+  startBtn.disabled = false;
   document.getElementById("calculateBtn").disabled = true;
   pauseBtn.style.display = "inline-block";
   pauseBtn.textContent = "Pause";
-  toggleInputs(true);
 
-  timer = setInterval(() => {
-    if (!isPaused) {
-      secondsLeft--;
+  document.getElementById("gasType").disabled = true;
 
-      if (secondsLeft <= 9) {
-        timeLeftEl.style.color = "red";
+  if (!isImperial) {
+    document.getElementById("mode").disabled = true;
+    document.getElementById("duration").disabled = true;
+  }
+
+  if (isImperial) {
+    // Stopwatch mode
+    timer = setInterval(() => {
+      if (!isPaused) {
+        secondsLeft++;
+        timeLeftEl.textContent = formatTime(secondsLeft);
       }
+    }, 1000);
+  } else {
+    // Countdown mode
+    timer = setInterval(() => {
+      if (!isPaused) {
+        secondsLeft--;
 
-      timeLeftEl.textContent = formatTime(secondsLeft);
-
-      if (secondsLeft <= 5 && secondsLeft > 0) {
-        try {
-          countdownBeep.currentTime = 0;
-          countdownBeep.play();
-        } catch (e) {
-          // Just in case browser blocks it — silently fail
+        if (secondsLeft <= 9) {
+          timeLeftEl.style.color = "red";
         }
-      }
 
-      if (secondsLeft <= 0) {
-        clearInterval(timer);
-        timer = null;
-        timeLeftEl.textContent = "Timer finished!";
-        timeLeftEl.classList.add("highlight");
-        startBtn.disabled = false;
-        document.getElementById("calculateBtn").disabled = false;
-        toggleInputs(false);
-        pauseBtn.style.display = "none";
-
-        try {
+        if (secondsLeft > 0 && secondsLeft <= 5) {
           alertSound.currentTime = 0;
           alertSound.play();
-        } catch (e) {
-          // Silently fail
+        }
+
+        timeLeftEl.textContent = formatTime(secondsLeft);
+
+        if (secondsLeft <= 0) {
+          clearInterval(timer);
+          timer = null;
+          timeLeftEl.textContent = "Timer finished!";
+          timeLeftEl.classList.add("highlight");
+          startBtn.disabled = false;
+          document.getElementById("calculateBtn").disabled = false;
+          pauseBtn.style.display = "none";
+          alertSound.play();
+          toggleInputs(false);
         }
       }
-    }
-  }, 1000);
+    }, 1000);
+  }
 }
 
 function togglePauseResume() {
@@ -119,8 +156,12 @@ function toggleInputs(disabled) {
   document.getElementById("initial").disabled = disabled;
   document.getElementById("final").disabled = disabled;
   document.getElementById("gasType").disabled = disabled;
-  document.getElementById("mode").disabled = disabled;
-  document.getElementById("duration").disabled = disabled;
+
+  // These are conditionally disabled elsewhere when imperial is true
+  if (!isImperial) {
+    document.getElementById("mode").disabled = disabled;
+    document.getElementById("duration").disabled = disabled;
+  }
 }
 
 function calculateRate() {
@@ -131,10 +172,10 @@ function calculateRate() {
   const resultEl = document.getElementById("result");
 
   let duration;
-  if (mode === "manual") {
+  if (mode === "manual" && !isImperial) {
     duration = parseFloat(document.getElementById("manualSeconds").value);
   } else {
-    duration = parseFloat(document.getElementById("duration").value);
+    duration = isImperial ? secondsLeft : parseFloat(document.getElementById("duration").value);
   }
 
   if (isNaN(initial) || isNaN(final)) {
@@ -187,9 +228,4 @@ function resetForm() {
 
   toggleInputs(false);
   init();
-}
-
-function toggleDarkMode() {
-  const isDark = document.body.classList.toggle("dark-mode");
-  localStorage.setItem("darkMode", isDark);
 }
