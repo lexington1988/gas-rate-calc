@@ -1,188 +1,205 @@
-let timer;
-let secondsLeft = 0;
+let countdown;
+let stopwatchInterval;
+let time = 0;
 let isPaused = false;
-
-// Unlock audio on first user interaction (for mobile browsers)
-document.addEventListener('click', () => {
-  const alertSound = document.getElementById("alertSound");
-  if (alertSound) {
-    alertSound.play().catch(() => {}); // try to unlock the sound
-    alertSound.pause();
-    alertSound.currentTime = 0;
-  }
-}, { once: true });
+let imperialMode = false;
 
 function init() {
+  document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
+  document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
   toggleMode();
+}
 
-  const darkModeToggle = document.getElementById("darkModeToggle");
-  const darkModeSetting = localStorage.getItem("darkMode") === "true";
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+}
 
-  document.body.classList.toggle("dark-mode", darkModeSetting);
-  darkModeToggle.checked = darkModeSetting;
+function toggleImperialMode() {
+  imperialMode = document.getElementById('imperialToggle').checked;
+  const status = document.getElementById('imperialStatus');
+  const durationLabel = document.querySelector('label[for="duration"]');
+  const modeSelect = document.getElementById('mode');
+  const imperialVolumeSection = document.getElementById('imperialVolumeSection');
+  const imperialVolumeInput = document.getElementById('imperialVolume');
+  const meterReadings = document.getElementById('meterReadings');
 
-  darkModeToggle.addEventListener("change", () => {
-    toggleDarkMode(darkModeToggle.checked);
-  });
+  if (imperialMode) {
+    status.textContent = 'Imperial mode activated';
+    modeSelect.value = 'timer';
+    imperialVolumeSection.style.display = 'block';
+    imperialVolumeInput.value = '1';
+    imperialVolumeInput.readOnly = true;
+    meterReadings.style.display = 'none';
+    durationLabel.style.display = 'none';
+    document.getElementById('duration').style.display = 'none';
+  } else {
+    status.textContent = '';
+    imperialVolumeSection.style.display = 'none';
+    imperialVolumeInput.readOnly = false;
+    meterReadings.style.display = 'block';
+    durationLabel.style.display = '';
+    document.getElementById('duration').style.display = '';
+  }
+
+  toggleMode();
 }
 
 function toggleMode() {
-  const mode = document.getElementById("mode").value;
-  const timerSection = document.getElementById("timerSection");
-  const manualDuration = document.getElementById("manualDuration");
-  const calculateBtn = document.getElementById("calculateBtn");
+  const mode = document.getElementById('mode').value;
+  const manualSection = document.getElementById('manualDuration');
+  const timerSection = document.getElementById('timerSection');
 
-  if (mode === "manual") {
-    timerSection.style.display = "none";
-    manualDuration.style.display = "block";
-    calculateBtn.disabled = false;
+  if (mode === 'manual') {
+    manualSection.style.display = 'block';
+    timerSection.style.display = 'none';
   } else {
-    timerSection.style.display = "block";
-    manualDuration.style.display = "none";
-    calculateBtn.disabled = true;
+    manualSection.style.display = 'none';
+    timerSection.style.display = 'block';
   }
 }
 
 function startTimer() {
-  const duration = parseInt(document.getElementById("duration").value);
-  const timeLeftEl = document.getElementById("timeLeft");
-  const startBtn = document.getElementById("startBtn");
-  const pauseBtn = document.getElementById("pauseBtn");
-  const alertSound = document.getElementById("alertSound");
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const timeLeft = document.getElementById('timeLeft');
 
-  clearInterval(timer);
-  timer = null;
-  isPaused = false;
+  if (imperialMode) {
+    if (!stopwatchInterval) {
+      time = 0;
+      startBtn.textContent = 'Stop Timer';
+      timeLeft.textContent = formatTime(time);
+      stopwatchInterval = setInterval(() => {
+        if (!isPaused) {
+          time++;
+          timeLeft.textContent = formatTime(time);
+        }
+      }, 1000);
+    } else {
+      clearInterval(stopwatchInterval);
+      stopwatchInterval = null;
+      startBtn.textContent = 'Start Timer';
+    }
+    return;
+  }
 
-  timeLeftEl.classList.remove("highlight");
-  timeLeftEl.style.color = "#6a0dad";
-  secondsLeft = duration;
-  startBtn.disabled = false;
-  timeLeftEl.textContent = formatTime(secondsLeft);
-  document.getElementById("calculateBtn").disabled = true;
-  pauseBtn.style.display = "inline-block";
-  pauseBtn.textContent = "Pause";
+  const duration = parseInt(document.getElementById('duration').value);
+  let secondsLeft = duration;
 
-  timer = setInterval(() => {
+  clearInterval(countdown);
+  startBtn.style.display = 'none';
+  pauseBtn.style.display = 'inline-block';
+  timeLeft.classList.remove('highlight');
+
+  countdown = setInterval(() => {
     if (!isPaused) {
       secondsLeft--;
-
-      if (secondsLeft <= 9) {
-        timeLeftEl.style.color = "red";
+      timeLeft.textContent = formatTime(secondsLeft);
+      if (secondsLeft <= 5) {
+        timeLeft.classList.add('highlight');
+        playBeep();
       }
-
-      if (secondsLeft > 0 && secondsLeft <= 5) {
-        alertSound.currentTime = 0;
-        alertSound.play().catch(() => {});
-      }
-
-      timeLeftEl.textContent = formatTime(secondsLeft);
-
       if (secondsLeft <= 0) {
-        clearInterval(timer);
-        timer = null;
-        timeLeftEl.textContent = "Timer finished!";
-        timeLeftEl.classList.add("highlight");
-        startBtn.disabled = false;
-        document.getElementById("calculateBtn").disabled = false;
-        pauseBtn.style.display = "none";
-        alertSound.play().catch(() => {});
-        toggleInputs(false);
+        clearInterval(countdown);
+        document.getElementById('startBtn').style.display = 'inline-block';
+        pauseBtn.style.display = 'none';
+        timeLeft.classList.remove('highlight');
+        timeLeft.textContent = '0:00';
+        playBeep();
       }
     }
   }, 1000);
-
-  document.getElementById("mode").disabled = true;
-  document.getElementById("duration").disabled = true;
-  document.getElementById("gasType").disabled = true;
 }
 
 function togglePauseResume() {
   isPaused = !isPaused;
-  document.getElementById("pauseBtn").textContent = isPaused ? "Resume" : "Pause";
+  document.getElementById('pauseBtn').textContent = isPaused ? 'Resume' : 'Pause';
 }
 
-function formatTime(sec) {
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${m}:${s.toString().padStart(2, '0')}`;
+function formatTime(seconds) {
+  const min = Math.floor(seconds / 60);
+  const sec = seconds % 60;
+  return `${min}:${sec < 10 ? '0' : ''}${sec}`;
 }
 
-function toggleInputs(disabled) {
-  document.getElementById("initial").disabled = disabled;
-  document.getElementById("final").disabled = disabled;
-  document.getElementById("gasType").disabled = disabled;
-  document.getElementById("mode").disabled = disabled;
-  document.getElementById("duration").disabled = disabled;
+function playBeep() {
+  const beep = document.getElementById('alertSound');
+  beep.currentTime = 0;
+  beep.play();
 }
 
 function calculateRate() {
-  const initial = parseFloat(document.getElementById("initial").value);
-  const final = parseFloat(document.getElementById("final").value);
-  const gasType = document.getElementById("gasType").value;
-  const mode = document.getElementById("mode").value;
-  const resultEl = document.getElementById("result");
+  const result = document.getElementById('result');
+  result.textContent = '';
+  let volume, duration;
 
-  let duration;
-  if (mode === "manual") {
-    duration = parseFloat(document.getElementById("manualSeconds").value);
+  if (imperialMode) {
+    const volumeUsed = parseFloat(document.getElementById('imperialVolume').value);
+    if (isNaN(volumeUsed) || volumeUsed <= 0) {
+      result.textContent = 'Please enter a valid volume used in ft³.';
+      return;
+    }
+
+    if (!stopwatchInterval && time === 0) {
+      result.textContent = 'Please start and stop the timer.';
+      return;
+    }
+
+    duration = time;
+    const gasRate = (3600 * volumeUsed) / duration; // ft³/hr
+    const calorificValue = 1040; // Typical CV for imperial in BTU/ft³
+    const grossBTU = gasRate * calorificValue;
+    const grosskW = grossBTU / 3412;
+    const netkW = grosskW / 1.1;
+
+    result.innerHTML =
+      `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
+      `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
+      `Net Heat Input: ${netkW.toFixed(2)} kW`;
+
   } else {
-    duration = parseFloat(document.getElementById("duration").value);
+    const initial = parseFloat(document.getElementById('initial').value);
+    const final = parseFloat(document.getElementById('final').value);
+
+    if (isNaN(initial) || isNaN(final) || final <= initial) {
+      result.textContent = 'Please enter valid initial and final readings.';
+      return;
+    }
+
+    volume = final - initial;
+
+    const mode = document.getElementById('mode').value;
+    duration = mode === 'manual'
+      ? parseInt(document.getElementById('manualSeconds').value)
+      : parseInt(document.getElementById('duration').value);
+
+    const m3h = (3600 * volume) / duration;
+    const gasType = document.getElementById('gasType').value;
+    const calorificValue = gasType === 'natural' ? 39.3 : 93.2;
+
+    const gross = (3600 * calorificValue * volume) / (duration * 3.6);
+    const net = gross / 1.1;
+
+    result.innerHTML =
+      `Gas Rate: ${m3h.toFixed(2)} m³/hr<br>` +
+      `Gross Heat Input: ${gross.toFixed(2)} kW<br>` +
+      `Net Heat Input: ${net.toFixed(2)} kW`;
   }
-
-  if (isNaN(initial) || isNaN(final)) {
-    resultEl.textContent = "Please enter both initial and final readings.";
-    return;
-  }
-  if (isNaN(duration) || duration <= 0) {
-    resultEl.textContent = "Duration must be greater than zero.";
-    return;
-  }
-  if (final <= initial) {
-    resultEl.textContent = "Final reading must be greater than initial reading.";
-    return;
-  }
-
-  const usage = final - initial;
-  const volumePerHour = (usage * 3600) / duration;
-
-  let calorificValue = gasType === "natural" ? 10.76 : 26.39;
-  const grossKW = volumePerHour * calorificValue;
-  const netKW = grossKW / 1.11;
-
-  resultEl.innerHTML = `
-    <strong>Gas Usage Rate:</strong> ${volumePerHour.toFixed(2)} m³/h<br/>
-    <strong>Gross kW:</strong> ${grossKW.toFixed(2)}<br/>
-    <strong>Net kW:</strong> ${netKW.toFixed(2)}
-  `;
-
-  resultEl.scrollIntoView({ behavior: "smooth" });
 }
 
 function resetForm() {
-  clearInterval(timer);
-  timer = null;
-  secondsLeft = 0;
+  clearInterval(countdown);
+  clearInterval(stopwatchInterval);
+  stopwatchInterval = null;
+  time = 0;
   isPaused = false;
 
-  document.getElementById("initial").value = "";
-  document.getElementById("final").value = "";
-  document.getElementById("result").innerHTML = "";
-
-  const timeLeft = document.getElementById("timeLeft");
-  timeLeft.textContent = "0:00";
-  timeLeft.classList.remove("highlight");
-  timeLeft.style.color = "#6a0dad";
-
-  document.getElementById("startBtn").disabled = false;
-  document.getElementById("calculateBtn").disabled = false;
-  document.getElementById("pauseBtn").style.display = "none";
-
-  toggleInputs(false);
-  init();
-}
-
-function toggleDarkMode(enabled) {
-  document.body.classList.toggle("dark-mode", enabled);
-  localStorage.setItem("darkMode", enabled);
+  document.getElementById('initial').value = '';
+  document.getElementById('final').value = '';
+  document.getElementById('imperialVolume').value = imperialMode ? '1' : '';
+  document.getElementById('timeLeft').textContent = '0:00';
+  document.getElementById('startBtn').textContent = 'Start Timer';
+  document.getElementById('startBtn').style.display = 'inline-block';
+  document.getElementById('pauseBtn').style.display = 'none';
+  document.getElementById('pauseBtn').textContent = 'Pause';
+  document.getElementById('result').textContent = '';
 }
