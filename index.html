@@ -1,13 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gas Rate Calculator</title>
-  <link rel="manifest" href="manifest.json" />
   <style>
-    /* Inlined CSS from the user's code for simplicity */
     body {
       font-family: Arial, sans-serif;
       padding: 2rem;
@@ -180,12 +177,13 @@
     <div id="timerSection">
       <label for="duration">Test Duration</label>
       <select id="duration">
+        <option value="10" selected>10 Seconds (Test)</option>
         <option value="60">1 Minute</option>
         <option value="120">2 Minutes</option>
       </select>
       <button id="startBtn" onclick="startTimer()">Start Timer</button>
       <button id="pauseBtn" onclick="togglePauseResume()" style="display:none;">Pause</button>
-      <div id="timeLeft">0:00</div>
+      <div id="timeLeft">0:10</div>
     </div>
 
     <label for="initial">Initial Reading</label>
@@ -200,7 +198,7 @@
     <div id="result" class="results"></div>
   </div>
 
-  <audio id="alertSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
+  <audio id="alertSound" src="beep-07a.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
