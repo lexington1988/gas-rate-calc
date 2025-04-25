@@ -5,18 +5,11 @@ let isPaused = false;
 function init() {
   toggleMode();
 
-  const darkModeToggle = document.getElementById("darkModeToggle");
-  const darkModeSetting = localStorage.getItem("darkMode") === "true";
-
-  document.body.classList.toggle("dark-mode", darkModeSetting);
-  darkModeToggle.checked = darkModeSetting;
-
-  darkModeToggle.addEventListener("change", () => {
-    toggleDarkMode(darkModeToggle.checked);
-  });
-
-  // Set default timer display
-  document.getElementById("timeLeft").textContent = "0:10";
+  const darkModeSetting = localStorage.getItem("darkMode");
+  if (darkModeSetting === "true") {
+    document.body.classList.add("dark-mode");
+    document.getElementById("darkModeToggle").checked = true;
+  }
 }
 
 function toggleMode() {
@@ -43,6 +36,7 @@ function startTimer() {
   const pauseBtn = document.getElementById("pauseBtn");
   const alertSound = document.getElementById("alertSound");
 
+  // Always reset the timer when Start is pressed
   clearInterval(timer);
   timer = null;
   isPaused = false;
@@ -50,8 +44,9 @@ function startTimer() {
   timeLeftEl.classList.remove("highlight");
   timeLeftEl.style.color = "#6a0dad";
   secondsLeft = duration;
+  startBtn.disabled = false;
   timeLeftEl.textContent = formatTime(secondsLeft);
-  startBtn.disabled = true;
+  document.getElementById("calculateBtn").disabled = true;
   pauseBtn.style.display = "inline-block";
   pauseBtn.textContent = "Pause";
   toggleInputs(true);
@@ -64,13 +59,12 @@ function startTimer() {
         timeLeftEl.style.color = "red";
       }
 
-      if (secondsLeft > 0 && secondsLeft <= 5) {
-        alertSound.pause();
+      timeLeftEl.textContent = formatTime(secondsLeft);
+
+      if (secondsLeft <= 5 && secondsLeft > 0) {
         alertSound.currentTime = 0;
         alertSound.play();
       }
-
-      timeLeftEl.textContent = formatTime(secondsLeft);
 
       if (secondsLeft <= 0) {
         clearInterval(timer);
@@ -160,7 +154,7 @@ function resetForm() {
   document.getElementById("result").innerHTML = "";
 
   const timeLeft = document.getElementById("timeLeft");
-  timeLeft.textContent = "0:10";
+  timeLeft.textContent = "0:00";
   timeLeft.classList.remove("highlight");
   timeLeft.style.color = "#6a0dad";
 
@@ -172,7 +166,7 @@ function resetForm() {
   init();
 }
 
-function toggleDarkMode(enabled) {
-  document.body.classList.toggle("dark-mode", enabled);
-  localStorage.setItem("darkMode", enabled);
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", isDark);
 }
