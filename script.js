@@ -34,6 +34,7 @@ function startTimer() {
   const timeLeftEl = document.getElementById("timeLeft");
   const startBtn = document.getElementById("startBtn");
   const pauseBtn = document.getElementById("pauseBtn");
+  const countdownBeep = document.getElementById("countdownBeep");
   const alertSound = document.getElementById("alertSound");
 
   // Always reset the timer when Start is pressed
@@ -62,8 +63,8 @@ function startTimer() {
       timeLeftEl.textContent = formatTime(secondsLeft);
 
       if (secondsLeft <= 5 && secondsLeft > 0) {
-        alertSound.currentTime = 0;
-        alertSound.play();
+        countdownBeep.currentTime = 0;
+        countdownBeep.play();
       }
 
       if (secondsLeft <= 0) {
