@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gas Rate Calculator</title>
+  <link rel="manifest" href="manifest.json" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -126,6 +127,7 @@
       display: flex;
       align-items: center;
       margin-bottom: 1rem;
+      justify-content: space-between;
     }
 
     .toggle-wrapper label {
@@ -138,19 +140,45 @@
       color: #e0d1ff;
     }
 
-    #darkModeToggle {
+    .toggle-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    #darkModeToggle, #imperialToggle {
       position: absolute;
       opacity: 0;
       pointer-events: none;
     }
+
+    .mode-indicator {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #6a0dad;
+    }
+
+    .dark-mode .mode-indicator {
+      color: #e0d1ff;
+    }
+
   </style>
 </head>
 <body onload="init()">
   <div class="container">
     <div class="toggle-wrapper">
-      <label for="darkModeToggle" onclick="toggleDarkMode()">Dark Mode</label>
-      <input type="checkbox" id="darkModeToggle">
+      <div class="toggle-controls">
+        <label for="darkModeToggle" onclick="toggleDarkMode()">Dark Mode</label>
+        <input type="checkbox" id="darkModeToggle">
+      </div>
+      <div class="toggle-controls">
+        <label for="imperialToggle" onclick="toggleImperialMode()">Imperial</label>
+        <input type="checkbox" id="imperialToggle">
+      </div>
     </div>
+
+    <div class="mode-indicator" id="imperialStatus"></div>
 
     <h2>Gas Rate Calculator</h2>
 
@@ -177,13 +205,12 @@
     <div id="timerSection">
       <label for="duration">Test Duration</label>
       <select id="duration">
-        <option value="10" selected>10 Seconds (Test)</option>
         <option value="60">1 Minute</option>
         <option value="120">2 Minutes</option>
       </select>
       <button id="startBtn" onclick="startTimer()">Start Timer</button>
       <button id="pauseBtn" onclick="togglePauseResume()" style="display:none;">Pause</button>
-      <div id="timeLeft">0:10</div>
+      <div id="timeLeft">0:00</div>
     </div>
 
     <label for="initial">Initial Reading</label>
@@ -198,10 +225,6 @@
     <div id="result" class="results"></div>
   </div>
 
-  <!-- 🔊 New countdown beep sound element -->
-  <audio id="countdownBeep" src="beep-07a.mp3" preload="auto"></audio>
-
-  <!-- ✅ Original alert sound for timer finish -->
   <audio id="alertSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
