@@ -1,58 +1,29 @@
 let timer;
 let secondsLeft = 0;
 let isPaused = false;
-let isImperial = false;
-let stopwatchStartTime = 0;
+
+// Unlock audio on first user interaction (for mobile browsers)
+document.addEventListener('click', () => {
+  const alertSound = document.getElementById("alertSound");
+  if (alertSound) {
+    alertSound.play().catch(() => {}); // try to unlock the sound
+    alertSound.pause();
+    alertSound.currentTime = 0;
+  }
+}, { once: true });
 
 function init() {
   toggleMode();
 
   const darkModeToggle = document.getElementById("darkModeToggle");
-  const imperialToggle = document.getElementById("imperialToggle");
   const darkModeSetting = localStorage.getItem("darkMode") === "true";
-  const imperialSetting = localStorage.getItem("imperialMode") === "true";
 
   document.body.classList.toggle("dark-mode", darkModeSetting);
   darkModeToggle.checked = darkModeSetting;
 
-  isImperial = imperialSetting;
-  imperialToggle.checked = imperialSetting;
-  updateImperialStatus();
-  applyImperialRestrictions();
-
   darkModeToggle.addEventListener("change", () => {
     toggleDarkMode(darkModeToggle.checked);
   });
-
-  imperialToggle.addEventListener("change", () => {
-    toggleImperialMode(imperialToggle.checked);
-  });
-}
-
-function toggleDarkMode(enabled) {
-  document.body.classList.toggle("dark-mode", enabled);
-  localStorage.setItem("darkMode", enabled);
-}
-
-function toggleImperialMode(enabled) {
-  isImperial = enabled;
-  localStorage.setItem("imperialMode", enabled);
-  updateImperialStatus();
-  applyImperialRestrictions();
-  toggleMode(); // Update UI based on new imperial state
-}
-
-function updateImperialStatus() {
-  const status = document.getElementById("imperialStatus");
-  status.textContent = isImperial ? "Imperial Mode Active" : "";
-}
-
-function applyImperialRestrictions() {
-  const modeSelect = document.getElementById("mode");
-  const durationInput = document.getElementById("duration");
-
-  modeSelect.disabled = isImperial;
-  durationInput.disabled = isImperial;
 }
 
 function toggleMode() {
@@ -61,9 +32,9 @@ function toggleMode() {
   const manualDuration = document.getElementById("manualDuration");
   const calculateBtn = document.getElementById("calculateBtn");
 
-  if (mode === "manual" || isImperial) {
-    timerSection.style.display = isImperial ? "block" : "none";
-    manualDuration.style.display = isImperial ? "none" : "block";
+  if (mode === "manual") {
+    timerSection.style.display = "none";
+    manualDuration.style.display = "block";
     calculateBtn.disabled = false;
   } else {
     timerSection.style.display = "block";
@@ -82,63 +53,48 @@ function startTimer() {
   clearInterval(timer);
   timer = null;
   isPaused = false;
-  secondsLeft = isImperial ? 0 : duration;
-  stopwatchStartTime = Date.now();
 
   timeLeftEl.classList.remove("highlight");
   timeLeftEl.style.color = "#6a0dad";
-  timeLeftEl.textContent = formatTime(secondsLeft);
+  secondsLeft = duration;
   startBtn.disabled = false;
+  timeLeftEl.textContent = formatTime(secondsLeft);
   document.getElementById("calculateBtn").disabled = true;
   pauseBtn.style.display = "inline-block";
   pauseBtn.textContent = "Pause";
 
+  timer = setInterval(() => {
+    if (!isPaused) {
+      secondsLeft--;
+
+      if (secondsLeft <= 9) {
+        timeLeftEl.style.color = "red";
+      }
+
+      if (secondsLeft > 0 && secondsLeft <= 5) {
+        alertSound.currentTime = 0;
+        alertSound.play().catch(() => {});
+      }
+
+      timeLeftEl.textContent = formatTime(secondsLeft);
+
+      if (secondsLeft <= 0) {
+        clearInterval(timer);
+        timer = null;
+        timeLeftEl.textContent = "Timer finished!";
+        timeLeftEl.classList.add("highlight");
+        startBtn.disabled = false;
+        document.getElementById("calculateBtn").disabled = false;
+        pauseBtn.style.display = "none";
+        alertSound.play().catch(() => {});
+        toggleInputs(false);
+      }
+    }
+  }, 1000);
+
+  document.getElementById("mode").disabled = true;
+  document.getElementById("duration").disabled = true;
   document.getElementById("gasType").disabled = true;
-
-  if (!isImperial) {
-    document.getElementById("mode").disabled = true;
-    document.getElementById("duration").disabled = true;
-  }
-
-  if (isImperial) {
-    // Stopwatch mode
-    timer = setInterval(() => {
-      if (!isPaused) {
-        secondsLeft++;
-        timeLeftEl.textContent = formatTime(secondsLeft);
-      }
-    }, 1000);
-  } else {
-    // Countdown mode
-    timer = setInterval(() => {
-      if (!isPaused) {
-        secondsLeft--;
-
-        if (secondsLeft <= 9) {
-          timeLeftEl.style.color = "red";
-        }
-
-        if (secondsLeft > 0 && secondsLeft <= 5) {
-          alertSound.currentTime = 0;
-          alertSound.play();
-        }
-
-        timeLeftEl.textContent = formatTime(secondsLeft);
-
-        if (secondsLeft <= 0) {
-          clearInterval(timer);
-          timer = null;
-          timeLeftEl.textContent = "Timer finished!";
-          timeLeftEl.classList.add("highlight");
-          startBtn.disabled = false;
-          document.getElementById("calculateBtn").disabled = false;
-          pauseBtn.style.display = "none";
-          alertSound.play();
-          toggleInputs(false);
-        }
-      }
-    }, 1000);
-  }
 }
 
 function togglePauseResume() {
@@ -156,12 +112,8 @@ function toggleInputs(disabled) {
   document.getElementById("initial").disabled = disabled;
   document.getElementById("final").disabled = disabled;
   document.getElementById("gasType").disabled = disabled;
-
-  // These are conditionally disabled elsewhere when imperial is true
-  if (!isImperial) {
-    document.getElementById("mode").disabled = disabled;
-    document.getElementById("duration").disabled = disabled;
-  }
+  document.getElementById("mode").disabled = disabled;
+  document.getElementById("duration").disabled = disabled;
 }
 
 function calculateRate() {
@@ -172,10 +124,10 @@ function calculateRate() {
   const resultEl = document.getElementById("result");
 
   let duration;
-  if (mode === "manual" && !isImperial) {
+  if (mode === "manual") {
     duration = parseFloat(document.getElementById("manualSeconds").value);
   } else {
-    duration = isImperial ? secondsLeft : parseFloat(document.getElementById("duration").value);
+    duration = parseFloat(document.getElementById("duration").value);
   }
 
   if (isNaN(initial) || isNaN(final)) {
@@ -228,4 +180,9 @@ function resetForm() {
 
   toggleInputs(false);
   init();
+}
+
+function toggleDarkMode(enabled) {
+  document.body.classList.toggle("dark-mode", enabled);
+  localStorage.setItem("darkMode", enabled);
 }
