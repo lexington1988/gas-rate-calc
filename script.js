@@ -23,9 +23,19 @@ function toggleImperialMode() {
   const imperialVolumeInput = document.getElementById('imperialVolume');
   const meterReadings = document.getElementById('meterReadings');
 
+  // Reset timer when switching mode
+  resetTimerOnly();
+
+  const manualOption = [...modeSelect.options].find(opt => opt.value === 'manual');
+
   if (imperialMode) {
     status.textContent = 'Imperial mode activated';
     modeSelect.value = 'timer';
+
+    if (manualOption) {
+      modeSelect.removeChild(manualOption);
+    }
+
     imperialVolumeSection.style.display = 'block';
     imperialVolumeInput.value = '1';
     imperialVolumeInput.readOnly = true;
@@ -34,6 +44,14 @@ function toggleImperialMode() {
     document.getElementById('duration').style.display = 'none';
   } else {
     status.textContent = '';
+
+    if (!manualOption) {
+      const newOption = document.createElement('option');
+      newOption.value = 'manual';
+      newOption.textContent = 'Manual Entry';
+      modeSelect.insertBefore(newOption, modeSelect.firstChild);
+    }
+
     imperialVolumeSection.style.display = 'none';
     imperialVolumeInput.readOnly = false;
     meterReadings.style.display = 'block';
@@ -186,20 +204,31 @@ function calculateRate() {
   }
 }
 
-function resetForm() {
+function resetTimerOnly() {
   clearInterval(countdown);
   clearInterval(stopwatchInterval);
+  countdown = null;
   stopwatchInterval = null;
   time = 0;
   isPaused = false;
 
+  const timeLeft = document.getElementById('timeLeft');
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+
+  timeLeft.textContent = '0:00';
+  timeLeft.classList.remove('highlight');
+  startBtn.textContent = 'Start Timer';
+  startBtn.style.display = 'inline-block';
+  pauseBtn.style.display = 'none';
+  pauseBtn.textContent = 'Pause';
+}
+
+function resetForm() {
+  resetTimerOnly();
+
   document.getElementById('initial').value = '';
   document.getElementById('final').value = '';
   document.getElementById('imperialVolume').value = imperialMode ? '1' : '';
-  document.getElementById('timeLeft').textContent = '0:00';
-  document.getElementById('startBtn').textContent = 'Start Timer';
-  document.getElementById('startBtn').style.display = 'inline-block';
-  document.getElementById('pauseBtn').style.display = 'none';
-  document.getElementById('pauseBtn').textContent = 'Pause';
   document.getElementById('result').textContent = '';
 }
