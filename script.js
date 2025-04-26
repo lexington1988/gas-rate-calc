@@ -1,4 +1,3 @@
-// Entire JavaScript code updated per your request
 let countdown;
 let stopwatchInterval;
 let time = 0;
@@ -25,12 +24,14 @@ function toggleImperialMode() {
   const status = document.getElementById('imperialStatus');
   const durationLabel = document.querySelector('label[for="duration"]');
   const modeSelect = document.getElementById('mode');
+  const modeLabel = document.querySelector('label[for="mode"]');
   const imperialVolumeSection = document.getElementById('imperialVolumeSection');
   const imperialVolumeInput = document.getElementById('imperialVolume');
   const meterReadings = document.getElementById('meterReadings');
 
-  // Reset timer when switching mode
+  // Reset timer and results when switching mode
   resetTimerOnly();
+  document.getElementById('result').textContent = '';
 
   const manualOption = [...modeSelect.options].find(opt => opt.value === 'manual');
 
@@ -41,6 +42,9 @@ function toggleImperialMode() {
     if (manualOption) {
       modeSelect.removeChild(manualOption);
     }
+
+    modeSelect.style.display = 'none';
+    if (modeLabel) modeLabel.textContent = '';
 
     imperialVolumeSection.style.display = 'block';
     imperialVolumeInput.value = '0.991';
@@ -57,6 +61,9 @@ function toggleImperialMode() {
       newOption.textContent = 'Manual Entry';
       modeSelect.insertBefore(newOption, modeSelect.firstChild);
     }
+
+    modeSelect.style.display = '';
+    if (modeLabel) modeLabel.textContent = 'Mode:';
 
     imperialVolumeSection.style.display = 'none';
     imperialVolumeInput.readOnly = false;
@@ -180,7 +187,6 @@ function calculateRate() {
       `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
       `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
       `Net Heat Input: ${netkW.toFixed(2)} kW`;
-
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
@@ -209,6 +215,9 @@ function calculateRate() {
       `Gross Heat Input: ${gross.toFixed(2)} kW<br>` +
       `Net Heat Input: ${net.toFixed(2)} kW`;
   }
+
+  // Scroll to result
+  result.scrollIntoView({ behavior: 'smooth' });
 }
 
 function resetTimerOnly() {
