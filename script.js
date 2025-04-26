@@ -1,3 +1,4 @@
+// Entire JavaScript code updated per your request
 let countdown;
 let stopwatchInterval;
 let time = 0;
@@ -11,7 +12,12 @@ function init() {
 }
 
 function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
+  const darkMode = document.getElementById('darkModeToggle').checked;
+  if (darkMode) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
 }
 
 function toggleImperialMode() {
@@ -37,7 +43,7 @@ function toggleImperialMode() {
     }
 
     imperialVolumeSection.style.display = 'block';
-    imperialVolumeInput.value = '1';
+    imperialVolumeInput.value = '0.991';
     imperialVolumeInput.readOnly = true;
     meterReadings.style.display = 'none';
     durationLabel.style.display = 'none';
@@ -60,6 +66,7 @@ function toggleImperialMode() {
   }
 
   toggleMode();
+  toggleDarkMode(); // reapply dark mode after DOM changes
 }
 
 function toggleMode() {
@@ -229,6 +236,6 @@ function resetForm() {
 
   document.getElementById('initial').value = '';
   document.getElementById('final').value = '';
-  document.getElementById('imperialVolume').value = imperialMode ? '1' : '';
+  document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
   document.getElementById('result').textContent = '';
 }
