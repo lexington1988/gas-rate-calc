@@ -101,7 +101,7 @@
       color: #e2cfff;
     }
 
-    #timerSection, #manualDuration {
+    #timerSection, #manualDuration, #boilerFinder {
       display: none;
     }
 
@@ -147,12 +147,6 @@
       color: #e0d1ff;
     }
 
-    #darkModeToggle, #imperialToggle {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
     #imperialStatus {
       flex: 1;
       text-align: center;
@@ -163,6 +157,23 @@
     .dark-mode #imperialStatus {
       color: #d6b3ff;
     }
+
+    .boiler-lookup {
+      background: #f0e6ff;
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .dark-mode .boiler-lookup {
+      background: #3c2b55;
+    }
+
+    .small-note {
+      font-size: 12px;
+      color: gray;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body onload="init()">
@@ -172,7 +183,7 @@
         <label for="darkModeToggle" onclick="toggleDarkMode()">Dark Mode</label>
         <input type="checkbox" id="darkModeToggle">
       </div>
-      <div id="imperialStatus"> </div>
+      <div id="imperialStatus"></div>
       <div class="toggle-wrapper">
         <label for="imperialToggle">Imperial Mode</label>
         <input type="checkbox" id="imperialToggle">
@@ -229,10 +240,50 @@
     <button onclick="resetForm()">Reset</button>
 
     <div id="result" class="results"></div>
+
+    <button onclick="toggleBoilerFinder()">Find Boiler Info</button>
+
+    <div id="boilerFinder" class="boiler-lookup">
+      <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 41-116-01)">
+      <button onclick="lookupBoiler()">Find Boiler</button>
+      <div id="boilerResult"></div>
+    </div>
   </div>
 
   <audio id="alertSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
+
+  <script>
+    function toggleBoilerFinder() {
+      const section = document.getElementById('boilerFinder');
+      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    }
+
+    const boilerData = {
+      "41-116-01": {name: "Alpha InTec 24X", grossHeatInput: 24.0, netHeatInput: 21.8, minNetHeatInput: 7.5, maxNetHeatInput: 22.0, yearlyStripService: true},
+      "41-116-02": {name: "Alpha InTec 28X", grossHeatInput: 28.0, netHeatInput: 25.4, minNetHeatInput: 8.5, maxNetHeatInput: 26.0, yearlyStripService: false},
+      "41-116-03": {name: "Baxi Duo-Tec 24", grossHeatInput: 24.0, netHeatInput: 21.6, minNetHeatInput: 6.8, maxNetHeatInput: 22.5, yearlyStripService: true},
+      "41-116-04": {name: "Ideal Logic Combi 30", grossHeatInput: 30.0, netHeatInput: 27.3, minNetHeatInput: 9.0, maxNetHeatInput: 28.5, yearlyStripService: false},
+      "41-116-05": {name: "Vaillant EcoTEC Plus 831", grossHeatInput: 31.0, netHeatInput: 28.0, minNetHeatInput: 10.0, maxNetHeatInput: 29.0, yearlyStripService: true}
+    };
+
+    function lookupBoiler() {
+      const gcNumber = document.getElementById('gcNumber').value.trim();
+      const resultDiv = document.getElementById('boilerResult');
+
+      if (boilerData[gcNumber]) {
+        const boiler = boilerData[gcNumber];
+        resultDiv.innerHTML = `<strong>${boiler.name}</strong><br>
+          Gross Heat Input: ${boiler.grossHeatInput} kW<br>
+          Net Heat Input: ${boiler.netHeatInput} kW<br>
+          Min Net Heat Input: ${boiler.minNetHeatInput} kW<br>
+          Max Net Heat Input: ${boiler.maxNetHeatInput} kW
+          ${boiler.yearlyStripService ? '<div class="small-note">*Yearly strip service required*</div>' : ''}`;
+      } else {
+        resultDiv.textContent = 'Boiler not found. Please check the G.C number.';
+      }
+    }
+  </script>
 </body>
 </html>
