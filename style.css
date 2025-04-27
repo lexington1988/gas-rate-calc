@@ -1,4 +1,3 @@
-
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
@@ -67,4 +66,7 @@ button:hover {
 
 .dark-mode button:hover {
   background-color: #6200b3;
+}
+#mode, label[for="mode"] {
+  display: none;
 }
