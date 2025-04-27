@@ -8,6 +8,7 @@ function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
   toggleMode();
+  setupGCInput(); // Initialize GC input formatting
 }
 
 function toggleDarkMode() {
@@ -29,7 +30,6 @@ function toggleImperialMode() {
   const imperialVolumeInput = document.getElementById('imperialVolume');
   const meterReadings = document.getElementById('meterReadings');
 
-  // Reset timer and results when switching mode
   resetTimerOnly();
   document.getElementById('result').textContent = '';
 
@@ -73,7 +73,7 @@ function toggleImperialMode() {
   }
 
   toggleMode();
-  toggleDarkMode(); // reapply dark mode after DOM changes
+  toggleDarkMode();
 }
 
 function toggleMode() {
@@ -177,8 +177,8 @@ function calculateRate() {
     }
 
     duration = time;
-    const gasRate = (3600 * volumeUsed) / duration; // ft³/hr
-    const calorificValue = 1040; // Typical CV for imperial in BTU/ft³
+    const gasRate = (3600 * volumeUsed) / duration;
+    const calorificValue = 1040;
     const grossBTU = gasRate * calorificValue;
     const grosskW = grossBTU / 3412;
     const netkW = grosskW / 1.1;
@@ -216,7 +216,6 @@ function calculateRate() {
       `Net Heat Input: ${net.toFixed(2)} kW`;
   }
 
-  // Scroll to result
   result.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -247,4 +246,31 @@ function resetForm() {
   document.getElementById('final').value = '';
   document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
   document.getElementById('result').textContent = '';
+}
+
+// --- GC Number Input Auto Formatting ---
+function setupGCInput() {
+  const gcInput = document.getElementById('gcNumber');
+
+  if (!gcInput) return;
+
+  gcInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formatted = '';
+
+    if (value.length > 0) formatted += value.substring(0, 2);
+    if (value.length >= 3) formatted += '-' + value.substring(2, 5);
+    if (value.length >= 6) formatted += '-' + value.substring(5, 7);
+
+    e.target.value = formatted;
+  });
+
+  gcInput.addEventListener('keydown', function(e) {
+    const pos = gcInput.selectionStart;
+
+    if ((e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
+      e.preventDefault();
+      gcInput.setSelectionRange(pos - 1, pos - 1);
+    }
+  });
 }
