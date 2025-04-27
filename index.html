@@ -174,6 +174,12 @@
       color: gray;
       margin-top: 10px;
     }
+
+    /* NEW: Hide the Mode dropdown and label */
+    #modeLabel,
+    #mode {
+      display: none;
+    }
   </style>
 </head>
 <body onload="init()">
@@ -192,7 +198,7 @@
 
     <h2>Gas Rate Calculator</h2>
 
-    <label for="mode">Mode</label>
+    <label id="modeLabel" for="mode">Mode</label>
     <select id="mode" onchange="toggleMode()">
       <option value="manual">Manual Entry</option>
       <option value="timer" selected>Use Timer</option>
