@@ -66,18 +66,6 @@
       background: #f0e6ff; margin-top: 1rem; padding: 1rem; border-radius: 8px;
     }
     .dark-mode .boiler-lookup { background: #3c2b55; }
-    .boiler-info {
-      margin-top: 1rem;
-      padding: 1rem;
-      background-color: #f0e6ff;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      color: #4B0082;
-    }
-    .dark-mode .boiler-info {
-      background-color: #3c2b55;
-      color: #e2cfff;
-    }
     .small-note { font-size: 12px; color: gray; margin-top: 10px; }
     #modeLabel, #mode { display: none; }
     .suggestions {
@@ -141,7 +129,7 @@
 
     <div id="imperialVolumeSection" style="display:none;">
       <label for="imperialVolume">Volume Used (ft³)</label>
-      <input type="number" id="imperialVolume" step="any" />
+      <input type="number" id="imperialVolume" step="0.991" value="0.991">
     </div>
 
     <div id="meterReadings">
@@ -163,11 +151,98 @@
       <button onclick="lookupBoiler()">Find Boiler</button>
       <div id="boilerResult"></div>
     </div>
-
-    <div id="boilerInfo" class="boiler-info"></div>
   </div>
 
   <audio id="alertSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
   <script src="script.js"></script>
+
+  <script>
+    function toggleBoilerFinder() {
+      const section = document.getElementById('boilerFinder');
+      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    }
+
+    const boilerData = {
+      "41-116-01": { name: "Alpha InTec 24X", grossHeatInput: 24.0, netHeatInput: 21.8, minNetHeatInput: 7.5, maxNetHeatInput: 22.0, maxCO2: 9.5, minCO2: 8.0, maxRatio: 0.003, maxCO: 150, maxBurnerPressure: 12.5, minBurnerPressure: 10.0, yearlyStripService: true },
+      "41-116-02": { name: "Alpha InTec 28X", grossHeatInput: 28.0, netHeatInput: 25.4, minNetHeatInput: 8.5, maxNetHeatInput: 26.0, maxCO2: 9.7, minCO2: 8.2, maxRatio: 0.003, maxCO: 140, maxBurnerPressure: 13.0, minBurnerPressure: 10.5, yearlyStripService: false },
+      "41-116-03": { name: "Baxi Duo-Tec 24", grossHeatInput: 24.0, netHeatInput: 21.6, minNetHeatInput: 6.8, maxNetHeatInput: 22.5, maxCO2: 9.3, minCO2: 8.1, maxRatio: 0.0028, maxCO: 130, maxBurnerPressure: 12.0, minBurnerPressure: 9.5, yearlyStripService: true },
+      "41-116-04": { name: "Ideal Logic Combi 30", grossHeatInput: 30.0, netHeatInput: 27.3, minNetHeatInput: 9.0, maxNetHeatInput: 28.5, maxCO2: 9.9, minCO2: 8.5, maxRatio: 0.0032, maxCO: 160, maxBurnerPressure: 13.5, minBurnerPressure: 10.8, yearlyStripService: false },
+      "41-116-05": { name: "Vaillant EcoTEC Plus 831", grossHeatInput: 31.0, netHeatInput: 28.0, minNetHeatInput: 10.0, maxNetHeatInput: 29.0, maxCO2: 10.0, minCO2: 8.8, maxRatio: 0.0035, maxCO: 170, maxBurnerPressure: 14.0, minBurnerPressure: 11.0, yearlyStripService: true }
+    };
+
+    function normalizeGC(gc) {
+      return gc.replace(/-/g, '').padStart(7, '0');
+    }
+
+    function lookupBoiler() {
+      const inputGc = document.getElementById('gcNumber').value.trim();
+      const normalizedInput = normalizeGC(inputGc);
+      const resultDiv = document.getElementById('boilerResult');
+
+      let found = false;
+      for (const key in boilerData) {
+        if (normalizeGC(key) === normalizedInput) {
+          const boiler = boilerData[key];
+          resultDiv.innerHTML = `<strong>${boiler.name}</strong><br>
+            Gross Heat Input: ${boiler.grossHeatInput} kW<br>
+            Net Heat Input: ${boiler.netHeatInput} kW<br>
+            Net kW(+5%/-10%): ${boiler.minNetHeatInput} – ${boiler.maxNetHeatInput} kW<br>
+            Max CO₂%: ${boiler.maxCO2}<br>
+            Min CO₂%: ${boiler.minCO2}<br>
+            Max Ratio: ${boiler.maxRatio}<br>
+            Max CO (PPM): ${boiler.maxCO}<br>
+            Max Burner Pressure: ${boiler.maxBurnerPressure} Mb<br>
+            Min Burner Pressure: ${boiler.minBurnerPressure} Mb
+            ${boiler.yearlyStripService ? '<div class="small-note">*Yearly strip service required*</div>' : ''}`;
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        resultDiv.textContent = 'Boiler not found. Please check the G.C number.';
+      }
+    }
+
+    const gcInput = document.getElementById('gcNumber');
+    const suggestionsDiv = document.createElement('div');
+    suggestionsDiv.className = 'suggestions';
+    gcInput.parentNode.insertBefore(suggestionsDiv, gcInput.nextSibling);
+
+    gcInput.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2);
+      if (value.length > 6) value = value.slice(0, 6) + '-' + value.slice(6);
+      e.target.value = value;
+      showSuggestions(e.target.value);
+    });
+
+    function showSuggestions(query) {
+      suggestionsDiv.innerHTML = '';
+      if (!query) return;
+
+      const normalizedQuery = normalizeGC(query);
+      const matches = Object.keys(boilerData).filter(gc => normalizeGC(gc).startsWith(normalizedQuery));
+
+      matches.forEach(gc => {
+        const div = document.createElement('div');
+        div.textContent = `${gc} - ${boilerData[gc].name}`;
+        div.style.padding = '5px';
+        div.style.cursor = 'pointer';
+        div.addEventListener('click', function () {
+          gcInput.value = gc;
+          suggestionsDiv.innerHTML = '';
+          lookupBoiler();
+        });
+        suggestionsDiv.appendChild(div);
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.target !== gcInput) {
+        suggestionsDiv.innerHTML = '';
+      }
+    });
+  </script>
 </body>
 </html>
