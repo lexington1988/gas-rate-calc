@@ -77,6 +77,18 @@
       position: relative;
       z-index: 100;
     }
+    .boiler-info {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f0e6ff;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #4B0082;
+    }
+    .dark-mode .boiler-info {
+      background-color: #3c2b55;
+      color: #e2cfff;
+    }
   </style>
 </head>
 
@@ -146,12 +158,15 @@
 
     <button onclick="toggleBoilerFinder()">Search G.C Number</button>
 
-    <div id="boilerInfo" class="boiler-info"></div>
-
+    <!-- 🔽 Boiler finder section -->
+    <div id="boilerFinder" class="boiler-lookup">
       <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 41-116-01)">
       <button onclick="lookupBoiler()">Find Boiler</button>
       <div id="boilerResult"></div>
     </div>
+
+    <!-- 🔼 Boiler info output -->
+    <div id="boilerInfo" class="boiler-info"></div>
   </div>
 
   <audio id="alertSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
@@ -183,67 +198,27 @@
       let found = false;
       for (const key in boilerData) {
         if (normalizeGC(key) === normalizedInput) {
-          const boiler = boilerData[key];
-          resultDiv.innerHTML = `<strong>${boiler.name}</strong><br>
-            Gross Heat Input: ${boiler.grossHeatInput} kW<br>
-            Net Heat Input: ${boiler.netHeatInput} kW<br>
-            Net kW(+5%/-10%): ${boiler.minNetHeatInput} – ${boiler.maxNetHeatInput} kW<br>
-            Max CO₂%: ${boiler.maxCO2}<br>
-            Min CO₂%: ${boiler.minCO2}<br>
-            Max Ratio: ${boiler.maxRatio}<br>
-            Max CO (PPM): ${boiler.maxCO}<br>
-            Max Burner Pressure: ${boiler.maxBurnerPressure} Mb<br>
-            Min Burner Pressure: ${boiler.minBurnerPressure} Mb
-            ${boiler.yearlyStripService ? '<div class="small-note">*Yearly strip service required*</div>' : ''}`;
+          const b = boilerData[key];
+          resultDiv.innerHTML = `<strong>${b.name}</strong><br>
+            Gross Heat Input: ${b.grossHeatInput} kW<br>
+            Net Heat Input: ${b.netHeatInput} kW<br>
+            Net kW(+5%/-10%): ${b.minNetHeatInput} – ${b.maxNetHeatInput} kW<br>
+            Max CO₂%: ${b.maxCO2}<br>
+            Min CO₂%: ${b.minCO2}<br>
+            Max Ratio: ${b.maxRatio}<br>
+            Max CO (PPM): ${b.maxCO}<br>
+            Max Burner Pressure: ${b.maxBurnerPressure} Mb<br>
+            Min Burner Pressure: ${b.minBurnerPressure} Mb<br>
+            ${b.yearlyStripService ? '<em class="small-note">*Strip Service Required</em>' : ''}`;
           found = true;
           break;
         }
       }
 
       if (!found) {
-        resultDiv.textContent = 'Boiler not found. Please check the G.C number.';
+        resultDiv.innerHTML = "<em>Boiler not found. Please check the G.C Number.</em>";
       }
     }
-
-    const gcInput = document.getElementById('gcNumber');
-    const suggestionsDiv = document.createElement('div');
-    suggestionsDiv.className = 'suggestions';
-    gcInput.parentNode.insertBefore(suggestionsDiv, gcInput.nextSibling);
-
-    gcInput.addEventListener('input', function (e) {
-      let value = e.target.value.replace(/\D/g, '');
-      if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2);
-      if (value.length > 6) value = value.slice(0, 6) + '-' + value.slice(6);
-      e.target.value = value;
-      showSuggestions(e.target.value);
-    });
-
-    function showSuggestions(query) {
-      suggestionsDiv.innerHTML = '';
-      if (!query) return;
-
-      const normalizedQuery = normalizeGC(query);
-      const matches = Object.keys(boilerData).filter(gc => normalizeGC(gc).startsWith(normalizedQuery));
-
-      matches.forEach(gc => {
-        const div = document.createElement('div');
-        div.textContent = `${gc} - ${boilerData[gc].name}`;
-        div.style.padding = '5px';
-        div.style.cursor = 'pointer';
-        div.addEventListener('click', function () {
-          gcInput.value = gc;
-          suggestionsDiv.innerHTML = '';
-          lookupBoiler();
-        });
-        suggestionsDiv.appendChild(div);
-      });
-    }
-
-    document.addEventListener('click', function (e) {
-      if (e.target !== gcInput) {
-        suggestionsDiv.innerHTML = '';
-      }
-    });
   </script>
 </body>
 </html>
