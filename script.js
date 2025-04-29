@@ -173,10 +173,29 @@ function calculateRate() {
     const grosskW = grossBTU / 3412;
     const netkW = grosskW / 1.1;
 
+    const gc = document.getElementById('gcNumber').value;
+    const boiler = (window.boilerData || []).find(b => b['GC Number']?.replace(/\s/g, '') === gc.replace(/\s/g, ''));
+
+    let boilerDetails = '';
+    if (boiler) {
+      const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
+      const tolerance = `Net Heat Input Range: ${(netkW * 1.05).toFixed(2)} kW max / ${(netkW * 0.9).toFixed(2)} kW min<br>`;
+      const co2Range = `Max CO₂: ${boiler['Max Co2'] || ''}% / Min CO₂: ${boiler['Min Co2'] || ''}%<br>`;
+      const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
+      const co = `Max CO: ${boiler['Max Co(ppm)'] || ''} ppm<br>`;
+      const pressure = `Max Pressure: ${boiler['Max Burner Pressure (mb)'] || ''} mb / Min Pressure: ${boiler['Min Burner Pressure (mb)'] || ''} mb<br>`;
+      const strip = boiler['Strip Service Required']?.toLowerCase() === 'yes'
+        ? `<small>*Strip Service Required</small><br>`
+        : '';
+
+      boilerDetails = makeModel + tolerance + co2Range + ratio + co + pressure + strip;
+    }
+
     result.innerHTML =
       `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
       `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
-      `Net Heat Input: ${netkW.toFixed(2)} kW`;
+      `Net Heat Input: ${netkW.toFixed(2)} kW<br>` +
+      boilerDetails;
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
