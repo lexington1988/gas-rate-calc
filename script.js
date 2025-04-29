@@ -7,6 +7,7 @@ let imperialMode = false;
 function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
+  document.getElementById('gcNumber').addEventListener('input', handleGCInput);
   toggleMode();
   setupGCInput();
 }
