@@ -8,16 +8,12 @@ function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
   toggleMode();
-  setupGCInput(); // Initialize GC input formatting
+  setupGCInput();
 }
 
 function toggleDarkMode() {
   const darkMode = document.getElementById('darkModeToggle').checked;
-  if (darkMode) {
-    document.body.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-  }
+  document.body.classList.toggle('dark-mode', darkMode);
 }
 
 function toggleImperialMode() {
@@ -39,9 +35,7 @@ function toggleImperialMode() {
     status.textContent = 'Imperial mode activated';
     modeSelect.value = 'timer';
 
-    if (manualOption) {
-      modeSelect.removeChild(manualOption);
-    }
+    if (manualOption) modeSelect.removeChild(manualOption);
 
     modeSelect.style.display = 'none';
     if (modeLabel) modeLabel.textContent = '';
@@ -81,13 +75,8 @@ function toggleMode() {
   const manualSection = document.getElementById('manualDuration');
   const timerSection = document.getElementById('timerSection');
 
-  if (mode === 'manual') {
-    manualSection.style.display = 'block';
-    timerSection.style.display = 'none';
-  } else {
-    manualSection.style.display = 'none';
-    timerSection.style.display = 'block';
-  }
+  manualSection.style.display = mode === 'manual' ? 'block' : 'none';
+  timerSection.style.display = mode !== 'manual' ? 'block' : 'none';
 }
 
 function startTimer() {
@@ -241,7 +230,6 @@ function resetTimerOnly() {
 
 function resetForm() {
   resetTimerOnly();
-
   document.getElementById('initial').value = '';
   document.getElementById('final').value = '';
   document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
@@ -254,7 +242,7 @@ function setupGCInput() {
 
   if (!gcInput) return;
 
-  gcInput.addEventListener('input', function(e) {
+  gcInput.addEventListener('input', function (e) {
     let value = e.target.value.replace(/\D/g, '');
     let formatted = '';
 
@@ -265,12 +253,37 @@ function setupGCInput() {
     e.target.value = formatted;
   });
 
-  gcInput.addEventListener('keydown', function(e) {
+  gcInput.addEventListener('keydown', function (e) {
     const pos = gcInput.selectionStart;
-
     if ((e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
       e.preventDefault();
       gcInput.setSelectionRange(pos - 1, pos - 1);
     }
   });
 }
+
+// --- CSV Boiler Data Fetch ---
+function loadBoilerData() {
+  fetch('https://lexington1988.github.io/gas-rate-unfinished/service%20info%20full.csv')
+    .then(response => {
+      if (!response.ok) throw new Error('Network error');
+      return response.text();
+    })
+    .then(csv => {
+      const lines = csv.trim().split('\n');
+      const headers = lines[0].split(',');
+
+      window.boilerData = lines.slice(1).map(line => {
+        const parts = line.split(',');
+        const entry = {};
+        headers.forEach((h, i) => entry[h.trim()] = parts[i]?.trim());
+        return entry;
+      });
+    })
+    .catch(err => console.error('CSV load error:', err));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  loadBoilerData();
+});
