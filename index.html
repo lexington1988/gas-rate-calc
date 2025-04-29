@@ -6,7 +6,6 @@
   <title>Gas Rate Calculator</title>
   <link rel="manifest" href="manifest.json" />
   <style>
-    /* [Same CSS as before — unchanged] */
     body {
       font-family: Arial, sans-serif;
       padding: 2rem;
@@ -69,6 +68,15 @@
     .dark-mode .boiler-lookup { background: #3c2b55; }
     .small-note { font-size: 12px; color: gray; margin-top: 10px; }
     #modeLabel, #mode { display: none; }
+    .suggestions {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      max-height: 150px;
+      overflow-y: auto;
+      position: relative;
+      z-index: 100;
+    }
   </style>
 </head>
 
@@ -146,24 +154,20 @@
   </div>
 
   <audio id="alertSound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
-
   <script src="script.js"></script>
 
-  <!-- Boiler Finder JavaScript -->
   <script>
-    // Toggle Boiler Finder Section
     function toggleBoilerFinder() {
       const section = document.getElementById('boilerFinder');
       section.style.display = section.style.display === 'none' ? 'block' : 'none';
     }
 
-    // Boiler Database
     const boilerData = {
-      "41-116-01": { name: "Alpha InTec 24X", grossHeatInput: 24.0, netHeatInput: 21.8, minNetHeatInput: 7.5, maxNetHeatInput: 22.0, yearlyStripService: true },
-      "41-116-02": { name: "Alpha InTec 28X", grossHeatInput: 28.0, netHeatInput: 25.4, minNetHeatInput: 8.5, maxNetHeatInput: 26.0, yearlyStripService: false },
-      "41-116-03": { name: "Baxi Duo-Tec 24", grossHeatInput: 24.0, netHeatInput: 21.6, minNetHeatInput: 6.8, maxNetHeatInput: 22.5, yearlyStripService: true },
-      "41-116-04": { name: "Ideal Logic Combi 30", grossHeatInput: 30.0, netHeatInput: 27.3, minNetHeatInput: 9.0, maxNetHeatInput: 28.5, yearlyStripService: false },
-      "41-116-05": { name: "Vaillant EcoTEC Plus 831", grossHeatInput: 31.0, netHeatInput: 28.0, minNetHeatInput: 10.0, maxNetHeatInput: 29.0, yearlyStripService: true }
+      "41-116-01": { name: "Alpha InTec 24X", grossHeatInput: 24.0, netHeatInput: 21.8, minNetHeatInput: 7.5, maxNetHeatInput: 22.0, maxCO2: 9.5, minCO2: 8.0, maxRatio: 0.003, maxCO: 150, maxBurnerPressure: 12.5, minBurnerPressure: 10.0, yearlyStripService: true },
+      "41-116-02": { name: "Alpha InTec 28X", grossHeatInput: 28.0, netHeatInput: 25.4, minNetHeatInput: 8.5, maxNetHeatInput: 26.0, maxCO2: 9.7, minCO2: 8.2, maxRatio: 0.003, maxCO: 140, maxBurnerPressure: 13.0, minBurnerPressure: 10.5, yearlyStripService: false },
+      "41-116-03": { name: "Baxi Duo-Tec 24", grossHeatInput: 24.0, netHeatInput: 21.6, minNetHeatInput: 6.8, maxNetHeatInput: 22.5, maxCO2: 9.3, minCO2: 8.1, maxRatio: 0.0028, maxCO: 130, maxBurnerPressure: 12.0, minBurnerPressure: 9.5, yearlyStripService: true },
+      "41-116-04": { name: "Ideal Logic Combi 30", grossHeatInput: 30.0, netHeatInput: 27.3, minNetHeatInput: 9.0, maxNetHeatInput: 28.5, maxCO2: 9.9, minCO2: 8.5, maxRatio: 0.0032, maxCO: 160, maxBurnerPressure: 13.5, minBurnerPressure: 10.8, yearlyStripService: false },
+      "41-116-05": { name: "Vaillant EcoTEC Plus 831", grossHeatInput: 31.0, netHeatInput: 28.0, minNetHeatInput: 10.0, maxNetHeatInput: 29.0, maxCO2: 10.0, minCO2: 8.8, maxRatio: 0.0035, maxCO: 170, maxBurnerPressure: 14.0, minBurnerPressure: 11.0, yearlyStripService: true }
     };
 
     function normalizeGC(gc) {
@@ -182,8 +186,13 @@
           resultDiv.innerHTML = `<strong>${boiler.name}</strong><br>
             Gross Heat Input: ${boiler.grossHeatInput} kW<br>
             Net Heat Input: ${boiler.netHeatInput} kW<br>
-            Min Net Heat Input: ${boiler.minNetHeatInput} kW<br>
-            Max Net Heat Input: ${boiler.maxNetHeatInput} kW
+            Net kW(+5%/-10%): ${boiler.minNetHeatInput} – ${boiler.maxNetHeatInput} kW<br>
+            Max CO₂%: ${boiler.maxCO2}<br>
+            Min CO₂%: ${boiler.minCO2}<br>
+            Max Ratio: ${boiler.maxRatio}<br>
+            Max CO (PPM): ${boiler.maxCO}<br>
+            Max Burner Pressure: ${boiler.maxBurnerPressure} Mb<br>
+            Min Burner Pressure: ${boiler.minBurnerPressure} Mb
             ${boiler.yearlyStripService ? '<div class="small-note">*Yearly strip service required*</div>' : ''}`;
           found = true;
           break;
@@ -195,18 +204,16 @@
       }
     }
 
-    // GC Number Auto-Formatter & Live Suggestions
     const gcInput = document.getElementById('gcNumber');
     const suggestionsDiv = document.createElement('div');
     suggestionsDiv.className = 'suggestions';
     gcInput.parentNode.insertBefore(suggestionsDiv, gcInput.nextSibling);
 
-    gcInput.addEventListener('input', function(e) {
+    gcInput.addEventListener('input', function (e) {
       let value = e.target.value.replace(/\D/g, '');
       if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2);
       if (value.length > 6) value = value.slice(0, 6) + '-' + value.slice(6);
       e.target.value = value;
-
       showSuggestions(e.target.value);
     });
 
@@ -222,7 +229,7 @@
         div.textContent = `${gc} - ${boilerData[gc].name}`;
         div.style.padding = '5px';
         div.style.cursor = 'pointer';
-        div.addEventListener('click', function() {
+        div.addEventListener('click', function () {
           gcInput.value = gc;
           suggestionsDiv.innerHTML = '';
           lookupBoiler();
@@ -231,12 +238,11 @@
       });
     }
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (e.target !== gcInput) {
         suggestionsDiv.innerHTML = '';
       }
     });
   </script>
-
 </body>
 </html>
