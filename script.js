@@ -7,10 +7,8 @@ let imperialMode = false;
 function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
-  document.getElementById('gcNumber').addEventListener('input', () => {
-    toggleMode();
-    setupGCInput();
-  });
+  document.getElementById('gcNumber').addEventListener('input', toggleMode);
+  setupGCInput();
 }
 
 function toggleDarkMode() {
@@ -100,7 +98,9 @@ function startTimer() {
     } else {
       clearInterval(stopwatchInterval);
       stopwatchInterval = null;
+      timeLeft.textContent = '0:00';
       startBtn.textContent = 'Start Timer';
+      time = 0; // ✅ Reset time here
     }
     return;
   }
@@ -308,3 +308,4 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
 });
+)
