@@ -7,7 +7,7 @@ let imperialMode = false;
 function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
-  document.getElementById('gcNumber').addEventListener('input', handleGCInput);
+  document.getElementById('gcNumber').addEventListener('input',
   toggleMode();
   setupGCInput();
 }
@@ -284,7 +284,7 @@ function setupGCInput() {
 
 // --- CSV Boiler Data Fetch ---
 function loadBoilerData() {
-  fetch('https://lexington1988.github.io/gas-rate-unfinished/service%20info%20full.csv')
+  fetch('https://https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/refs/heads/main/service_info_full.csv')
     .then(response => {
       if (!response.ok) throw new Error('Network error');
       return response.text();
