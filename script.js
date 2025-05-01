@@ -341,3 +341,52 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
 });
+
+// --- Load boiler data asynchronously ---
+function loadBoilerData() {
+  fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(csvText => {
+      const lines = csvText.trim().split('\n');
+      const headers = lines[0].split(',');
+
+      window.boilerData = lines.slice(1).map(line => {
+        const parts = line.split(',');
+        const entry = {};
+        headers.forEach((h, i) => entry[h.trim()] = parts[i]?.trim());
+        return entry;
+      });
+
+      console.log('Boiler data loaded:', window.boilerData);
+
+      // Attach event listener for GC number input after data is loaded
+      document.getElementById('gcNumber').addEventListener('input', handleGCCallback);
+    })
+    .catch(err => console.error('CSV load error:', err));
+}
+
+// --- Handle GC number search ---
+function handleGCCallback(e) {
+  const enteredGC = e.target.value;
+  const boiler = findBoilerByGC(enteredGC);
+
+  if (boiler) {
+    console.log('Boiler match found:', boiler);
+    // Display the data in your UI here
+  } else {
+    console.log('No matching boiler found.');
+  }
+}
+
+// --- Search boiler data by GC number ---
+function findBoilerByGC(gcInput) {
+  const formattedGC = gcInput.trim().replace(/-/g, '');
+  return window.boilerData?.find(entry =>
+    entry["GC Number"]?.replace(/-/g, '') === formattedGC
+  );
+}
