@@ -192,11 +192,13 @@ function calculateRate() {
       boilerDetails = makeModel + tolerance + co2Range + ratio + co + pressure + strip;
     }
 
-    result.innerHTML =
-      `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
-      `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
-      `Net Heat Input: ${netkW.toFixed(2)} kW<br>` +
-      boilerDetails;
+  result.innerHTML =
+  `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
+  `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
+  `Net Heat Input: ${netkW.toFixed(2)} kW`;
+
+document.getElementById('boilerResult').innerHTML = boilerDetails;
+
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
