@@ -149,7 +149,7 @@
     <div id="boilerFinder" class="boiler-lookup">
       <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 47-311-87)">
       <div class="suggestions"></div>
-      <button onclick="calculateRate()">Find Boiler</button>
+  
       <div id="boilerResult"></div>
     </div>
   </div>
@@ -159,9 +159,11 @@
 
   <script>
     function toggleBoilerFinder() {
-      const section = document.getElementById('boilerFinder');
-      section.style.display = section.style.display === 'none' ? 'block' : 'none';
-    }
+  const section = document.getElementById('boilerFinder');
+  section.style.display = 'block'; // Always show it
+  document.getElementById('gcNumber').focus(); // Auto-focus the input
+}
+
 
     const gcInput = document.getElementById('gcNumber');
     const suggestionsDiv = document.querySelector('.suggestions');
@@ -203,10 +205,17 @@
         div.style.padding = '5px';
         div.style.cursor = 'pointer';
         div.addEventListener('click', () => {
-          gcInput.value = entry["GC Number"];
-          suggestionsDiv.innerHTML = '';
-          displayBoilerInfo(entry);
-        });
+  gcInput.value = entry["GC Number"];
+  suggestionsDiv.innerHTML = '';
+  displayBoilerInfo(entry);
+
+  // Auto-scroll to boiler result section
+  const resultBox = document.getElementById('boilerResult');
+  if (resultBox) {
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+
         suggestionsDiv.appendChild(div);
       });
     }
