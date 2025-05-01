@@ -289,7 +289,7 @@ function setupGCInput() {
 
 // --- CSV Boiler Data Fetch ---
 function loadBoilerData() {
-  fetch('service_info_full.csv')
+  fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/refs/heads/main/service_info_full.csv')
 
     .then(response => {
       if (!response.ok) throw new Error('Network error');
