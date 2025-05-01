@@ -100,7 +100,7 @@ function startTimer() {
       stopwatchInterval = null;
       timeLeft.textContent = '0:00';
       startBtn.textContent = 'Start Timer';
-      time = 0; // ✅ Reset time here
+      time = 0;
     }
     return;
   }
@@ -304,6 +304,7 @@ function loadBoilerData() {
     .catch(err => console.error('CSV load error:', err));
 }
 
+// ✅ Fixed line below:
 document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
