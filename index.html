@@ -147,7 +147,7 @@
     <button onclick="toggleBoilerFinder()">Search G.C Number</button>
 
     <div id="boilerFinder" class="boiler-lookup">
-      <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 41-116-01)">
+      <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 47-311-87)">
       <div class="suggestions"></div>
       <button onclick="calculateRate()">Find Boiler</button>
       <div id="boilerResult"></div>
@@ -173,15 +173,18 @@
     function displayBoilerInfo(boiler) {
       const boilerResult = document.getElementById('boilerResult');
       const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
-      const co2Range = `Max CO₂: ${boiler['Max Co2'] || ''}% / Min CO₂: ${boiler['Min Co2'] || ''}%<br>`;
+      const gross = `Gross Heat Input: ${boiler['kW Gross'] || ''} kW<br>`;
+      const net = `Net Heat Input: ${boiler['kW Net'] || ''} kW<br>`;
+      const tolerance = `Net kW (+5%/-10%): ${boiler['Net kW (+5%/-10%)'] || ''}<br>`;
+      const co2Range = `Max CO₂: ${boiler['Max CO2%'] || ''}% / Min CO₂: ${boiler['Min CO2%'] || ''}%<br>`;
       const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
-      const co = `Max CO: ${boiler['Max Co(ppm)'] || ''} ppm<br>`;
-      const pressure = `Max Pressure: ${boiler['Max Burner Pressure (mb)'] || ''} mb / Min Pressure: ${boiler['Min Burner Pressure (mb)'] || ''} mb<br>`;
+      const co = `Max CO: ${boiler['Max Co (PPM)'] || ''} ppm<br>`;
+      const pressure = `Max Pressure: ${boiler['Max (Burner Pressure Mb)'] || ''} mb / Min Pressure: ${boiler['Min (Burner Pressure Mb)'] || ''} mb<br>`;
       const strip = boiler['Strip Service Required']?.toLowerCase() === 'yes'
         ? `<div class="small-note">*Strip Service Required</div>`
         : '';
 
-      boilerResult.innerHTML = makeModel + co2Range + ratio + co + pressure + strip;
+      boilerResult.innerHTML = makeModel + gross + net + tolerance + co2Range + ratio + co + pressure + strip;
     }
 
     function showSuggestions(query) {
