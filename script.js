@@ -175,7 +175,11 @@ function calculateRate() {
     const netkW = grosskW / 1.1;
 
     const gc = document.getElementById('gcNumber').value;
-    const boiler = (window.boilerData || []).find(b => b['GC Number']?.replace(/\s/g, '') === gc.replace(/\s/g, ''));
+    const normalizeGC = str => str?.replace(/[\s-]/g, '').trim();
+const boiler = (window.boilerData || []).find(
+  b => normalizeGC(b['GC Number']) === normalizeGC(gc)
+);
+
 
     let boilerDetails = '';
     if (boiler) {
