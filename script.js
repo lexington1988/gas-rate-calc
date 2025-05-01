@@ -308,4 +308,3 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
 });
-
