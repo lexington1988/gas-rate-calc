@@ -1,4 +1,4 @@
-Make,Model,GC Number,kW Gross,kW Net,Net kW (+5%/-10%),Max CO2%,Min CO2%,Max Ratio,Max Co (PPM),Max (Burner Pressure Mb),Min (Burner Pressure Mb),Strip Service Required
+Make,Model,G.C Number,kW Gross,kW Net,Net kW (+5%/-10%),Max CO2%,Min CO2%,Max Ratio,Max Co (PPM),Max (Burner Pressure Mb),Min (Burner Pressure Mb),Strip Service Required
 Alpha,CB 28 X,47-532-17,34,36.6,32.9 - 38.4,N/A,N/A,N/A,N/A,11.7,2.5,Yes
 Alpha,CD 28 C,47-532-33,31.6,28.5,25.7 - 29.9,N/A,N/A,N/A,N/A,7.55,0.52,If Ratio is greater than 0.0003
 Alpha,CD 28 X,47-532-37,31.9,28.7,25.8 - 30.1,N/A,N/A,N/A,N/A,8.83,0.24,If Ratio is greater than 0.0003
@@ -12,125 +12,125 @@ Atag,iC Economiser 27,47-310-27,31.4,28.3,25.5 - 29.7,9.0 (+0.6/-0.4),Above 7.6,
 Atag,iC Economiser 35,47-310-29,40.3,36.3,32.7 - 38.1,9.0 (+0.6/-0.4),Above 7.6,1.004,N/A,N/A,N/A,Yes
 Baxi,50HE Plus,41-077-41,16.9,15.2,13.7 - 16.0,9 (+/-1.0),N/A,0.004,N/A,N/A,N/A,Yes
 Baxi,80 HE Plus,41-077-42,24.5,22.1,19.9 - 23.2,9 (+/-1.0),N/A,0.004,N/A,N/A,N/A,Yes
-Baxi,Assure 500 Combi  2 30,47-077-60,34.299,30.9,27.8 - 32.4,Between 8.8 and 9.5,Between 8.1 and 8.7,0.004,350,N/A,N/A,Yes
+Baxi,Assure 500 Combi  2 30,47-077-60,34.29,30.9,27.8 - 32.4,Between 8.8 and 9.5,Between 8.1 and 8.7,0.004,350,N/A,N/A,Yes
 Baxi,Assure 500 Combi 2 24,47-077-59,27.42,24.7,22.2 - 25.9,Between 8.8 and 9.4,Between 8.1 and 8.6,0.004,350,N/A,N/A,Yes
 Baxi,Assure Combi 30,47-077-43,34.3,30.9,27.8 - 32.4,9.0 (+0.3/-0.2),8.5 (+0.1/-0.4),0.004,N/A,N/A,N/A,Yes
-Baxi,Bermuda 401,41-077-49,17.649,15.9,14.3 - 16.7,N/A,N/A,N/A,N/A,18.2,3.2,Yes
-Baxi,Bermuda 45/4 M,41-077-71,24.087,21.7,19.5 - 22.8,N/A,N/A,N/A,N/A,17,10.5,Yes
+Baxi,Bermuda 401,41-077-49,17.64,15.9,14.3 - 16.7,N/A,N/A,N/A,N/A,18.2,3.2,Yes
+Baxi,Bermuda 45/4 M,41-077-71,24.08,21.7,19.5 - 22.8,N/A,N/A,N/A,N/A,17,10.5,Yes
 Baxi,Combi 105 E,47-075-08,34.3,30.9,27.8 - 32.4,N/A,N/A,N/A,N/A,13.4 (+/-0.5),1.8 (+/-0.2),Yes
 Baxi,Combi 624,47-077-28,28.6,25.8,23.2 - 27.1,9.0 (+0.3/-0.2),8.5 (+0.1/-0.4),1.004,N/A,N/A,N/A,Refer To M.I's
 Baxi,Combi 80 E,47-075-06,26.3,23.7,21.3 - 24.9,N/A,N/A,N/A,N/A,12.2 (+/-0.5),2.5 (+/-0.2),Yes
 Baxi,Combi 80 Eco,47-075-05,26.3,23.7,21.3 - 24.9,N/A,N/A,N/A,N/A,12.2 (+/-0.5),2.5 (+/-0.2),Refer To M.I's
 Baxi,Combi Instant 105 HE,47-075-19,33.9,30.5,27.5 - 32.0,N/A,N/A,N/A,N/A,12.1 (+/-0.5),2.1(+/-0.2),Yes
 Baxi,Combi Instant 80 HE,47-075-17,27.5,24.8,22.3 - 26.0,N/A,N/A,N/A,N/A,10.2 (+/-0.5),2.0 (+/-0.2),Yes
-Baxi,Duo-tec 2 Combi 24 GA,47-075-38,27.4,24.7,22.2 - 25.9,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec 2 Combi 28 GA,47-075-55,31.1,28,25.2 - 29.4,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec 2 Combi 33 GA,47-075-56,37.7,34,30.6 - 35.7,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec 2 Combi 40 GA,47-075-57,45.7,41.2,37.1 - 43.3,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec 24 Combi ErP,47-075-96,27.4,24.7,22.2 - 25.9,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec 28 Combi ErP,47-075-97,32.1,28.9,26.0 - 30.4,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec 33 Combi ErP,47-075-99,37.8,34.1,30.6 - 35.8,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Yearly Strip Service Required
-Baxi,Duo-tec Combi 24 HE,47-075-23,27.417,24.7,22.2 - 25.9,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Baxi,Duo-tec 2 Combi 24 GA,47-075-38,27.4,24.7,22.2 - 25.9,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec 2 Combi 28 GA,47-075-55,31.1,28,25.2 - 29.4,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec 2 Combi 33 GA,47-075-56,37.7,34,30.6 - 35.7,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec 2 Combi 40 GA,47-075-57,45.7,41.2,37.1 - 43.3,9.0 (+/-0.7),9.0 (+/-0.7),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec 24 Combi ErP,47-075-96,27.4,24.7,22.2 - 25.9,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec 28 Combi ErP,47-075-97,32.1,28.9,26.0 - 30.4,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec 33 Combi ErP,47-075-99,37.8,34.1,30.6 - 35.8,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Yes
+Baxi,Duo-tec Combi 24 HE,47-075-23,27.41,24.7,22.2 - 25.9,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,Duo-tec Combi 28 HE,47-075-25,32.1,28.9,26.0 - 30.3,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,Duo-tec Combi 33 HE,47-075-24,37.7,34,30.6 - 35.7,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,Duo-tec Combi 40 HE A,47-075-38,45.7,41.2,37.1 - 43.3,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,DuotecCombi 24 HE A,47-075-35,27.4,24.7,22.2 - 25.9,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,DuotecCombi28HE A,47-075-36,32.1,28.9,26.0 - 30.3,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,EcoBlue 15 ErP,41-070-24,20.5,18.48,16.6 - 19.4,8.7 (+/-0.2),8.4 (+/-0.2),0.004,N/A,N/A,N/A,Refer To M.I's
-Baxi,MainEco Combi 28,47-075-94,31.302,28.2,25.4 - 29.6,9.15% - 9.50%,8.7% - 9.05%,0.004,N/A,N/A,N/A,Refer To M.I's
-Baxi,Maxflow Combi 80,47-075-07,32.4009,29.19,26.3 - 30.6,N/A,N/A,N/A,N/A,10.6 (+/-0.5),1.9 (+/-0.2),Refer To M.I's
-Baxi,Megaflo System 15 HE,41-075-52,17.094,15.4,13.9 - 16.2,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Refer To M.I's
-Baxi,Neta-tec Combi 24 GA,47-075-51,27.417,24.7,22.2 - 25.9,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Baxi,Neta-tec Combi 28 GA,47-075-52,32.079,28.9,26.0 - 30.3,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Baxi,MainEco Combi 28,47-075-94,31.3,28.2,25.4 - 29.6,9.15% - 9.50%,8.7% - 9.05%,0.004,N/A,N/A,N/A,Refer To M.I's
+Baxi,Maxflow Combi 80,47-075-07,32.4,29.19,26.3 - 30.6,N/A,N/A,N/A,N/A,10.6 (+/-0.5),1.9 (+/-0.2),Refer To M.I's
+Baxi,Megaflo System 15 HE,41-075-52,17.09,15.4,13.9 - 16.2,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Refer To M.I's
+Baxi,Neta-tec Combi 24 GA,47-075-51,27.41,24.7,22.2 - 25.9,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Baxi,Neta-tec Combi 28 GA,47-075-52,32.07,28.9,26.0 - 30.3,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,Neta-tec Combi 33 GA,47-075-53,37.74,34,30.6 - 35.7,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Baxi,Solo 15 HE,41-075-46,16.88,15.2,13.7 - 16.0,9.0(+/-1.0),N/A,0.004,N/A,N/A,N/A,Yes
 Baxi,Solo 18 HEA,41-075-67,20.18,18.18,16.4 - 19.1,9.0(+/-1.0),N/A,0.004,N/A,N/A,N/A,Yes
-Baxi,Solo 3 PFL 30,41-075-20,12.1989,10.99,9.9 - 11.5,N/A,N/A,N/A,N/A,16.0(+/-0.5),6.4(+/-0.2),Yes
-Baxi,Solo 3 PFL 40,41-075-21,16.2615,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,16.0(+/-0.5),6.4(+/-0.2),Yes
-Baxi,Solo 2 30PF ,41-077-71,12.1989,10.99,9.9 - 11.5,N/A,N/A,N/A,N/A,16.0(+/-0.5),8.0(+/-0.5),Yes
-Baxi,Solo 2 50PF,41-077-73,20.3352,18.32,16.5 - 19.2,N/A,N/A,N/A,N/A,16.0(+/-0.5),11.5(+/-0.5),Yes
-Baxi,Solo 2 40PF,41-077-72,16.2615,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,16.0(+/-0.5),10(+/-0.5),Yes
-Baxi,System 100 HE Plus,41-075-43,37.4736,33.76,30.4 - 35.4,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Baxi,WM 552,41-077-10,23.532,21.2,19.1 - 22.3,,N/A,N/A,N/A,17.75,7.5,Yes
-Glow-worm,12 hxi,41-047-73,13.542,12.2,11.0 - 12.8,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
-Glow-worm,15hxi,41-047-74,16.9386,15.26,13.7 - 16.0,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
-Glow-worm,18 hxi,41-074-63,20.979,18.9,17.0 - 19.8,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
-Glow-worm,18sxi,41-047-72,20.979,18.9,17.0 - 19.8,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
-Glow-worm,24 cxi,47-047-23,26.7732,24.12,21.7 - 25.3,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
-Glow-worm,30 cxi,47-047-24,33.4665,30.15,27.1 - 31.7,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
-Glow-worm,Ultracom 2 35 cxi,47-019-12,39.627,35.7,32.1 - 37.5,9.2(+/-0.3),8.9(+/-0.2),0.004,N/A,N/A,N/A,Yes
-Glow-worm,38 cxi,47-047-27,42.6462,38.42,34.6 - 40.3,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Baxi,Solo 3 PFL 30,41-075-20,12.19,10.99,9.9 - 11.5,N/A,N/A,N/A,N/A,16.0(+/-0.5),6.4(+/-0.2),Yes
+Baxi,Solo 3 PFL 40,41-075-21,16.26,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,16.0(+/-0.5),6.4(+/-0.2),Yes
+Baxi,Solo 2 30PF ,41-077-71,12.20,10.99,9.9 - 11.5,N/A,N/A,N/A,N/A,16.0(+/-0.5),8.0(+/-0.5),Yes
+Baxi,Solo 2 50PF,41-077-73,20.34,18.32,16.5 - 19.2,N/A,N/A,N/A,N/A,16.0(+/-0.5),11.5(+/-0.5),Yes
+Baxi,Solo 2 40PF,41-077-72,16.26,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,16.0(+/-0.5),10(+/-0.5),Yes
+Baxi,System 100 HE Plus,41-075-43,37.47,33.76,30.4 - 35.4,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Baxi,WM 552,41-077-10,23.53,21.2,19.1 - 22.3,,N/A,N/A,N/A,17.75,7.5,Yes
+Glow-worm,12 hxi,41-047-73,13.54,12.2,11.0 - 12.8,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Glow-worm,15hxi,41-047-74,16.94,15.26,13.7 - 16.0,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Glow-worm,18 hxi,41-074-63,20.98,18.9,17.0 - 19.8,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Glow-worm,18sxi,41-047-72,20.98,18.9,17.0 - 19.8,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Glow-worm,24 cxi,47-047-23,26.77,24.12,21.7 - 25.3,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Glow-worm,30 cxi,47-047-24,33.47,30.15,27.1 - 31.7,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
+Glow-worm,Ultracom 2 35 cxi,47-019-12,39.63,35.7,32.1 - 37.5,9.2(+/-0.3),8.9(+/-0.2),0.004,N/A,N/A,N/A,Yes
+Glow-worm,38 cxi,47-047-27,42.65,38.42,34.6 - 40.3,9.3(+/-1.0),9.3(+/-1.0),0.004,N/A,N/A,N/A,Yes
 Glow-worm,45/2 BBU,44-315-39,17.8,16.03,14.4 - 16.8,N/A,N/A,N/A,N/A,15.2,11.4,Yes
 Glow-worm,Betacom 2 28,47-019-17,31.08,28,25.2 - 29.4,9.2(+/-0.3),8.9(+/-0.3),0.004,N/A,N/A,N/A,Refer To M.I's
 Glow-worm,Economy Plus 30B,41-319-01,10.99,9.9,8.9 - 10.4,N/A,N/A,N/A,N/A,10.5,4.7,Yes
 Glow-worm,Economy Plus 30C,41-319-37,10.99,9.9,8.9 - 10.4,N/A,N/A,N/A,N/A,14,10.3,Yes
-Glow-worm,Flexicom 12hx,41-315-28,13.431,12.1,10.9 - 12.7,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Flexicom 15hx,41-315-29,16.761,15.1,13.6 - 15.9,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Flexicom 18hx,41-315-42,20.202,18.2,16.4 - 19.1,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Flexicom 18sx,41-315-72,20.202,18.2,16.4 - 19.1,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Flexicom 24cx,47-047-33,28.305,25.5,23.0 - 26.8,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Flexicom 35cx,47-047-35,39.738,35.8,32.2 - 37.6,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Flexicom30cx,47-047-34,34.188,30.8,27.7 - 32.3,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Home 25c,47-019-29,28.527,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Glow-worm,Home 30c,47-019-30,33.966,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Glow-worm,Micron 30FF,41-047-16,10.9224,9.84,8.9 - 10.3,N/A,N/A,N/A,N/A,14,6.8,Yes
-Glow-worm,Micron 40FF,41-047-17,14.4744,13.04,11.7 - 13.7,N/A,N/A,N/A,N/A,14.3,7.8,Yes
-Glow-worm,Micron 50FF,47-047-18,18.1818,16.38,14.7 - 17.2,N/A,N/A,N/A,N/A,15.5,10.2,Yes
-Glow-worm,Sustain 25c -A ,47-019-32,28.527,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Glow-worm,Ultimate 50FF,41-047-55,17.871,16.1,14.5 - 16.9,N/A,N/A,N/A,N/A,12,8.1,Yes
-Glow-worm,Ultracom 12hxi,41-019-01,13.542,12.2,11.0 - 12.8,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 15hxi,41-019-02,16.9386,15.26,13.7 - 16.0,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 18hxi,41-019-03,20.979,18.9,17.0 - 19.8,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 18sxi,41-019-07,20.979,18.9,17.0 - 19.8,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 24cx,47-019-06,26.7732,24.12,21.7 - 25.3,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 24cxi,47-019-01,26.7732,24.12,21.7 - 25.3,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 24hxi,41-019-04,27.084,24.4,22.0 - 25.6,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 30cx,47-019-07,33.4665,30.15,27.1 - 31.7,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom 30cxi,47-019-11,33.4665,30.15,27.1 - 31.7,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Glow-worm,Ultracom2 18sxi,41-019-13,20.535,18.5,16.7 - 19.4,9.2(+0.3/-0.3),9.2(+0.3/-0.3),0.004,N/A,N/A,N/A,Yes
-Glow-worm,Ultracom2 30cxi,47-019-11,33.966,30.6,27.5 - 32.1,9.2(+0.3/-0.3),9.2(+0.3/-0.3),0.004,N/A,N/A,N/A,Yes
-Glow-worm,Ultracom2 24cxi,47-019-10,28.305,25.5,23.0 - 26.8,9.2(+0.3/-0.3),9.2(+0.3/-0.3),0.004,N/A,N/A,N/A,Yes
+Glow-worm,Flexicom 12hx,41-315-28,13.43,12.1,10.9 - 12.7,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Flexicom 15hx,41-315-29,16.76,15.1,13.6 - 15.9,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Flexicom 18hx,41-315-42,20.20,18.2,16.4 - 19.1,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Flexicom 18sx,41-315-72,20.20,18.2,16.4 - 19.1,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Flexicom 24cx,47-047-33,28.31,25.5,23.0 - 26.8,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Flexicom 35cx,47-047-35,39.74,35.8,32.2 - 37.6,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Flexicom30cx,47-047-34,34.19,30.8,27.7 - 32.3,Between 8.8 and 9.8%,Between 8.9 and 9.5%,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Home 25c,47-019-29,28.53,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Glow-worm,Home 30c,47-019-30,33.97,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Glow-worm,Micron 30FF,41-047-16,10.92,9.84,8.9 - 10.3,N/A,N/A,N/A,N/A,14,6.8,Yes
+Glow-worm,Micron 40FF,41-047-17,14.47,13.04,11.7 - 13.7,N/A,N/A,N/A,N/A,14.3,7.8,Yes
+Glow-worm,Micron 50FF,47-047-18,18.18,16.38,14.7 - 17.2,N/A,N/A,N/A,N/A,15.5,10.2,Yes
+Glow-worm,Sustain 25c -A ,47-019-32,28.53,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Glow-worm,Ultimate 50FF,41-047-55,17.87,16.1,14.5 - 16.9,N/A,N/A,N/A,N/A,12,8.1,Yes
+Glow-worm,Ultracom 12hxi,41-019-01,13.54,12.2,11.0 - 12.8,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 15hxi,41-019-02,16.94,15.26,13.7 - 16.0,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 18hxi,41-019-03,20.98,18.9,17.0 - 19.8,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 18sxi,41-019-07,20.98,18.9,17.0 - 19.8,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 24cx,47-019-06,26.77,24.12,21.7 - 25.3,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 24cxi,47-019-01,26.77,24.12,21.7 - 25.3,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 24hxi,41-019-04,27.08,24.4,22.0 - 25.6,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 30cx,47-019-07,33.47,30.15,27.1 - 31.7,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom 30cxi,47-019-11,33.47,30.15,27.1 - 31.7,between 8.5 and 9.6 (for setting gas valve refer to m.i's),between 8.5 and 9.6 (for setting gas valve refer to m.i's),0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Glow-worm,Ultracom2 18sxi,41-019-13,20.54,18.5,16.7 - 19.4,9.2(+0.3/-0.3),9.2(+0.3/-0.3),0.004,N/A,N/A,N/A,Yes
+Glow-worm,Ultracom2 30cxi,47-019-11,33.97,30.6,27.5 - 32.1,9.2(+0.3/-0.3),9.2(+0.3/-0.3),0.004,N/A,N/A,N/A,Yes
+Glow-worm,Ultracom2 24cxi,47-019-10,28.31,25.5,23.0 - 26.8,9.2(+0.3/-0.3),9.2(+0.3/-0.3),0.004,N/A,N/A,N/A,Yes
 Ideal,Classic FF 230,41-387-01,11,9.9,8.9 - 10.4,N/A,N/A,N/A,N/A,13.2,3.5,Yes
 Ideal,CLASSIC FF 240,41-387-02,14.7,13.2,11.9 - 13.9,N/A,N/A,N/A,N/A,14.5,8.5,Yes
 Ideal,Classic NF 30,41-429-30,11,9.9,8.9 - 10.4,N/A,N/A,N/A,N/A,13.9,4,Yes
 Ideal,Classic NF 40,41-429-31,14.7,13.2,11.9 - 13.9,N/A,N/A,N/A,N/A,12.7,7.5,Yes
 Ideal,Classic FF 330,41-391-54,10.8,9.7,8.8 - 10.2,N/A,N/A,N/A,N/A,12.4,N/A,Yes
-Ideal,Logic Code Combi ESP1 26,47-349-04,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Exclusive 24,47-349-41,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Icos HE 12,41-397-95,13.542,12.2,11.0 - 12.8,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Ideal,Icos HE 15,41-397-83,16.761,15.1,13.6 - 15.9,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Ideal,Icos HE 24,41-397-85,27.084,24.4,22.0 - 25.6,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Ideal,Icos M3080,41-391-49,27.084,24.4,22.0 - 25.6,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Ideal,Isar HE 24,47-348-31,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Ideal,Isar HE 30,47-348-30,33.522,30.2,27.2 - 31.7,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Ideal,Logic Code Combi ESP1 26,47-349-04,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Exclusive 24,47-349-41,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Icos HE 12,41-397-95,13.54,12.2,11.0 - 12.8,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Ideal,Icos HE 15,41-397-83,16.76,15.1,13.6 - 15.9,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Ideal,Icos HE 24,41-397-85,27.08,24.4,22.0 - 25.6,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Ideal,Icos M3080,41-391-49,27.08,24.4,22.0 - 25.6,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Ideal,Isar HE 24,47-348-31,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
+Ideal,Isar HE 30,47-348-30,33.52,30.2,27.2 - 31.7,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Ideal,Isar HE 35,47-348-29,39.96,36,32.4 - 37.8,N/A,N/A,0.004,N/A,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Ideal,Logic Code Combi 26,47-348-74,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Code Combi ES26,47-349-04,26.973,24.3,21.9 - 25.5,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi 24,47-348-56,26.973,24.3,21.9 - 25.5,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi 30,47-348-57,33.744,30.4,27.4 - 31.9,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi 35,47-348-58,39.294,35.4,31.9 - 37.2,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi C 24,47-349-18,26.973,24.3,21.9 - 25.5,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi C 30,47-349-19,33.744,30.4,27.4 - 31.9,9.3(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi C 35,47-349-20,39.294,35.4,31.9 - 37.2,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi ES24,47-349-01,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi ES30,47-349-02,33.744,30.4,27.4 - 31.9,,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi ES35,47-349-03,39.294,35.4,31.9 - 37.2,,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi ESP24,47-349-12,26.973,24.3,21.9 - 25.5,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi ESP30,47-349-13,33.744,30.4,27.4 - 31.9,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi ESP35,47-349-14,39.294,35.4,31.9 - 37.2,,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic Combi ESP1 24,47-349-21,26.973,24.3,21.9 - 25.5,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi ESP1 30,47-349-22,33.744,30.4,27.4 - 31.9,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Combi ESP1 35,47-349-23,39.294,35.4,31.9 - 37.2,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Heat 12,41-399-99,13.431,12.1,10.9 - 12.7,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Heat 15,41-409-93,16.761,15.1,13.6 - 15.9,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Heat 18,41-409-94,20.091,18.1,16.3 - 19.0,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Heat 24,41-409-95,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
-Ideal,Logic Max System S18,41-796-14,20.091,18.1,16.3 - 19.0,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic+ CombI 24,47-348-65,26.973,24.3,21.9 - 25.5,N/A,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic+ CombI 30,47-348-66,33.744,30.4,27.4 - 31.9,N/A,N/A,0.004,350,N/A,N/A,Yes
-Ideal,Logic+ Combi C 24,47-349-15,26.973,24.3,21.9 - 25.5,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Logic+ Combi C 30,47-349-16,33.744,30.4,27.4 - 31.9,9.3(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Ideal,Mini C24,47-348-18,29.526,26.6,23.9 - 27.9,N/A,N/A,0.004,N/A,11.7,1.8,Yes
+Ideal,Logic Code Combi 26,47-348-74,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Code Combi ES26,47-349-04,26.97,24.3,21.9 - 25.5,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi 24,47-348-56,26.97,24.3,21.9 - 25.5,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi 30,47-348-57,33.74,30.4,27.4 - 31.9,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi 35,47-348-58,39.29,35.4,31.9 - 37.2,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi C 24,47-349-18,26.97,24.3,21.9 - 25.5,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi C 30,47-349-19,33.74,30.4,27.4 - 31.9,9.3(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi C 35,47-349-20,39.29,35.4,31.9 - 37.2,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi ES24,47-349-01,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi ES30,47-349-02,33.74,30.4,27.4 - 31.9,,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi ES35,47-349-03,39.29,35.4,31.9 - 37.2,,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi ESP24,47-349-12,26.97,24.3,21.9 - 25.5,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi ESP30,47-349-13,33.74,30.4,27.4 - 31.9,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi ESP35,47-349-14,39.29,35.4,31.9 - 37.2,,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic Combi ESP1 24,47-349-21,26.97,24.3,21.9 - 25.5,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi ESP1 30,47-349-22,33.74,30.4,27.4 - 31.9,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Combi ESP1 35,47-349-23,39.29,35.4,31.9 - 37.2,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Heat 12,41-399-99,13.43,12.1,10.9 - 12.7,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Heat 15,41-409-93,16.76,15.1,13.6 - 15.9,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Heat 18,41-409-94,20.09,18.1,16.3 - 19.0,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Heat 24,41-409-95,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,N/A,N/A,N/A,Yes
+Ideal,Logic Max System S18,41-796-14,20.09,18.1,16.3 - 19.0,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic+ CombI 24,47-348-65,26.97,24.3,21.9 - 25.5,N/A,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic+ CombI 30,47-348-66,33.74,30.4,27.4 - 31.9,N/A,N/A,0.004,350,N/A,N/A,Yes
+Ideal,Logic+ Combi C 24,47-349-15,26.97,24.3,21.9 - 25.5,9.5(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Logic+ Combi C 30,47-349-16,33.74,30.4,27.4 - 31.9,9.3(+/-0.7),8.8(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Ideal,Mini C24,47-348-18,29.53,26.6,23.9 - 27.9,N/A,N/A,0.004,N/A,11.7,1.8,Yes
 Main,15 Heat ErP,41-467-24,16.88,15.2,13.7 - 16.0,9.0(+/-1.0),N/A,0.004,N/A,N/A,N/A,If Ratio is greater than 0.0004
 Main,18 Heat ErP,41-467-25,20.18,18.18,16.4 - 19.1,9.0(+/-1.0),N/A,0.004,N/A,N/A,N/A,If Ratio is greater than 0.0004
 Main,Combi 24 HE,47-474-02,27.52,24.8,22.3 - 26.0,N/A,N/A,N/A,N/A,10.2,2,Yes
@@ -138,97 +138,97 @@ Main,Eco Elite 24 System ErP,41-467-28,28.92,26.1,23.4 - 27.4,9.0(+0.0/-0.4),8.4
 Potterton,Assure Combi 30,47-393-59,34.33,30.93,27.8 - 32.5,9.0(+0.3/-0.2),8.5(+0.1/-0.4,0.004,N/A,N/A,N/A,Yes
 Potterton,Assure 16 Heat,41-592-67,18.32,26.05,23.4 - 27.4,9.3(+/-0.1),8.9(+/-0.1),0.004,N/A,N/A,N/A,Yes
 Potterton,Assure 19 Heat,41-592-68,21.75,19.59,17.6 - 20.6,9.3(+/-0.1),8.9(+/-0.1),0.004,N/A,N/A,N/A,Yes
-Potterton,Assure Combi 36,47-393-67,40.848,36.8,33.1 - 38.6,9.0(+0.3/-0.2),8.5(+0.1/-0.4,0.004,N/A,N/A,N/A,Yes
-Potterton,Gold Combi 24 HE,47-590-05,27.417,24.7,22.2 - 25.9,8.7(+/-0.2),8.4(+/-0.2),N/A,N/A,N/A,N/A,Yes
-Potterton,Gold Combi 28 HE,47-590-06,32.079,28.9,26.0 - 30.3,8.7(+/-0.2),8.4(+/-0.2),N/A,N/A,N/A,N/A,Yes
-Potterton,Heatmax Combi 24 HE,47-393-27,27.417,24.7,22.2 - 25.9,8.7(+/-0.2),8.4(+/-0.2),N/A,N/A,N/A,N/A,Refer To M.I's
-Potterton,KINGFISHER CF40,41-589-02,16.2615,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,14.2,8.4,Yes
+Potterton,Assure Combi 36,47-393-67,40.85,36.8,33.1 - 38.6,9.0(+0.3/-0.2),8.5(+0.1/-0.4,0.004,N/A,N/A,N/A,Yes
+Potterton,Gold Combi 24 HE,47-590-05,27.42,24.7,22.2 - 25.9,8.7(+/-0.2),8.4(+/-0.2),N/A,N/A,N/A,N/A,Yes
+Potterton,Gold Combi 28 HE,47-590-06,32.08,28.9,26.0 - 30.3,8.7(+/-0.2),8.4(+/-0.2),N/A,N/A,N/A,N/A,Yes
+Potterton,Heatmax Combi 24 HE,47-393-27,27.42,24.7,22.2 - 25.9,8.7(+/-0.2),8.4(+/-0.2),N/A,N/A,N/A,N/A,Refer To M.I's
+Potterton,KINGFISHER CF40,41-589-02,16.26,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,14.2,8.4,Yes
 Potterton,Performa 24,47-393-06,26.3,23.69,21.3 - 24.9,N/A,N/A,N/A,N/A,12.2(+/-0.5),2.5(+/-0.2),Yes
-Potterton,Performa 24 Eco HE,47-393-11,27.528,24.8,22.3 - 26.0,N/A,N/A,N/A,N/A,10.2(+/-0.5),2.0(+/-0.3),Yes
-Potterton,Prima 50F,41-607-03,20.3352,18.32,16.5 - 19.2,N/A,N/A,N/A,N/A,11,7,Yes
-Potterton,Prima 30F,41-607-01,12.1989,10.99,9.9 - 11.5,N/A,N/A,N/A,N/A,8.4,3.9,Yes
-Potterton,Prima 40F,41-607-02,16.2615,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,11.3,6.5,Yes
-Potterton,Promax 15 System ErP,41-592-43,18.981,17.1,15.4 - 18.0,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
-Potterton,Promax 15 HE,41-590-58,18.7368,16.88,15.2 - 17.7,N/A,N/A,N/A,N/A,N/A,N/A,Yes
-Potterton,Promax 24 HE,41-590-62,27.195,24.5,22.1 - 25.7,N/A,N/A,N/A,N/A,N/A,N/A,Yes
-Potterton,Promax 28 Combi ERP,47-393-48,32.1,28.9,26.0 - 30.4,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
-Potterton,Promax Combi 28 HE Plus,47-590-04,32.079,28.9,26.0 - 30.3,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
+Potterton,Performa 24 Eco HE,47-393-11,27.53,24.8,22.3 - 26.0,N/A,N/A,N/A,N/A,10.2(+/-0.5),2.0(+/-0.3),Yes
+Potterton,Prima 50F,41-607-03,20.34,18.32,16.5 - 19.2,N/A,N/A,N/A,N/A,11,7,Yes
+Potterton,Prima 30F,41-607-01,12.20,10.99,9.9 - 11.5,N/A,N/A,N/A,N/A,8.4,3.9,Yes
+Potterton,Prima 40F,41-607-02,16.26,14.65,13.2 - 15.4,N/A,N/A,N/A,N/A,11.3,6.5,Yes
+Potterton,Promax 15 System ErP,41-592-43,18.98,17.1,15.4 - 18.0,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
+Potterton,Promax 15 HE,41-590-58,18.74,16.88,15.2 - 17.7,N/A,N/A,N/A,N/A,N/A,N/A,Yes
+Potterton,Promax 24 HE,41-590-62,27.20,24.5,22.1 - 25.7,N/A,N/A,N/A,N/A,N/A,N/A,Yes
+Potterton,Promax 28 Combi ERP,47-393-48,32.10,28.9,26.0 - 30.4,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
+Potterton,Promax Combi 28 HE Plus,47-590-04,32.08,28.9,26.0 - 30.3,8.7(+/-0.2),8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
 Potterton,Promax 33 HE Plus,47-590-03,37.74,34,30.6 - 35.7,,8.4(+/-0.2),0.004,N/A,N/A,N/A,Yes
 Potterton,Promax SL15 Heat ErP,41-592-35,16.88,15.2,13.7 - 16.0,9.0(+/-1.0),N/A,0.004,N/A,N/A,N/A,Yes
-Potterton,Promax Ultra 28 Combi Erp,47-393-55,32.1,28.9,26.0 - 30.4,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,Yes
-Potterton,Promax Ultra 33 Combi Erp,47-393-56,37.8,34.1,30.6 - 35.8,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Potterton,Promax Ultra 28 Combi Erp,47-393-55,32.10,28.9,26.0 - 30.4,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,Yes
+Potterton,Promax Ultra 33 Combi Erp,47-393-56,37.80,34.1,30.6 - 35.8,9.0(+/-0.7),9.0(+/-0.7),0.004,N/A,N/A,N/A,Yes
 Potterton,SUPRIMA 30,41-607-75,12.21,11,9.9 - 11.6,N/A,N/A,N/A,N/A,9.3,4.1,Yes
-Potterton,SUPRIMA 40,41-607-76,16.317,14.7,13.2 - 15.4,,N/A,N/A,N/A,11.2,6.1,Yes
+Potterton,SUPRIMA 40,41-607-76,16.32,14.7,13.2 - 15.4,,N/A,N/A,N/A,11.2,6.1,Yes
 Remeha,Avanta plus 24s,41-288-01,26.64,24,21.6 - 25.2,8.8(+/-0.1),8.8(+/-0.1),N/A,200,N/A,N/A,If Combustion Readings Are Unsatisfactory
 Remeha,Avanta Plus 28c,47-673-02,31.08,28,25.2 - 29.4,8.8(+/-0.1),8.8(+/-0.1),N/A,200,N/A,N/A,If Combustion Readings Are Unsatisfactory
-Vaillant,EcoFIT Pure OV 415,41-694-09,20.424,18.4,16.6 - 19.3,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,Ecofit pure System 618,41-694-05,28.527,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,EcoFIT Sustain 415,41-694-33,16.983,15.3,13.8 - 16.1,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,EcoFIT Sustain 615,41-694-30,16.983,15.3,13.8 - 16.1,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,EcoFIT Sustain 618,41-694-31,20.424,18.4,16.6 - 19.3,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,EcoFIT Sustain 825,47-044-71,28.527,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,EcoFIT Sustain 830,47-044-72,33.966,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,EcoFIT Sustain 835,47-044-73,39.627,35.7,32.1 - 37.5,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Pure OV 415,41-694-09,20.42,18.4,16.6 - 19.3,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,Ecofit pure System 618,41-694-05,28.53,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Sustain 415,41-694-33,16.98,15.3,13.8 - 16.1,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Sustain 615,41-694-30,16.98,15.3,13.8 - 16.1,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Sustain 618,41-694-31,20.42,18.4,16.6 - 19.3,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Sustain 825,47-044-71,28.53,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Sustain 830,47-044-72,33.97,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,EcoFIT Sustain 835,47-044-73,39.63,35.7,32.1 - 37.5,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
 Vaillant,EcoMAX 824/2E,47-044-12,25.53,23,20.7 - 24.2,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
-Vaillant,EcoTEC Plus 415,41-044-53,16.983,15.3,13.8 - 16.1,9.3(+0.2/-0.5),N/A,N/A,N/A,N/A,N/A,Every 5 Years
-Vaillant,EcoTEC Plus 418,41-044-54,20.979,18.9,17.0 - 19.8,9.3(+0.2/-0.5),N/A,N/A,N/A,N/A,N/A,Every 5 Years
-Vaillant,EcoTEC Plus 424,41-694-16,33.966,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
-Vaillant,EcoTEC Plus 428,41-044-55,31.746,28.6,25.7 - 30.0,9.3(+0.2/-0.5),N/A,N/A,N/A,N/A,N/A,Every 5 Years
+Vaillant,EcoTEC Plus 415,41-044-53,16.98,15.3,13.8 - 16.1,9.3(+0.2/-0.5),N/A,N/A,N/A,N/A,N/A,Every 5 Years
+Vaillant,EcoTEC Plus 418,41-044-54,20.98,18.9,17.0 - 19.8,9.3(+0.2/-0.5),N/A,N/A,N/A,N/A,N/A,Every 5 Years
+Vaillant,EcoTEC Plus 424,41-694-16,33.97,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
+Vaillant,EcoTEC Plus 428,41-044-55,31.75,28.6,25.7 - 30.0,9.3(+0.2/-0.5),N/A,N/A,N/A,N/A,N/A,Every 5 Years
 Vaillant,EcoTEC Plus 612,41-044-44,13.32,12,10.8 - 12.6,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
 Vaillant,EcoTEC Plus 615,41-044-45,16.65,15,13.5 - 15.8,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
 Vaillant,EcoTEC Plus 618,41-044-46,19.98,18,16.2 - 18.9,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
 Vaillant,EcoTEC Plus 824,47-044-31,25.53,23,20.7 - 24.2,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
-Vaillant,EcoTEC Plus 825,47-044-57,28.749,25.9,23.3 - 27.2,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,EcoTEC Plus 825,47-044-57,28.75,25.9,23.3 - 27.2,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
 Vaillant,EcoTEC Pro 24,47-044-36,25.53,23,20.7 - 24.2,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
 Vaillant,EcoTEC Pro 28,47-044-30,31.08,28,25.2 - 29.4,9.2(+/-1.0),N/A,N/A,250,N/A,N/A,Every 5 Years
-Vaillant,EcoTEC Sustain 24,47-044-79,27.084,24.4,22.0 - 25.6,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,ecoTec Sustain 28,47-044-80,31.635,28.5,25.7 - 29.9,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,ecoTec Sustain 34,47-044-81,38.406,34.6,31.1 - 36.3,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
-Vaillant,Home Combi 25,47-044-62,28.527,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,Home Combi 30 ,47-044-63,33.966,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,Home Combi 35,47-044-64,39.627,35.7,32.1 - 37.5,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,Home System 15,41-044-95,16.983,15.3,13.8 - 16.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,Home System 18,41-044-96,20.424,18.4,16.6 - 19.3,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
-Vaillant,Thermocompact 615,41-044-23,18.315,16.5,14.9 - 17.3,N/A,N/A,N/A,N/A,9.9,2.2,Yes
-Vaillant,TURBOmax 242 E,47-044-25,32.523,29.3,26.4 - 30.8,N/A,N/A,N/A,N/A,10(+/-1.0),2,Yes
-Vaillant,TURBOmax 282,47-044-26,37.962,34.2,30.8 - 35.9,N/A,N/A,N/A,N/A,10.6(+/-1.0),N/A,Yes
-Vaillant,TURBOMAX 824 E,40-044-04,29.637,26.7,24.0 - 28.0,N/A,N/A,N/A,N/A,9.8,N/A,Yes
-Viessmann,Vitodens 100-W WB1C Combi 30kW,47-819-21,33.3,30,27.0 - 31.5,between 7.4 and 10.5,between 7.4 and 10.5,N/A,N/A,N/A,N/A,Yes
+Vaillant,EcoTEC Sustain 24,47-044-79,27.08,24.4,22.0 - 25.6,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,ecoTec Sustain 28,47-044-80,31.64,28.5,25.7 - 29.9,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,ecoTec Sustain 34,47-044-81,38.41,34.6,31.1 - 36.3,9.2(+/-1.0),N/A,0.0031,250,N/A,N/A,Every 5 Years
+Vaillant,Home Combi 25,47-044-62,28.53,25.7,23.1 - 27.0,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,Home Combi 30 ,47-044-63,33.97,30.6,27.5 - 32.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,Home Combi 35,47-044-64,39.63,35.7,32.1 - 37.5,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,Home System 15,41-044-95,16.98,15.3,13.8 - 16.1,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,Home System 18,41-044-96,20.42,18.4,16.6 - 19.3,9.2(+/-1.0),N/A,0.0027,250,N/A,N/A,Every 5 Years
+Vaillant,Thermocompact 615,41-044-23,18.32,16.5,14.9 - 17.3,N/A,N/A,N/A,N/A,9.9,2.2,Yes
+Vaillant,TURBOmax 242 E,47-044-25,32.52,29.3,26.4 - 30.8,N/A,N/A,N/A,N/A,10(+/-1.0),2,Yes
+Vaillant,TURBOmax 282,47-044-26,37.96,34.2,30.8 - 35.9,N/A,N/A,N/A,N/A,10.6(+/-1.0),N/A,Yes
+Vaillant,TURBOMAX 824 E,40-044-04,29.64,26.7,24.0 - 28.0,N/A,N/A,N/A,N/A,9.8,N/A,Yes
+Viessmann,Vitodens 100-W WB1C Combi 30kW,47-819-21,33.30,30,27.0 - 31.5,between 7.4 and 10.5,between 7.4 and 10.5,N/A,N/A,N/A,N/A,Yes
 Viessmann,Vitodens 100-W WB1B 16kW,41-819-22,16.65,15,13.5 - 15.8,between 7.4 and 10.5,between 7.4 and 10.5,0.004,N/A,N/A,N/A,Yes
 Viessmann,Vitodens 100-W WB1B System 26kW,41-819-18,28.86,26,23.4 - 27.3,between 7.4 and 10.5,between 7.4 and 10.5,0.008,500,N/A,N/A,Yes
-Viessmann,Vitodens 100-W WB1B 13kW,41-819-21,13.542,12.2,11.0 - 12.8,between 7.4 and 10.5,between 7.4 and 10.5,0.004,N/A,N/A,N/A,Yes
+Viessmann,Vitodens 100-W WB1B 13kW,41-819-21,13.54,12.2,11.0 - 12.8,between 7.4 and 10.5,between 7.4 and 10.5,0.004,N/A,N/A,N/A,Yes
 Viessmann,Vitodens 100-W WB1B Combi 26kW,47-819-12,28.86,26,23.4 - 27.3,between 7.4 and 10.5,between 7.4 and 10.5,0.008,500,N/A,N/A,Yes
 Viessmann,Vitodens 100-W WB1C Combi 26kW,47-819-20,28.86,26,23.4 - 27.3,between 7.4 and 10.5,between 7.4 and 10.5,N/A,N/A,N/A,N/A,Yes
-Worcester,Greenstar 12i System,41-311-67,13.6752,12.32,11.1 - 12.9,9.65(+/-0.5),8.65(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
+Worcester,Greenstar 12i System,41-311-67,13.68,12.32,11.1 - 12.9,9.65(+/-0.5),8.65(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
 Worcester,24CDi,47-311-30,29.97,27,24.3 - 28.4,N/A,N/A,N/A,N/A,14.8,1.5,Yes
-Worcester,Greenstar 24i System,41-311-68,27.3282,24.62,22.2 - 25.9,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -4.1mb
-Worcester,24i Junior,47-311-69,28.749,25.9,23.3 - 27.2,between 6.5 and 7.5%,N/A,between 0.002 and 0.010,N/A,13.6,1.4,Yes
-Worcester,24i RSF,47-311-37,28.9155,26.05,23.4 - 27.4,N/A,N/A,N/A,N/A,13.6,1,Yes
-Worcester,28Si,47-311-51,34.521,31.1,28.0 - 32.7,N/A,N/A,N/A,N/A,14.1,0.7,Yes
-Worcester,Greenstar 25i ErP,47-406-60,28.3161,25.51,23.0 - 26.8,between 9.0 and 10.8%above 8.2%,between 8.0 and 10.6%,0.002,200,N/A,N/A,If Fan Pressure Is Less Than -4.5mb
-Worcester,28CDI,47-311-34,34.965,31.5,28.4 - 33.1,N/A,N/A,N/A,N/A,10.8,1,Yes
-Worcester,28i Junior,47-311-70,33.3,30,27.0 - 31.5,between 6.5 and 7.5%,N/A,between 0.002 and 0.010,N/A,14.7,1.2,Yes
-Worcester,28i RSF,47-311-54,33.3,30,27.0 - 31.5,N/A,N/A,N/A,N/A,13.5,1,Yes
-Worcester,Greenstar 30i ErP,47-406-62,33.9771,30.61,27.5 - 32.1,between 9.0 and 10.8%above 8.2%,between 8.0 and 10.6%,0.002,200,N/A,N/A,If Fan Pressure Is Less Than -6.2mb
-Worcester,Greenstar 32 CDi,47-406-46,36.2415,32.65,29.4 - 34.3,9.1(+1.0/-0.5),8.5(+/-1.0),0.0025,250,N/A,N/A,If Fan Preesure Is Less Than -4.4mb
-Worcester,4000  25c,47-800-30,27.195,24.5,22.1 - 25.7,between 8.4 and 10.4%,between 8.0 and 10.2%,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -3.8mb
-Worcester,4000 30c,47-800-32,32.634,29.4,26.5 - 30.9,between 8.4 and 10.4%,between 8.0 and 10.2%,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -5.1mb
-Worcester,4000 24s,47-800-15,27.306,24.6,22.1 - 25.8,between 8.4 and 10.4%,between 8.0 and 10.2%,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -3.4mb
-Worcester,Greenstar 12Ri,41-311-63,13.6752,12.32,11.1 - 12.9,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.6mb
-Worcester,Greenstar 15 Ri ErP+,41-406-76,17.094,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.4mb
-Worcester,Greenstar 15i System,41-311-84,17.094,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.8mb
-Worcester,Greenstar 15i Erp,41-406-43,17.094,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.5mb
-Worcester,Greenstar 15Ri,41-311-75,17.094,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.5mb
-Worcester,Greenstar 18i System,41-311-86,20.5128,18.48,16.6 - 19.4,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -8mb
-Worcester,Greenstar 18Ri,41-311-77,20.5128,18.48,16.6 - 19.4,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -7.4mb
-Worcester,Greenstar 2000 25c,47-800-26,28.305,25.5,23.0 - 26.8,between 9.0 and 10.8%above 8.2%,,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -3.2mb
-Worcester,Greenstar 25Si,47-311-84,28.3161,25.51,23.0 - 26.8,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.3mb
-Worcester,Greenstar 24i Junior,47-311-86,27.1839,24.49,22.0 - 25.7,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.1mb
-Worcester,Greenstar 29Cdi,47-406-34,34.299,30.9,27.8 - 32.4,9.6(+/-0.4),9.0(+/-0.4),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
+Worcester,Greenstar 24i System,41-311-68,27.33,24.62,22.2 - 25.9,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -4.1mb
+Worcester,24i Junior,47-311-69,28.75,25.9,23.3 - 27.2,between 6.5 and 7.5%,N/A,between 0.002 and 0.010,N/A,13.6,1.4,Yes
+Worcester,24i RSF,47-311-37,28.92,26.05,23.4 - 27.4,N/A,N/A,N/A,N/A,13.6,1,Yes
+Worcester,28Si,47-311-51,34.52,31.1,28.0 - 32.7,N/A,N/A,N/A,N/A,14.1,0.7,Yes
+Worcester,Greenstar 25i ErP,47-406-60,28.32,25.51,23.0 - 26.8,between 9.0 and 10.8%above 8.2%,between 8.0 and 10.6%,0.002,200,N/A,N/A,If Fan Pressure Is Less Than -4.5mb
+Worcester,28CDI,47-311-34,34.97,31.5,28.4 - 33.1,N/A,N/A,N/A,N/A,10.8,1,Yes
+Worcester,28i Junior,47-311-70,33.30,30,27.0 - 31.5,between 6.5 and 7.5%,N/A,between 0.002 and 0.010,N/A,14.7,1.2,Yes
+Worcester,28i RSF,47-311-54,33.30,30,27.0 - 31.5,N/A,N/A,N/A,N/A,13.5,1,Yes
+Worcester,Greenstar 30i ErP,47-406-62,33.98,30.61,27.5 - 32.1,between 9.0 and 10.8%above 8.2%,between 8.0 and 10.6%,0.002,200,N/A,N/A,If Fan Pressure Is Less Than -6.2mb
+s,Greenstar 32 CDi,47-406-46,36.24,32.65,29.4 - 34.3,9.1(+1.0/-0.5),8.5(+/-1.0),0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -4.4mb
+Worcester,4000  25c,47-800-30,27.20,24.5,22.1 - 25.7,between 8.4 and 10.4%,between 8.0 and 10.2%,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -3.8mb
+Worcester,4000 30c,47-800-32,32.63,29.4,26.5 - 30.9,between 8.4 and 10.4%,between 8.0 and 10.2%,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -5.1mb
+Worcester,4000 24s,47-800-15,27.31,24.6,22.1 - 25.8,between 8.4 and 10.4%,between 8.0 and 10.2%,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -3.4mb
+Worcester,Greenstar 12Ri,41-311-63,13.68,12.32,11.1 - 12.9,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.6mb
+Worcester,Greenstar 15 Ri ErP+,41-406-76,17.09,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.4mb
+Worcester,Greenstar 15i System,41-311-84,17.09,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.8mb
+Worcester,Greenstar 15i Erp,41-406-43,17.09,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.5mb
+Worcester,Greenstar 15Ri,41-311-75,17.09,15.4,13.9 - 16.2,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.5mb
+Worcester,Greenstar 18i System,41-311-86,20.51,18.48,16.6 - 19.4,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -8mb
+Worcester,Greenstar 18Ri,41-311-77,20.51,18.48,16.6 - 19.4,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -7.4mb
+Worcester,Greenstar 2000 25c,47-800-26,28.31,25.5,23.0 - 26.8,between 9.0 and 10.8%above 8.2%,,0.0025,250,N/A,N/A,If Fan Pressure Is Less Than -3.2mb
+Worcester,Greenstar 25Si,47-311-84,28.32,25.51,23.0 - 26.8,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.3mb
+Worcester,Greenstar 24i Junior,47-311-86,27.18,24.49,22.0 - 25.7,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.1mb
+Worcester,Greenstar 29Cdi,47-406-34,34.30,30.9,27.8 - 32.4,9.6(+/-0.4),9.0(+/-0.4),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
 Worcester,Greenstar 30CDi,47-406-14,35.52,32,28.8 - 33.6,9.6(+/-0.4),9.0(+/-0.4),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -4.1mb
-Worcester,Greenstar 30Si,47-311-85,33.9771,30.61,27.5 - 32.1,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.1mb
-Worcester,Greenstar 28i Junior,47-311-87,31.7127,28.57,25.7 - 30.0,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
-Worcester,Greenstar 24Ri,41-311-65,27.3282,24.62,22.2 - 25.9,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.1mb
-Worcester,Greenstar 28 Cdi Compact ,47-311-44,31.7127,28.57,25.7 - 30.0,9.1(+1.0/-0.5),8.5(+/-1.0),0.0025,250,N/A,N/A,If Fan Preesure Is Less Than -3.5mb
-Worcester,R 30 HE Plus,41-311-79,32.745,29.5,26.6 - 31.0,9.2,8.8,0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.2mb
+Worcester,Greenstar 30Si,47-311-85,33.98,30.61,27.5 - 32.1,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.1mb
+Worcester,Greenstar 28i Junior,47-311-87,31.71,28.57,25.7 - 30.0,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
+Worcester,Greenstar 24Ri,41-311-65,27.33,24.62,22.2 - 25.9,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.1mb
+Worcester,Greenstar 28 Cdi Compact ,47-311-44,31.71,28.57,25.7 - 30.0,9.1(+1.0/-0.5),8.5(+/-1.0),0.0025,250,N/A,N/A,If Fan Preesure Is Less Than -3.5mb
+Worcester,R 30 HE Plus,41-311-79,32.75,29.5,26.6 - 31.0,9.2,8.8,0.002,200,N/A,N/A,If Fan Pressure Is Less Than -5.2mb
 Worcester,Greenstar 28i Junior MkV,47-406-56,31.71,28.57,25.7 - 30.0,9.8(+/-0.5),9.2(+/-0.5),0.002,200,N/A,N/A,If Fan Pressure Is Less Than -3.9mb
