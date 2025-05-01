@@ -165,10 +165,23 @@
 
     const gcInput = document.getElementById('gcNumber');
     const suggestionsDiv = document.querySelector('.suggestions');
-    gcInput.parentNode.insertBefore(suggestionsDiv, gcInput.nextSibling);
 
     function normalizeGC(gc) {
       return gc.replace(/-/g, '').padStart(7, '0');
+    }
+
+    function displayBoilerInfo(boiler) {
+      const boilerResult = document.getElementById('boilerResult');
+      const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
+      const co2Range = `Max CO₂: ${boiler['Max Co2'] || ''}% / Min CO₂: ${boiler['Min Co2'] || ''}%<br>`;
+      const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
+      const co = `Max CO: ${boiler['Max Co(ppm)'] || ''} ppm<br>`;
+      const pressure = `Max Pressure: ${boiler['Max Burner Pressure (mb)'] || ''} mb / Min Pressure: ${boiler['Min Burner Pressure (mb)'] || ''} mb<br>`;
+      const strip = boiler['Strip Service Required']?.toLowerCase() === 'yes'
+        ? `<div class="small-note">*Strip Service Required</div>`
+        : '';
+
+      boilerResult.innerHTML = makeModel + co2Range + ratio + co + pressure + strip;
     }
 
     function showSuggestions(query) {
@@ -188,7 +201,7 @@
         div.addEventListener('click', () => {
           gcInput.value = entry["GC Number"];
           suggestionsDiv.innerHTML = '';
-          calculateRate();
+          displayBoilerInfo(entry);
         });
         suggestionsDiv.appendChild(div);
       });
