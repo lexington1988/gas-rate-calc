@@ -289,9 +289,12 @@ function setupGCInput() {
 
 // --- CSV Boiler Data Fetch using Axios ---
 function loadBoilerData() {
-  axios.get('https://https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/refs/heads/main/service_info_full.csv')
+  fetch('https://lexington1988.github.io/gas-rate-unfinished/service_info_full.csv')
     .then(response => {
-      const csv = response.data;
+      if (!response.ok) throw new Error('Network error');
+      return response.text();
+    })
+    .then(csv => {
       const lines = csv.trim().split('\n');
       const headers = lines[0].split(',');
 
@@ -302,10 +305,11 @@ function loadBoilerData() {
         return entry;
       });
 
-      console.log('Boiler data loaded:', window.boilerData); // Optional: confirm data loaded
+      console.log('Boiler data loaded:', window.boilerData); // Optional debug
     })
     .catch(err => console.error('CSV load error:', err));
 }
+
 
 
 // --- Search boiler data by GC number ---
