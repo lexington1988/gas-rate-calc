@@ -289,13 +289,15 @@ function setupGCInput() {
 
 // --- CSV Boiler Data Fetch using Axios ---
 function loadBoilerData() {
-  fetch('https://lexington1988.github.io/gas-rate-unfinished/service_info_full.csv')
+  fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
     .then(response => {
-      if (!response.ok) throw new Error('Network error');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       return response.text();
     })
-    .then(csv => {
-      const lines = csv.trim().split('\n');
+    .then(csvText => {
+      const lines = csvText.trim().split('\n');
       const headers = lines[0].split(',');
 
       window.boilerData = lines.slice(1).map(line => {
@@ -305,10 +307,11 @@ function loadBoilerData() {
         return entry;
       });
 
-      console.log('Boiler data loaded:', window.boilerData); // Optional debug
+      console.log('Boiler data loaded:', window.boilerData);
     })
     .catch(err => console.error('CSV load error:', err));
 }
+
 
 
 
