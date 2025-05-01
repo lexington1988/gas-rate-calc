@@ -180,8 +180,9 @@
       const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
       const co = `Max CO: ${boiler['Max Co (PPM)'] || ''} ppm<br>`;
       const pressure = `Max Pressure: ${boiler['Max (Burner Pressure Mb)'] || ''} mb / Min Pressure: ${boiler['Min (Burner Pressure Mb)'] || ''} mb<br>`;
-      const strip = boiler['Strip Service Required']?.toLowerCase() === 'yes'
-        ? `<div class="small-note">*Strip Service Required</div>`
+      const rawStrip = (boiler['Strip Service Required'] || '').trim();
+      const strip = rawStrip
+        ? `<div class="small-note"><strong>Strip Service Required:</strong> <em>${rawStrip.toLowerCase() === 'yes' ? 'Yes' : rawStrip}</em></div>`
         : '';
 
       boilerResult.innerHTML = makeModel + gross + net + tolerance + co2Range + ratio + co + pressure + strip;
