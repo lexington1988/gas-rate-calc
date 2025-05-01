@@ -289,7 +289,7 @@ function setupGCInput() {
 
 // --- CSV Boiler Data Fetch using Axios ---
 function loadBoilerData() {
-  axios.get('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
+  axios.get('https://https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/refs/heads/main/service_info_full.csv')
     .then(response => {
       const csv = response.data;
       const lines = csv.trim().split('\n');
