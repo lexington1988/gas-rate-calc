@@ -77,6 +77,13 @@
       position: relative;
       z-index: 100;
     }
+
+    /* ✅ Fix: Hide checkboxes but keep them functional */
+    .toggle-wrapper input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 
@@ -149,7 +156,6 @@
     <div id="boilerFinder" class="boiler-lookup">
       <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 47-311-87)">
       <div class="suggestions"></div>
-  
       <div id="boilerResult"></div>
     </div>
   </div>
@@ -159,11 +165,10 @@
 
   <script>
     function toggleBoilerFinder() {
-  const section = document.getElementById('boilerFinder');
-  section.style.display = 'block'; // Always show it
-  document.getElementById('gcNumber').focus(); // Auto-focus the input
-}
-
+      const section = document.getElementById('boilerFinder');
+      section.style.display = 'block';
+      document.getElementById('gcNumber').focus();
+    }
 
     const gcInput = document.getElementById('gcNumber');
     const suggestionsDiv = document.querySelector('.suggestions');
@@ -205,16 +210,14 @@
         div.style.padding = '5px';
         div.style.cursor = 'pointer';
         div.addEventListener('click', () => {
-  gcInput.value = entry["GC Number"];
-  suggestionsDiv.innerHTML = '';
-  displayBoilerInfo(entry);
-
-  // Auto-scroll to boiler result section
-  const resultBox = document.getElementById('boilerResult');
-  if (resultBox) {
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-});
+          gcInput.value = entry["GC Number"];
+          suggestionsDiv.innerHTML = '';
+          displayBoilerInfo(entry);
+          const resultBox = document.getElementById('boilerResult');
+          if (resultBox) {
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
 
         suggestionsDiv.appendChild(div);
       });
