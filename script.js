@@ -331,4 +331,9 @@ function findBoilerByGC(gcInput) {
 document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
+
+  const resultBox = document.getElementById('result');
+  if (resultBox && resultBox.innerText.trim() === '') {
+    resultBox.style.display = 'none';
+  }
 });
