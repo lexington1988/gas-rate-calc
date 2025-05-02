@@ -258,7 +258,11 @@ function resetForm() {
   document.getElementById('final').value = '';
   document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
   document.getElementById('result').textContent = '';
+  document.getElementById('boilerResult').innerHTML = '';
+  document.getElementById('gcNumber').value = ''; // ✅ clears GC Number input
 }
+
+
 
 // --- GC Number Input Auto Formatting ---
 function setupGCInput() {
