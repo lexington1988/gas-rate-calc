@@ -168,3 +168,12 @@ button:hover {
 #result:empty {
   display: none;
 }
+.boiler-lookup input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
