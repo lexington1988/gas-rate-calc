@@ -29,6 +29,7 @@ function toggleImperialMode() {
 
   resetTimerOnly();
   document.getElementById('result').textContent = '';
+  document.getElementById('result').style.display = 'none';
 
   const manualOption = [...modeSelect.options].find(opt => opt.value === 'manual');
 
@@ -154,17 +155,20 @@ function playBeep() {
 function calculateRate() {
   const result = document.getElementById('result');
   result.textContent = '';
+  result.style.display = 'none';
   let volume, duration;
 
   if (imperialMode) {
     const volumeUsed = parseFloat(document.getElementById('imperialVolume').value);
     if (isNaN(volumeUsed) || volumeUsed <= 0) {
       result.textContent = 'Please enter a valid volume used in ft³.';
+      result.style.display = 'block';
       return;
     }
 
     if (!stopwatchInterval && time === 0) {
       result.textContent = 'Please start and stop the timer.';
+      result.style.display = 'block';
       return;
     }
 
@@ -193,12 +197,13 @@ function calculateRate() {
       boilerDetails = makeModel + tolerance + co2Range + ratio + co + pressure + strip;
     }
 
-  result.innerHTML =
-  `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
-  `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
-  `Net Heat Input: ${netkW.toFixed(2)} kW`;
+    result.innerHTML =
+      `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
+      `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
+      `Net Heat Input: ${netkW.toFixed(2)} kW`;
+    result.style.display = 'block';
 
-document.getElementById('boilerResult').innerHTML = boilerDetails;
+    document.getElementById('boilerResult').innerHTML = boilerDetails;
 
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
@@ -206,6 +211,7 @@ document.getElementById('boilerResult').innerHTML = boilerDetails;
 
     if (isNaN(initial) || isNaN(final) || final <= initial) {
       result.textContent = 'Please enter valid initial and final readings.';
+      result.style.display = 'block';
       return;
     }
 
@@ -227,6 +233,7 @@ document.getElementById('boilerResult').innerHTML = boilerDetails;
       `Gas Rate: ${m3h.toFixed(2)} m³/hr<br>` +
       `Gross Heat Input: ${gross.toFixed(2)} kW<br>` +
       `Net Heat Input: ${net.toFixed(2)} kW`;
+    result.style.display = 'block';
   }
 
   result.scrollIntoView({ behavior: 'smooth' });
@@ -258,11 +265,10 @@ function resetForm() {
   document.getElementById('final').value = '';
   document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
   document.getElementById('result').textContent = '';
+  document.getElementById('result').style.display = 'none';
   document.getElementById('boilerResult').innerHTML = '';
-  document.getElementById('gcNumber').value = ''; // ✅ clears GC Number input
+  document.getElementById('gcNumber').value = '';
 }
-
-
 
 // --- GC Number Input Auto Formatting ---
 function setupGCInput() {
