@@ -164,3 +164,7 @@ button:hover {
   opacity: 0;
   pointer-events: none;
 }
+
+#result:empty {
+  display: none;
+}
