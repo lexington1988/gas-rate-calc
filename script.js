@@ -156,7 +156,7 @@ function calculateRate() {
   const result = document.getElementById('result');
   result.textContent = '';
   result.style.display = 'none';
-  document.getElementById('boilerResult').innerHTML = '';
+  renderBoilerInfo(); // ✅ Re-render boiler info if GC was entered
   let volume, duration, netkW;
 
   if (imperialMode) {
@@ -229,7 +229,6 @@ function applyToleranceWarning() {
   const boiler = findBoilerByGC(gc);
   const netKWSpan = document.getElementById('netKW');
 
-  // Create or get the message element
   let message = document.getElementById('toleranceMessage');
   if (!message) {
     message = document.createElement('div');
@@ -239,7 +238,6 @@ function applyToleranceWarning() {
     document.getElementById('result').appendChild(message);
   }
 
-  // Reset default styles
   message.textContent = '';
   message.style.color = '';
   netKWSpan.style.color = '';
@@ -273,8 +271,53 @@ function applyToleranceWarning() {
   }
 }
 
+function renderBoilerInfo() {
+  const gc = document.getElementById('gcNumber').value;
+  const boiler = findBoilerByGC(gc);
+  const boilerResult = document.getElementById('boilerResult');
+  boilerResult.innerHTML = '';
 
+  if (!boiler) return;
 
+  const keys = [
+    { label: 'Boiler Make & Model', key: 'Boiler' },
+    { label: 'Gross Heat Input', key: 'Gross Heat Input' },
+    { label: 'Net Heat Input', key: 'Net Heat Input' },
+    { label: 'Net kW (+5%/-10%)', key: 'Net kW (+5%/-10%)' },
+    { label: 'Max Co2%', key: 'Max Co2%' },
+    { label: 'Min Co2%', key: 'Min Co2%' },
+    { label: 'Max Ratio', key: 'Max Ratio' },
+    { label: 'Max Co(PPM)', key: 'Max Co(PPM)' },
+    { label: 'Max Burner Pressure (Mb)', key: 'Max Burner Pressure (Mb)' },
+    { label: 'Min Burner Pressure (Mb)', key: 'Min Burner Pressure (Mb)' }
+  ];
+
+  const container = document.createElement('div');
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = '1fr 1fr';
+  container.style.gap = '4px';
+
+  keys.forEach(item => {
+    const label = document.createElement('div');
+    label.style.fontWeight = 'bold';
+    label.textContent = item.label;
+
+    const value = document.createElement('div');
+    value.textContent = boiler[item.key] || '';
+
+    container.appendChild(label);
+    container.appendChild(value);
+  });
+
+  const note = document.createElement('div');
+  note.textContent = '*Strip Service Required';
+  note.style.gridColumn = 'span 2';
+  note.style.fontSize = '0.85em';
+  note.style.fontStyle = 'italic';
+
+  container.appendChild(note);
+  boilerResult.appendChild(container);
+}
 
 function resetTimerOnly() {
   clearInterval(countdown);
