@@ -239,9 +239,11 @@ function applyToleranceWarning() {
     document.getElementById('result').appendChild(message);
   }
 
-  // Reset default
+  // Reset default styles
   message.textContent = '';
   message.style.color = '';
+  netKWSpan.style.color = '';
+  netKWSpan.title = '';
 
   if (!boiler || !netKWSpan || lastCalculatedNetKW === null) return;
 
@@ -261,14 +263,16 @@ function applyToleranceWarning() {
   if (lastCalculatedNetKW < minKW || lastCalculatedNetKW > maxKW) {
     netKWSpan.style.color = 'red';
     netKWSpan.title = `Outside expected range: ${minKW} – ${maxKW} kW`;
-    message.textContent = '⚠ Outside of manufacturer’s tolerance';
+    message.innerHTML = '⚠️ <span style="color: red;">Outside of manufacturer’s tolerance</span>';
     message.style.color = 'red';
   } else {
-    netKWSpan.style.color = '';
-    netKWSpan.title = '';
-    message.textContent = '';
+    netKWSpan.style.color = 'green';
+    netKWSpan.title = `Within expected range: ${minKW} – ${maxKW} kW`;
+    message.innerHTML = '✅ <span style="color: green;">Within manufacturer’s tolerance</span>';
+    message.style.color = 'green';
   }
 }
+
 
 
 
