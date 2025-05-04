@@ -3,15 +3,11 @@ let stopwatchInterval;
 let time = 0;
 let isPaused = false;
 let imperialMode = false;
-let lastCalculatedNetKW = null;
 
 function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
-  document.getElementById('gcNumber').addEventListener('input', () => {
-    toggleMode();
-    applyToleranceWarning(); // ✅ Check Net kW when GC changes
-  });
+  document.getElementById('gcNumber').addEventListener('input', toggleMode);
   setupGCInput();
   toggleMode();
 }
@@ -40,7 +36,9 @@ function toggleImperialMode() {
   if (imperialMode) {
     status.textContent = 'Imperial mode activated';
     modeSelect.value = 'timer';
+
     if (manualOption) modeSelect.removeChild(manualOption);
+
     modeSelect.style.display = 'none';
     if (modeLabel) modeLabel.textContent = '';
 
@@ -52,12 +50,14 @@ function toggleImperialMode() {
     document.getElementById('duration').style.display = 'none';
   } else {
     status.textContent = '';
+
     if (!manualOption) {
       const newOption = document.createElement('option');
       newOption.value = 'manual';
       newOption.textContent = 'Manual Entry';
       modeSelect.insertBefore(newOption, modeSelect.firstChild);
     }
+
     modeSelect.style.display = '';
     if (modeLabel) modeLabel.textContent = 'Mode:';
 
@@ -156,8 +156,24 @@ function calculateRate() {
   const result = document.getElementById('result');
   result.textContent = '';
   result.style.display = 'none';
-  renderBoilerInfo(); // ✅ Re-render boiler info if GC was entered
-  let volume, duration, netkW;
+  let volume, duration;
+
+  const gc = document.getElementById('gcNumber').value;
+  const boiler = findBoilerByGC(gc);
+
+ function getToleranceRange(boiler) {
+  const raw = boiler?.['Net kW (+5%/-10%)'] || '';
+  const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/); // match two numbers
+  if (match) {
+    const min = parseFloat(match[1]); // correct order for your CSV
+    const max = parseFloat(match[2]);
+    if (!isNaN(max) && !isNaN(min)) {
+      return { max, min };
+    }
+  }
+  return null;
+}
+
 
   if (imperialMode) {
     const volumeUsed = parseFloat(document.getElementById('imperialVolume').value);
@@ -178,15 +194,43 @@ function calculateRate() {
     const calorificValue = 1040;
     const grossBTU = gasRate * calorificValue;
     const grosskW = grossBTU / 3412;
-    netkW = grosskW / 1.1;
+    const netkW = grosskW / 1.1;
 
-    lastCalculatedNetKW = netkW;
+    let netKWDisplay = `<span id="netKW">${netkW.toFixed(2)}</span>`;
+    let messageHTML = '';
+
+    const tolerance = getToleranceRange(boiler);
+    if (tolerance) {
+      if (netkW > tolerance.max || netkW < tolerance.min) {
+        netKWDisplay = `<span id="netKW" style="color:red;">${netkW.toFixed(2)}</span>`;
+        messageHTML = `<div style="color:red;font-weight:bold;margin-top:8px;">
+          ⚠️ Outside of manufacturer’s tolerance
+        </div>`;
+      } else {
+        messageHTML = `<div style="color:green;font-weight:bold;margin-top:8px;">
+          ✅ Within manufacturer’s tolerance
+        </div>`;
+      }
+    }
 
     result.innerHTML =
       `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
       `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
-      `Net Heat Input: <span id="netKW">${netkW.toFixed(2)}</span> kW`;
+      `Net Heat Input: ${netKWDisplay} kW` + messageHTML;
     result.style.display = 'block';
+
+    if (boiler) {
+      const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
+      const toleranceText = `Net Heat Input Range: ${(boiler['Net kW (+5%/-10%)'] || '')} kW<br>`;
+      const co2Range = `Max CO₂: ${boiler['Max CO2%'] || ''}% / Min CO₂: ${boiler['Min CO2%'] || ''}%<br>`;
+      const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
+      const co = `Max CO: ${boiler['Max Co (PPM)'] || ''} ppm<br>`;
+      const pressure = `Max Pressure: ${boiler['Max (Burner Pressure Mb)'] || ''} mb / Min Pressure: ${boiler['Min (Burner Pressure Mb)'] || ''} mb<br>`;
+      const strip = boiler['Strip Service Required']?.toLowerCase() === 'yes'
+        ? `<small>*Strip Service Required</small><br>` : '';
+      document.getElementById('boilerResult').innerHTML = makeModel + toleranceText + co2Range + ratio + co + pressure + strip;
+    }
+
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
@@ -209,115 +253,37 @@ function calculateRate() {
     const calorificValue = gasType === 'natural' ? 39.3 : 93.2;
 
     const gross = (3600 * calorificValue * volume) / (duration * 3.6);
-    netkW = gross / 1.1;
+    const net = gross / 1.1;
 
-    lastCalculatedNetKW = netkW;
+    let netKWDisplay = `<span id="netKW">${net.toFixed(2)}</span>`;
+    let messageHTML = '';
+
+    const tolerance = getToleranceRange(boiler);
+    if (tolerance) {
+      if (net > tolerance.max || net < tolerance.min) {
+        netKWDisplay = `<span id="netKW" style="color:red;">${net.toFixed(2)}</span>`;
+        messageHTML = `<div style="color:red;font-weight:bold;margin-top:8px;">
+          ⚠️ Outside of manufacturer’s tolerance
+        </div>`;
+      } else {
+        messageHTML = `<div style="color:green;font-weight:bold;margin-top:8px;">
+          ✅ Within manufacturer’s tolerance
+        </div>`;
+      }
+    }
 
     result.innerHTML =
       `Gas Rate: ${m3h.toFixed(2)} m³/hr<br>` +
       `Gross Heat Input: ${gross.toFixed(2)} kW<br>` +
-      `Net Heat Input: <span id="netKW">${netkW.toFixed(2)}</span> kW`;
+      `Net Heat Input: ${netKWDisplay} kW` + messageHTML;
     result.style.display = 'block';
   }
 
-  applyToleranceWarning(); // ✅ Call after result is shown
   result.scrollIntoView({ behavior: 'smooth' });
 }
 
-function applyToleranceWarning() {
-  const gc = document.getElementById('gcNumber').value;
-  const boiler = findBoilerByGC(gc);
-  const netKWSpan = document.getElementById('netKW');
 
-  let message = document.getElementById('toleranceMessage');
-  if (!message) {
-    message = document.createElement('div');
-    message.id = 'toleranceMessage';
-    message.style.marginTop = '5px';
-    message.style.fontWeight = 'bold';
-    document.getElementById('result').appendChild(message);
-  }
 
-  message.textContent = '';
-  message.style.color = '';
-  netKWSpan.style.color = '';
-  netKWSpan.title = '';
-
-  if (!boiler || !netKWSpan || lastCalculatedNetKW === null) return;
-
-  const toleranceField = boiler['Net kW (+5%/-10%)'];
-  if (!toleranceField) return;
-
-  const match = toleranceField.match(/([\d.]+)\s*[-–]\s*([\d.]+)/);
-  if (!match) return;
-
-  let val1 = parseFloat(match[1]);
-  let val2 = parseFloat(match[2]);
-  if (isNaN(val1) || isNaN(val2)) return;
-
-  const minKW = Math.min(val1, val2);
-  const maxKW = Math.max(val1, val2);
-
-  if (lastCalculatedNetKW < minKW || lastCalculatedNetKW > maxKW) {
-    netKWSpan.style.color = 'red';
-    netKWSpan.title = `Outside expected range: ${minKW} – ${maxKW} kW`;
-    message.innerHTML = '⚠️ <span style="color: red;">Outside of manufacturer’s tolerance</span>';
-    message.style.color = 'red';
-  } else {
-    netKWSpan.style.color = 'green';
-    netKWSpan.title = `Within expected range: ${minKW} – ${maxKW} kW`;
-    message.innerHTML = '✅ <span style="color: green;">Within manufacturer’s tolerance</span>';
-    message.style.color = 'green';
-  }
-}
-
-function renderBoilerInfo() {
-  const gc = document.getElementById('gcNumber').value;
-  const boiler = findBoilerByGC(gc);
-  const boilerResult = document.getElementById('boilerResult');
-  boilerResult.innerHTML = '';
-
-  if (!boiler) return;
-
-  const keys = [
-    { label: 'Boiler Make & Model', key: 'Boiler' },
-    { label: 'Gross Heat Input', key: 'Gross Heat Input' },
-    { label: 'Net Heat Input', key: 'Net Heat Input' },
-    { label: 'Net kW (+5%/-10%)', key: 'Net kW (+5%/-10%)' },
-    { label: 'Max Co2%', key: 'Max Co2%' },
-    { label: 'Min Co2%', key: 'Min Co2%' },
-    { label: 'Max Ratio', key: 'Max Ratio' },
-    { label: 'Max Co(PPM)', key: 'Max Co(PPM)' },
-    { label: 'Max Burner Pressure (Mb)', key: 'Max Burner Pressure (Mb)' },
-    { label: 'Min Burner Pressure (Mb)', key: 'Min Burner Pressure (Mb)' }
-  ];
-
-  const container = document.createElement('div');
-  container.style.display = 'grid';
-  container.style.gridTemplateColumns = '1fr 1fr';
-  container.style.gap = '4px';
-
-  keys.forEach(item => {
-    const label = document.createElement('div');
-    label.style.fontWeight = 'bold';
-    label.textContent = item.label;
-
-    const value = document.createElement('div');
-    value.textContent = boiler[item.key] || '';
-
-    container.appendChild(label);
-    container.appendChild(value);
-  });
-
-  const note = document.createElement('div');
-  note.textContent = '*Strip Service Required';
-  note.style.gridColumn = 'span 2';
-  note.style.fontSize = '0.85em';
-  note.style.fontStyle = 'italic';
-
-  container.appendChild(note);
-  boilerResult.appendChild(container);
-}
 
 function resetTimerOnly() {
   clearInterval(countdown);
@@ -341,7 +307,6 @@ function resetTimerOnly() {
 
 function resetForm() {
   resetTimerOnly();
-  lastCalculatedNetKW = null;
   document.getElementById('initial').value = '';
   document.getElementById('final').value = '';
   document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
@@ -353,6 +318,7 @@ function resetForm() {
 
 function setupGCInput() {
   const gcInput = document.getElementById('gcNumber');
+
   if (!gcInput) return;
 
   gcInput.addEventListener('input', function (e) {
@@ -405,4 +371,9 @@ function findBoilerByGC(gcInput) {
 document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
+
+  const resultBox = document.getElementById('result');
+  if (resultBox && resultBox.innerText.trim() === '') {
+    resultBox.style.display = 'none';
+  }
 });
