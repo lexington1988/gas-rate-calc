@@ -10,6 +10,16 @@ function init() {
   document.getElementById('gcNumber').addEventListener('input', toggleMode);
   setupGCInput();
   toggleMode();
+  document.getElementById('duration').addEventListener('change', handleDurationChange);
+
+}
+
+function handleDurationChange() {
+  if (!imperialMode) {
+    resetTimerOnly();
+    const newDuration = parseInt(document.getElementById('duration').value);
+    document.getElementById('timeLeft').textContent = formatTime(newDuration);
+  }
 }
 
 function toggleDarkMode() {
