@@ -10,15 +10,16 @@ function init() {
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
   document.getElementById('gcNumber').addEventListener('input', toggleMode);
+  document.getElementById('mode').addEventListener('change', resetTimerOnly);
+  document.getElementById('duration').addEventListener('change', resetTimerOnly);
   setupGCInput();
   toggleMode();
 
-  // ✅ New: run boiler info/tolerance check after GC is entered
   document.getElementById('gcNumber').addEventListener('blur', () => {
     const gc = document.getElementById('gcNumber').value;
     const boiler = findBoilerByGC(gc);
     if (boiler) {
-      showBoilerInfo(boiler); // this will also trigger the tolerance message if calculation was already done
+      showBoilerInfo(boiler);
     }
   });
 }
@@ -42,17 +43,16 @@ function toggleImperialMode() {
   document.getElementById('result').textContent = '';
   document.getElementById('result').style.display = 'none';
 
+  document.getElementById('calculateBtn').style.display = imperialMode ? 'none' : 'inline-block';
+
   const manualOption = [...modeSelect.options].find(opt => opt.value === 'manual');
 
   if (imperialMode) {
     status.textContent = 'Imperial mode activated';
     modeSelect.value = 'timer';
-
     if (manualOption) modeSelect.removeChild(manualOption);
-
     modeSelect.style.display = 'none';
     if (modeLabel) modeLabel.textContent = '';
-
     imperialVolumeSection.style.display = 'block';
     imperialVolumeInput.value = '0.991';
     imperialVolumeInput.readOnly = true;
@@ -61,17 +61,14 @@ function toggleImperialMode() {
     document.getElementById('duration').style.display = 'none';
   } else {
     status.textContent = '';
-
     if (!manualOption) {
       const newOption = document.createElement('option');
       newOption.value = 'manual';
       newOption.textContent = 'Manual Entry';
       modeSelect.insertBefore(newOption, modeSelect.firstChild);
     }
-
     modeSelect.style.display = '';
     if (modeLabel) modeLabel.textContent = 'Mode:';
-
     imperialVolumeSection.style.display = 'none';
     imperialVolumeInput.readOnly = false;
     meterReadings.style.display = 'block';
@@ -94,14 +91,12 @@ function toggleMode() {
 
 function startTimer() {
   const startBtn = document.getElementById('startBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
   const timeLeft = document.getElementById('timeLeft');
 
   if (imperialMode) {
     if (!stopwatchInterval) {
-      time = 0;
+      isPaused = false;
       startBtn.textContent = 'Stop Timer';
-      timeLeft.textContent = formatTime(time);
       stopwatchInterval = setInterval(() => {
         if (!isPaused) {
           time++;
@@ -112,17 +107,29 @@ function startTimer() {
       clearInterval(stopwatchInterval);
       stopwatchInterval = null;
       startBtn.textContent = 'Start Timer';
+      calculateRate();
     }
+    return;
+  }
+
+  // METRIC MODE
+  if (countdown && !isPaused) {
+    isPaused = true;
+    startBtn.textContent = 'Resume';
+    return;
+  }
+
+  if (countdown && isPaused) {
+    isPaused = false;
+    startBtn.textContent = 'Pause';
     return;
   }
 
   const duration = parseInt(document.getElementById('duration').value);
   let secondsLeft = duration;
-
-  clearInterval(countdown);
-  startBtn.style.display = 'none';
-  pauseBtn.style.display = 'inline-block';
-  timeLeft.classList.remove('highlight');
+  timeLeft.textContent = formatTime(secondsLeft);
+  isPaused = false;
+  startBtn.textContent = 'Pause';
 
   countdown = setInterval(() => {
     if (!isPaused) {
@@ -134,19 +141,15 @@ function startTimer() {
       }
       if (secondsLeft <= 0) {
         clearInterval(countdown);
-        document.getElementById('startBtn').style.display = 'inline-block';
-        pauseBtn.style.display = 'none';
+        countdown = null;
+        startBtn.textContent = 'Start Timer';
         timeLeft.classList.remove('highlight');
         timeLeft.textContent = '0:00';
         playBeep();
+        calculateRate();
       }
     }
   }, 1000);
-}
-
-function togglePauseResume() {
-  isPaused = !isPaused;
-  document.getElementById('pauseBtn').textContent = isPaused ? 'Resume' : 'Pause';
 }
 
 function formatTime(seconds) {
@@ -178,7 +181,7 @@ function calculateRate() {
       return;
     }
 
-    if (!stopwatchInterval && time === 0) {
+    if (time === 0) {
       result.textContent = 'Please start and stop the timer.';
       result.style.display = 'block';
       return;
@@ -252,14 +255,15 @@ function resetTimerOnly() {
 
   const timeLeft = document.getElementById('timeLeft');
   const startBtn = document.getElementById('startBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
 
-  timeLeft.textContent = '0:00';
+  const duration = parseInt(document.getElementById('duration').value);
+  timeLeft.textContent = formatTime(imperialMode ? 0 : duration);
+
   timeLeft.classList.remove('highlight');
   startBtn.textContent = 'Start Timer';
   startBtn.style.display = 'inline-block';
-  pauseBtn.style.display = 'none';
-  pauseBtn.textContent = 'Pause';
+
+  document.getElementById('calculateBtn').style.display = imperialMode ? 'none' : 'inline-block';
 }
 
 function resetForm() {
@@ -269,6 +273,7 @@ function resetForm() {
   document.getElementById('imperialVolume').value = imperialMode ? '0.991' : '';
   document.getElementById('result').textContent = '';
   document.getElementById('result').style.display = 'none';
+  document.getElementById('calculateBtn').style.display = imperialMode ? 'none' : 'inline-block';
   document.getElementById('boilerResult').innerHTML = '';
   document.getElementById('gcNumber').value = '';
 }
