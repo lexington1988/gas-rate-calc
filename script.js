@@ -161,19 +161,18 @@ function calculateRate() {
   const gc = document.getElementById('gcNumber').value;
   const boiler = findBoilerByGC(gc);
 
- function getToleranceRange(boiler) {
-  const raw = boiler?.['Net kW (+5%/-10%)'] || '';
-  const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/); // match two numbers
-  if (match) {
-    const min = parseFloat(match[1]); // correct order for your CSV
-    const max = parseFloat(match[2]);
-    if (!isNaN(max) && !isNaN(min)) {
-      return { max, min };
+  function getToleranceRange(boiler) {
+    const raw = boiler?.['Net kW (+5%/-10%)'] || '';
+    const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/); // match two numbers like "25.5 - 29.7"
+    if (match) {
+      const min = parseFloat(match[1]); // Your CSV uses min - max
+      const max = parseFloat(match[2]);
+      if (!isNaN(min) && !isNaN(max)) {
+        return { min, max };
+      }
     }
+    return null;
   }
-  return null;
-}
-
 
   if (imperialMode) {
     const volumeUsed = parseFloat(document.getElementById('imperialVolume').value);
@@ -201,12 +200,13 @@ function calculateRate() {
 
     const tolerance = getToleranceRange(boiler);
     if (tolerance) {
-      if (netkW > tolerance.max || netkW < tolerance.min) {
+      if (netkW < tolerance.min || netkW > tolerance.max) {
         netKWDisplay = `<span id="netKW" style="color:red;">${netkW.toFixed(2)}</span>`;
         messageHTML = `<div style="color:red;font-weight:bold;margin-top:8px;">
           ⚠️ Outside of manufacturer’s tolerance
         </div>`;
       } else {
+        netKWDisplay = `<span id="netKW" style="color:green;">${netkW.toFixed(2)}</span>`;
         messageHTML = `<div style="color:green;font-weight:bold;margin-top:8px;">
           ✅ Within manufacturer’s tolerance
         </div>`;
@@ -260,12 +260,13 @@ function calculateRate() {
 
     const tolerance = getToleranceRange(boiler);
     if (tolerance) {
-      if (net > tolerance.max || net < tolerance.min) {
+      if (net < tolerance.min || net > tolerance.max) {
         netKWDisplay = `<span id="netKW" style="color:red;">${net.toFixed(2)}</span>`;
         messageHTML = `<div style="color:red;font-weight:bold;margin-top:8px;">
           ⚠️ Outside of manufacturer’s tolerance
         </div>`;
       } else {
+        netKWDisplay = `<span id="netKW" style="color:green;">${net.toFixed(2)}</span>`;
         messageHTML = `<div style="color:green;font-weight:bold;margin-top:8px;">
           ✅ Within manufacturer’s tolerance
         </div>`;
