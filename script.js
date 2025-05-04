@@ -21,6 +21,8 @@ function init() {
     const boiler = findBoilerByGC(gc);
     if (boiler) {
       showBoilerInfo(boiler);
+    } else if (gc.trim()) {
+      document.getElementById('boilerResult').innerHTML = '<em>No boiler found for this G.C. number</em>';
     }
   });
 }
@@ -205,7 +207,12 @@ function calculateRate() {
       `Net Heat Input: ${netKWDisplay} kW`;
     result.style.display = 'block';
 
-    if (boiler) showBoilerInfo(boiler);
+    if (boiler) {
+      showBoilerInfo(boiler);
+    } else if (gc.trim()) {
+      document.getElementById('boilerResult').innerHTML = '<em>No boiler found for this G.C. number</em>';
+    }
+
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
@@ -241,7 +248,11 @@ function calculateRate() {
       `Net Heat Input: ${netKWDisplay} kW`;
     result.style.display = 'block';
 
-    if (boiler) showBoilerInfo(boiler);
+    if (boiler) {
+      showBoilerInfo(boiler);
+    } else if (gc.trim()) {
+      document.getElementById('boilerResult').innerHTML = '<em>No boiler found for this G.C. number</em>';
+    }
   }
 
   result.scrollIntoView({ behavior: 'smooth' });
@@ -333,8 +344,8 @@ function findBoilerByGC(gcInput) {
 
 function showBoilerInfo(boiler) {
   const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
-  const gross = `Gross Heat Input (from data): ${boiler['kW Gross'] || ''} kW<br>`;
-  const net = `Net Heat Input (from data): ${boiler['kW Net'] || ''} kW<br>`;
+  const gross = `Gross Heat Input: ${boiler['kW Gross'] || ''} kW<br>`;
+  const net = `Net Heat Input: ${boiler['kW Net'] || ''} kW<br>`;
   const tolerance = `Net kW (+5%/-10%): ${boiler['Net kW (+5%/-10%)'] || ''}<br>`;
   const co2Range = `Max CO₂: ${boiler['Max CO2%'] || ''}% / Min CO₂: ${boiler['Min CO2%'] || ''}%<br>`;
   const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
