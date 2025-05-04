@@ -4,6 +4,7 @@ let time = 0;
 let isPaused = false;
 let imperialMode = false;
 let lastNetKW = null;
+let lastGrossKW = null;
 let lastNetKWMode = null;
 
 function init() {
@@ -112,7 +113,6 @@ function startTimer() {
     return;
   }
 
-  // METRIC MODE
   if (countdown && !isPaused) {
     isPaused = true;
     startBtn.textContent = 'Resume';
@@ -194,6 +194,7 @@ function calculateRate() {
     const grosskW = grossBTU / 3412;
     const netkW = grosskW / 1.1;
 
+    lastGrossKW = grosskW;
     lastNetKW = netkW;
     lastNetKWMode = 'imperial';
 
@@ -229,6 +230,7 @@ function calculateRate() {
     const gross = (3600 * calorificValue * volume) / (duration * 3.6);
     const net = gross / 1.1;
 
+    lastGrossKW = gross;
     lastNetKW = net;
     lastNetKWMode = 'metric';
 
@@ -331,46 +333,51 @@ function findBoilerByGC(gcInput) {
 
 function showBoilerInfo(boiler) {
   const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
-  const toleranceText = `Net Heat Input Range: ${(boiler['Net kW (+5%/-10%)'] || '')} kW<br>`;
+  const gross = `Gross Heat Input (from data): ${boiler['kW Gross'] || ''} kW<br>`;
+  const net = `Net Heat Input (from data): ${boiler['kW Net'] || ''} kW<br>`;
+  const tolerance = `Net kW (+5%/-10%): ${boiler['Net kW (+5%/-10%)'] || ''}<br>`;
   const co2Range = `Max CO₂: ${boiler['Max CO2%'] || ''}% / Min CO₂: ${boiler['Min CO2%'] || ''}%<br>`;
   const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
   const co = `Max CO: ${boiler['Max Co (PPM)'] || ''} ppm<br>`;
   const pressure = `Max Pressure: ${boiler['Max (Burner Pressure Mb)'] || ''} mb / Min Pressure: ${boiler['Min (Burner Pressure Mb)'] || ''} mb<br>`;
-  const strip = boiler['Strip Service Required']?.toLowerCase() === 'yes'
-    ? `<small>*Strip Service Required</small><br>` : '';
-  document.getElementById('boilerResult').innerHTML = makeModel + toleranceText + co2Range + ratio + co + pressure + strip;
+  const rawStrip = (boiler['Strip Service Required'] || '').trim();
+  const strip = rawStrip
+    ? `<div class="small-note"><strong>Strip Service Required:</strong> <em>${rawStrip.toLowerCase() === 'yes' ? 'Yes' : rawStrip}</em></div>`
+    : '';
 
-  if (lastNetKW !== null) {
-    const raw = boiler?.['Net kW (+5%/-10%)'] || '';
-    const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/);
-    if (match) {
-      const min = parseFloat(match[1]);
-      const max = parseFloat(match[2]);
-      if (!isNaN(min) && !isNaN(max)) {
-        const resultBox = document.getElementById('result');
-        const netKWSpan = document.getElementById('netKW');
+  let html = makeModel + gross + net + tolerance + co2Range + ratio + co + pressure + strip;
 
-        if (netKWSpan && resultBox) {
-          const outOfRange = lastNetKW < min || lastNetKW > max;
-          netKWSpan.style.color = outOfRange ? 'red' : 'green';
 
-          const existingMsg = resultBox.querySelector('.tolerance-message');
-          if (existingMsg) existingMsg.remove();
 
-          const msg = document.createElement('div');
-          msg.className = 'tolerance-message';
-          msg.style.color = outOfRange ? 'red' : 'green';
-          msg.style.fontWeight = 'bold';
-          msg.style.marginTop = '8px';
-          msg.innerHTML = outOfRange
-            ? '⚠️ Outside of manufacturer’s tolerance'
-            : '✅ Within manufacturer’s tolerance';
+  document.getElementById('boilerResult').innerHTML = html;
 
-          resultBox.appendChild(msg);
-        }
-      }
+ const raw = boiler?.['Net kW (+5%/-10%)'] || '';
+const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/);
+if (match && lastNetKW !== null) {
+  const min = parseFloat(match[1]);
+  const max = parseFloat(match[2]);
+  if (!isNaN(min) && !isNaN(max)) {
+    const netKWSpan = document.getElementById('netKW');
+    const outOfRange = lastNetKW < min || lastNetKW > max;
+    netKWSpan.style.color = outOfRange ? 'red' : 'green';
+
+    const message = document.createElement('div');
+    message.className = 'tolerance-message';
+    message.style.color = outOfRange ? 'red' : 'green';
+    message.style.fontWeight = 'bold';
+    message.style.marginTop = '6px';
+    message.innerHTML = outOfRange
+      ? '⚠️ Outside of manufacturer’s tolerance'
+      : '✅ Within manufacturer’s tolerance';
+
+    const resultBox = document.getElementById('result');
+    if (resultBox && resultBox.style.display !== 'none') {
+      resultBox.appendChild(message);
     }
   }
+}
+
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
