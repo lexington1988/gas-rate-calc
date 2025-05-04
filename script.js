@@ -67,6 +67,12 @@ function toggleImperialMode() {
     durationLabel.style.display = '';
     document.getElementById('duration').style.display = '';
   }
+const calculateBtn = document.getElementById('calculateBtn');
+if (imperialMode) {
+  calculateBtn.style.display = 'none';
+} else {
+  calculateBtn.style.display = 'inline-block';
+}
 
   toggleMode();
   toggleDarkMode();
@@ -87,25 +93,24 @@ function startTimer() {
   const timeLeft = document.getElementById('timeLeft');
 
   if (imperialMode) {
-    if (!stopwatchInterval) {
-      time = 0;
-      startBtn.textContent = 'Stop Timer';
-      timeLeft.textContent = formatTime(time);
-      stopwatchInterval = setInterval(() => {
-        if (!isPaused) {
-          time++;
-          timeLeft.textContent = formatTime(time);
-        }
-      }, 1000);
-    } else {
-      clearInterval(stopwatchInterval);
-      stopwatchInterval = null;
-      timeLeft.textContent = '0:00';
-      startBtn.textContent = 'Start Timer';
-      time = 0;
-    }
-    return;
+  if (!stopwatchInterval) {
+    startBtn.textContent = 'Stop Timer';
+    stopwatchInterval = setInterval(() => {
+      if (!isPaused) {
+        time++;
+        timeLeft.textContent = formatTime(time);
+      }
+    }, 1000);
+  } else {
+    clearInterval(stopwatchInterval);
+    stopwatchInterval = null;
+    startBtn.textContent = 'Start Timer';
+    calculateRate(); // ✅ Auto-calculate when stopping the timer
   }
+  return;
+}
+
+
 
   const duration = parseInt(document.getElementById('duration').value);
   let secondsLeft = duration;
