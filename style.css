@@ -176,4 +176,29 @@ button:hover {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
-
+.boiler-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  background: #f0e6ff;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #4B0082;
+}
+.boiler-card strong {
+  grid-column: span 2;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.boiler-card .label {
+  font-weight: bold;
+}
+.boiler-card .value {
+  font-size: 1rem;
+}
+.dark-mode .boiler-card {
+  background: #3c2b55;
+  color: #e2cfff;
+}
