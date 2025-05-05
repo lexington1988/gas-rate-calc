@@ -403,16 +403,16 @@ if (resultBox && resultBox.style.display !== 'none') {
       <div class="boiler-title">${make} ${model}</div>
       <div class="boiler-grid">
         <div>
-          <div class="label">Gross Heat Input</div>
-          <div class="value">${gross} kW</div>
+        <div class="label">Net Heat Input</div>
+          <div class="value ${netClass}" id="boilerNetKW">${net} kW</div> 
         </div>
         <div>
-          <div class="label">Net Heat Input</div>
-          <div class="value ${netClass}" id="boilerNetKW">${net} kW</div>
-        </div>
-        <div>
-          <div class="label">Net Heat Input Range</div>
+        <div class="label">Net Heat Input Range</div>
           <div class="value">${netRange}</div>
+        </div>
+        <div>
+        <div class="label">Gross Heat Input</div>
+          <div class="value">${gross} kW</div> 
         </div>
         <div>
           <div class="label">Max CO</div>
@@ -423,12 +423,12 @@ if (resultBox && resultBox.style.display !== 'none') {
           <div class="value">Max: ${maxCO2}%<br>Min: ${minCO2}%</div>
         </div>
         <div>
-          <div class="label">Burner Pressure</div>
-          <div class="value">Max: ${maxPressure} mb<br>Min: ${minPressure} mb</div>
+         <div class="label">Max Ratio</div>
+          <div class="value">${ratio}</div>
         </div>
         <div>
-          <div class="label">Max Ratio</div>
-          <div class="value">${ratio}</div>
+        <div class="label">Burner Pressure</div>
+          <div class="value">Max: ${maxPressure} mb<br>Min: ${minPressure} mb</div> 
         </div>
         <div>
           <div class="label">Strip Service Required</div>
