@@ -168,37 +168,80 @@ button:hover {
 #result:empty {
   display: none;
 }
-.boiler-lookup input[type="text"] {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
 .boiler-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem 1rem;
-  background: #f0e6ff;
+  background: white;
   border-radius: 12px;
   padding: 1rem;
+  box-shadow: 0 2px 10px rgba(128, 0, 128, 0.1);
+  font-family: Arial, sans-serif;
   margin-top: 1rem;
-  color: #4B0082;
+  transition: background-color 0.3s ease;
 }
-.boiler-card strong {
-  grid-column: span 2;
-  font-size: 1.2rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-.boiler-card .label {
-  font-weight: bold;
-}
-.boiler-card .value {
-  font-size: 1rem;
-}
+
 .dark-mode .boiler-card {
-  background: #3c2b55;
-  color: #e2cfff;
+  background: #2c2c3e;
+  color: #e0d1ff;
+}
+
+.boiler-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #6a0dad;
+}
+
+.dark-mode .boiler-title {
+  color: #d6b3ff;
+}
+
+.boiler-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.2rem;
+}
+
+.dark-mode .label {
+  color: #aaa;
+}
+
+.value {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.dark-mode .value {
+  color: #f0f0f0;
+}
+
+.value.green {
+  color: green;
+}
+
+.value.red {
+  color: red;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.tag.yes {
+  background-color: #8a2be2;
+}
+
+.tag.no {
+  background-color: gray;
 }
