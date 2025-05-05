@@ -21,8 +21,6 @@ function init() {
     const boiler = findBoilerByGC(gc);
     if (boiler) {
       showBoilerInfo(boiler);
-    } else if (gc.trim()) {
-      document.getElementById('boilerResult').innerHTML = '<em>No boiler found for this G.C. number</em>';
     }
   });
 }
@@ -207,12 +205,7 @@ function calculateRate() {
       `Net Heat Input: ${netKWDisplay} kW`;
     result.style.display = 'block';
 
-    if (boiler) {
-      showBoilerInfo(boiler);
-    } else if (gc.trim()) {
-      document.getElementById('boilerResult').innerHTML = '<em>No boiler found for this G.C. number</em>';
-    }
-
+    if (boiler) showBoilerInfo(boiler);
   } else {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
@@ -248,11 +241,7 @@ function calculateRate() {
       `Net Heat Input: ${netKWDisplay} kW`;
     result.style.display = 'block';
 
-    if (boiler) {
-      showBoilerInfo(boiler);
-    } else if (gc.trim()) {
-      document.getElementById('boilerResult').innerHTML = '<em>No boiler found for this G.C. number</em>';
-    }
+    if (boiler) showBoilerInfo(boiler);
   }
 
   result.scrollIntoView({ behavior: 'smooth' });
@@ -289,7 +278,13 @@ function resetForm() {
   document.getElementById('calculateBtn').style.display = imperialMode ? 'none' : 'inline-block';
   document.getElementById('boilerResult').innerHTML = '';
   document.getElementById('gcNumber').value = '';
+
+  // ✅ Clear any last calculated values
+  lastNetKW = null;
+  lastGrossKW = null;
+  lastNetKWMode = null;
 }
+
 
 function setupGCInput() {
   const gcInput = document.getElementById('gcNumber');
@@ -343,67 +338,82 @@ function findBoilerByGC(gcInput) {
 }
 
 function showBoilerInfo(boiler) {
-  const boilerResult = document.getElementById('boilerResult');
   const make = boiler.Make?.trim() || '';
   const model = boiler.Model?.trim() || '';
+  const gross = boiler['kW Gross'] || '';
+  const net = boiler['kW Net'] || '';
+  const netRange = boiler['Net kW (+5%/-10%)'] || '';
+  const maxCO2 = boiler['Max CO2%'] || '';
+  const minCO2 = boiler['Min CO2%'] || '';
+  const maxCO = boiler['Max Co (PPM)'] || '';
+  const maxPressure = boiler['Max (Burner Pressure Mb)'] || '';
+  const minPressure = boiler['Min (Burner Pressure Mb)'] || '';
+  const ratio = boiler['Max Ratio'] || '';
+  const stripRaw = boiler['Strip Service Required']?.trim().toLowerCase() || '';
+  const strip = stripRaw === 'yes' ? 'yes' : stripRaw || 'no';
+  const stripBadge = `<span class="tag ${strip === 'yes' ? 'yes' : 'no'}">${strip.charAt(0).toUpperCase() + strip.slice(1)}</span>`;
 
-  const fields = [
-    { label: 'Gross Heat Input', value: `${boiler['kW Gross'] || ''} kW` },
-    { label: 'Net Heat Input', value: `${boiler['kW Net'] || ''} kW` },
-    { label: 'Net kW Range', value: boiler['Net kW (+5%/-10%)'] || '' },
-    { label: 'Max CO₂', value: `${boiler['Max CO2%'] || ''}%` },
-    { label: 'Min CO₂', value: `${boiler['Min CO2%'] || ''}%` },
-    { label: 'Max CO (PPM)', value: boiler['Max Co (PPM)'] || '' },
-    { label: 'Max Ratio', value: boiler['Max Ratio'] || '' },
-    { label: 'Max Pressure (Mb)', value: boiler['Max (Burner Pressure Mb)'] || '' },
-    { label: 'Min Pressure (Mb)', value: boiler['Min (Burner Pressure Mb)'] || '' },
-  ];
-
-  let html = `<div class="boiler-card">
-    <strong>${make} ${model}</strong>`;
-
-  fields.forEach(({ label, value }) => {
-    html += `<div class="label">${label}</div><div class="value">${value}</div>`;
-  });
-
-  const rawStrip = (boiler['Strip Service Required'] || '').trim();
-  if (rawStrip) {
-    html += `<div class="label">Strip Service Required</div><div class="value">${rawStrip}</div>`;
-  }
-
-  html += `</div>`;
-  boilerResult.innerHTML = html;
-
-  // Tolerance warning logic
-  const raw = boiler?.['Net kW (+5%/-10%)'] || '';
-  const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/);
+  // Tolerance logic
+  let toleranceMessage = '';
+  let netClass = '';
+  const match = netRange.match(/([\d.]+)[^\d]+([\d.]+)/);
   if (match && lastNetKW !== null) {
     const min = parseFloat(match[1]);
     const max = parseFloat(match[2]);
     if (!isNaN(min) && !isNaN(max)) {
-      const netKWSpan = document.getElementById('netKW');
       const outOfRange = lastNetKW < min || lastNetKW > max;
-      if (netKWSpan) netKWSpan.style.color = outOfRange ? 'red' : 'green';
-
-      const message = document.createElement('div');
-      message.className = 'tolerance-message';
-      message.style.color = outOfRange ? 'red' : 'green';
-      message.style.fontWeight = 'bold';
-      message.style.marginTop = '6px';
-      message.innerHTML = outOfRange
-        ? '⚠️ Outside of manufacturer’s tolerance'
-        : '✅ Within manufacturer’s tolerance';
-
-      const resultBox = document.getElementById('result');
-      if (resultBox && resultBox.style.display !== 'none') {
-        resultBox.appendChild(message);
-      }
+      netClass = outOfRange ? 'red' : 'green';
+      toleranceMessage = `
+        <div class="tolerance-message" style="grid-column: 1 / -1; font-weight: bold; color: ${outOfRange ? 'red' : 'green'};">
+          ${outOfRange ? '⚠️ Outside of manufacturer’s tolerance' : '✅ Within manufacturer’s tolerance'}
+        </div>`;
     }
   }
 
+  const html = `
+    <div class="boiler-card">
+      <div class="boiler-title">${make} ${model}</div>
+      <div class="boiler-grid">
+        <div>
+          <div class="label">Gross Heat Input</div>
+          <div class="value">${gross} kW</div>
+        </div>
+        <div>
+          <div class="label">Net Heat Input</div>
+          <div class="value ${netClass}" id="boilerNetKW">${net} kW</div>
+        </div>
+        <div>
+          <div class="label">Net Heat Input Range</div>
+          <div class="value">${netRange}</div>
+        </div>
+        <div>
+          <div class="label">Max CO</div>
+          <div class="value">${maxCO} ppm</div>
+        </div>
+        <div>
+          <div class="label">CO₂ Range</div>
+          <div class="value">Max: ${maxCO2}%<br>Min: ${minCO2}%</div>
+        </div>
+        <div>
+          <div class="label">Burner Pressure</div>
+          <div class="value">Max: ${maxPressure} mb<br>Min: ${minPressure} mb</div>
+        </div>
+        <div>
+          <div class="label">Max Ratio</div>
+          <div class="value">${ratio}</div>
+        </div>
+        <div>
+          <div class="label">Strip Service Required</div>
+          <div class="value">${stripBadge}</div>
+        </div>
+        ${toleranceMessage}
+      </div>
+    </div>
+  `;
 
-
+  document.getElementById('boilerResult').innerHTML = html;
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   init();
