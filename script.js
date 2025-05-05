@@ -354,21 +354,40 @@ function showBoilerInfo(boiler) {
   const stripBadge = `<span class="tag ${strip === 'yes' ? 'yes' : 'no'}">${strip.charAt(0).toUpperCase() + strip.slice(1)}</span>`;
 
   // Tolerance logic
-  let toleranceMessage = '';
-  let netClass = '';
-  const match = netRange.match(/([\d.]+)[^\d]+([\d.]+)/);
-  if (match && lastNetKW !== null) {
-    const min = parseFloat(match[1]);
-    const max = parseFloat(match[2]);
-    if (!isNaN(min) && !isNaN(max)) {
-      const outOfRange = lastNetKW < min || lastNetKW > max;
-      netClass = outOfRange ? 'red' : 'green';
-      toleranceMessage = `
-        <div class="tolerance-message" style="grid-column: 1 / -1; font-weight: bold; color: ${outOfRange ? 'red' : 'green'};">
-          ${outOfRange ? '⚠️ Outside of manufacturer’s tolerance' : '✅ Within manufacturer’s tolerance'}
-        </div>`;
+ let toleranceMessage = '';
+let netClass = '';
+const match = netRange.match(/([\d.]+)[^\d]+([\d.]+)/);
+if (match && lastNetKW !== null) {
+  const min = parseFloat(match[1]);
+  const max = parseFloat(match[2]);
+  if (!isNaN(min) && !isNaN(max)) {
+    const outOfRange = lastNetKW < min || lastNetKW > max;
+    netClass = outOfRange ? 'red' : 'green';
+
+    const messageText = outOfRange
+      ? '⚠️ Outside of manufacturer’s tolerance'
+      : '✅ Within manufacturer’s tolerance';
+
+    // ✅ Add to boiler card layout
+    toleranceMessage = `
+      <div class="tolerance-message" style="grid-column: 1 / -1; font-weight: bold; color: ${outOfRange ? 'red' : 'green'};">
+        ${messageText}
+      </div>`;
+
+    // ✅ Also add below the #result box (if it's visible)
+    const resultBox = document.getElementById('result');
+    if (resultBox && resultBox.style.display !== 'none') {
+      const msg = document.createElement('div');
+      msg.className = 'tolerance-message';
+      msg.style.color = outOfRange ? 'red' : 'green';
+      msg.style.fontWeight = 'bold';
+      msg.style.marginTop = '6px';
+      msg.innerHTML = messageText;
+      resultBox.appendChild(msg);
     }
   }
+}
+
 
   const html = `
     <div class="boiler-card">
