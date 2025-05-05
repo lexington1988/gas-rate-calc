@@ -343,50 +343,64 @@ function findBoilerByGC(gcInput) {
 }
 
 function showBoilerInfo(boiler) {
-  const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
-  const gross = `Gross Heat Input: ${boiler['kW Gross'] || ''} kW<br>`;
-  const net = `Net Heat Input: ${boiler['kW Net'] || ''} kW<br>`;
-  const tolerance = `Net kW (+5%/-10%): ${boiler['Net kW (+5%/-10%)'] || ''}<br>`;
-  const co2Range = `Max CO₂: ${boiler['Max CO2%'] || ''}% / Min CO₂: ${boiler['Min CO2%'] || ''}%<br>`;
-  const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
-  const co = `Max CO: ${boiler['Max Co (PPM)'] || ''} ppm<br>`;
-  const pressure = `Max Pressure: ${boiler['Max (Burner Pressure Mb)'] || ''} mb / Min Pressure: ${boiler['Min (Burner Pressure Mb)'] || ''} mb<br>`;
+  const boilerResult = document.getElementById('boilerResult');
+  const make = boiler.Make?.trim() || '';
+  const model = boiler.Model?.trim() || '';
+
+  const fields = [
+    { label: 'Gross Heat Input', value: `${boiler['kW Gross'] || ''} kW` },
+    { label: 'Net Heat Input', value: `${boiler['kW Net'] || ''} kW` },
+    { label: 'Net kW Range', value: boiler['Net kW (+5%/-10%)'] || '' },
+    { label: 'Max CO₂', value: `${boiler['Max CO2%'] || ''}%` },
+    { label: 'Min CO₂', value: `${boiler['Min CO2%'] || ''}%` },
+    { label: 'Max CO (PPM)', value: boiler['Max Co (PPM)'] || '' },
+    { label: 'Max Ratio', value: boiler['Max Ratio'] || '' },
+    { label: 'Max Pressure (Mb)', value: boiler['Max (Burner Pressure Mb)'] || '' },
+    { label: 'Min Pressure (Mb)', value: boiler['Min (Burner Pressure Mb)'] || '' },
+  ];
+
+  let html = `<div class="boiler-card">
+    <strong>${make} ${model}</strong>`;
+
+  fields.forEach(({ label, value }) => {
+    html += `<div class="label">${label}</div><div class="value">${value}</div>`;
+  });
+
   const rawStrip = (boiler['Strip Service Required'] || '').trim();
-  const strip = rawStrip
-    ? `<div class="small-note"><strong>Strip Service Required:</strong> <em>${rawStrip.toLowerCase() === 'yes' ? 'Yes' : rawStrip}</em></div>`
-    : '';
+  if (rawStrip) {
+    html += `<div class="label">Strip Service Required</div><div class="value">${rawStrip}</div>`;
+  }
 
-  let html = makeModel + gross + net + tolerance + co2Range + ratio + co + pressure + strip;
+  html += `</div>`;
+  boilerResult.innerHTML = html;
 
+  // Tolerance warning logic
+  const raw = boiler?.['Net kW (+5%/-10%)'] || '';
+  const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/);
+  if (match && lastNetKW !== null) {
+    const min = parseFloat(match[1]);
+    const max = parseFloat(match[2]);
+    if (!isNaN(min) && !isNaN(max)) {
+      const netKWSpan = document.getElementById('netKW');
+      const outOfRange = lastNetKW < min || lastNetKW > max;
+      if (netKWSpan) netKWSpan.style.color = outOfRange ? 'red' : 'green';
 
+      const message = document.createElement('div');
+      message.className = 'tolerance-message';
+      message.style.color = outOfRange ? 'red' : 'green';
+      message.style.fontWeight = 'bold';
+      message.style.marginTop = '6px';
+      message.innerHTML = outOfRange
+        ? '⚠️ Outside of manufacturer’s tolerance'
+        : '✅ Within manufacturer’s tolerance';
 
-  document.getElementById('boilerResult').innerHTML = html;
-
- const raw = boiler?.['Net kW (+5%/-10%)'] || '';
-const match = raw.match(/([\d.]+)[^\d]+([\d.]+)/);
-if (match && lastNetKW !== null) {
-  const min = parseFloat(match[1]);
-  const max = parseFloat(match[2]);
-  if (!isNaN(min) && !isNaN(max)) {
-    const netKWSpan = document.getElementById('netKW');
-    const outOfRange = lastNetKW < min || lastNetKW > max;
-    netKWSpan.style.color = outOfRange ? 'red' : 'green';
-
-    const message = document.createElement('div');
-    message.className = 'tolerance-message';
-    message.style.color = outOfRange ? 'red' : 'green';
-    message.style.fontWeight = 'bold';
-    message.style.marginTop = '6px';
-    message.innerHTML = outOfRange
-      ? '⚠️ Outside of manufacturer’s tolerance'
-      : '✅ Within manufacturer’s tolerance';
-
-    const resultBox = document.getElementById('result');
-    if (resultBox && resultBox.style.display !== 'none') {
-      resultBox.appendChild(message);
+      const resultBox = document.getElementById('result');
+      if (resultBox && resultBox.style.display !== 'none') {
+        resultBox.appendChild(message);
+      }
     }
   }
-}
+
 
 
 }
