@@ -374,17 +374,26 @@ if (match && lastNetKW !== null) {
         ${messageText}
       </div>`;
 
-    // ✅ Also add below the #result box (if it's visible)
-    const resultBox = document.getElementById('result');
-    if (resultBox && resultBox.style.display !== 'none') {
-      const msg = document.createElement('div');
-      msg.className = 'tolerance-message';
-      msg.style.color = outOfRange ? 'red' : 'green';
-      msg.style.fontWeight = 'bold';
-      msg.style.marginTop = '6px';
-      msg.innerHTML = messageText;
-      resultBox.appendChild(msg);
-    }
+// ✅ Also add below the #result box (if it's visible)
+const resultBox = document.getElementById('result');
+if (resultBox && resultBox.style.display !== 'none') {
+  // Update the Net Heat Input color in #result box
+  const resultNetKW = document.getElementById('netKW');
+  if (resultNetKW) {
+    resultNetKW.classList.remove('green', 'red');
+    resultNetKW.classList.add(outOfRange ? 'red' : 'green');
+  }
+
+  // Add the tolerance message below the result
+  const msg = document.createElement('div');
+  msg.className = 'tolerance-message';
+  msg.style.color = outOfRange ? 'red' : 'green';
+  msg.style.fontWeight = 'bold';
+  msg.style.marginTop = '6px';
+  msg.innerHTML = messageText;
+  resultBox.appendChild(msg);
+}
+
   }
 }
 
