@@ -121,17 +121,26 @@
   <script src="script.js"></script>
 
   <script>
-   function toggleBoilerFinder() {
+  function toggleBoilerFinder() {
   const section = document.getElementById('boilerFinder');
+
+  // ✅ If already visible, scroll immediately
+  if (section.style.display === 'block') {
+    document.getElementById('gcNumber').focus();
+    document.getElementById('gcNumber').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // ✅ Show it, then scroll *after* it's rendered
   section.style.display = 'block';
 
-  // Scroll so the GC input is roughly centered on the screen
-  const gcInput = document.getElementById('gcNumber');
-  gcInput.focus();
   setTimeout(() => {
+    const gcInput = document.getElementById('gcNumber');
+    gcInput.focus();
     gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 100); // Delay ensures scroll happens after rendering
+  }, 100); // Delay lets the browser render the visible element first
 }
+
 
 
     const gcInput = document.getElementById('gcNumber');
