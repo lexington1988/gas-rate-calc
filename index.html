@@ -121,25 +121,20 @@
   <script src="script.js"></script>
 
   <script>
-  function toggleBoilerFinder() {
+ function toggleBoilerFinder() {
   const section = document.getElementById('boilerFinder');
-
-  // ✅ If already visible, scroll immediately
-  if (section.style.display === 'block') {
-    document.getElementById('gcNumber').focus();
-    document.getElementById('gcNumber').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
-
-  // ✅ Show it, then scroll *after* it's rendered
   section.style.display = 'block';
 
-  setTimeout(() => {
+  // Wait for the browser to render the visible element before scrolling
+  requestAnimationFrame(() => {
     const gcInput = document.getElementById('gcNumber');
     gcInput.focus();
+
+    // ✅ Scroll it to center of the page
     gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 100); // Delay lets the browser render the visible element first
+  });
 }
+
 
 
 
