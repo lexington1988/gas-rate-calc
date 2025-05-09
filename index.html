@@ -7,17 +7,37 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
   <style>
-  .green {
-    color: green;
-    font-weight: bold;
-  }
+    .green {
+      color: green;
+      font-weight: bold;
+    }
 
-  .red {
-    color: red;
-    font-weight: bold;
-  }
-</style>
+    .red {
+      color: red;
+      font-weight: bold;
+    }
 
+    /* ✅ Center the GC number input */
+    .gc-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .gc-wrapper input {
+      max-width: 240px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .gc-label {
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
@@ -87,7 +107,11 @@
     <button onclick="toggleBoilerFinder()">Search G.C Number</button>
 
     <div id="boilerFinder" class="boiler-lookup">
-      <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 47-311-87)">
+      <!-- ✅ Centered GC input -->
+      <div class="gc-wrapper">
+        <label for="gcNumber" class="gc-label">G.C. Number:</label>
+        <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 47-311-87)">
+      </div>
       <div class="suggestions"></div>
       <div id="boilerResult"></div>
     </div>
