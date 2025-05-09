@@ -283,6 +283,8 @@ function resetForm() {
   lastNetKW = null;
   lastGrossKW = null;
   lastNetKWMode = null;
+  document.getElementById('boilerFinder').style.display = 'none';
+
 }
 
 
