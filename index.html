@@ -121,20 +121,22 @@
   <script src="script.js"></script>
 
   <script>
- function toggleBoilerFinder() {
+function toggleBoilerFinder() {
   const section = document.getElementById('boilerFinder');
   section.style.display = 'block';
 
-  // Wait for the browser to render the visible element before scrolling
-  requestAnimationFrame(() => {
-    const gcInput = document.getElementById('gcNumber');
-    gcInput.focus();
+  const gcInput = document.getElementById('gcNumber');
+  gcInput.focus();
 
-    // ✅ Scroll it to center of the page
+  // For mobile: allow keyboard to pop up before scrolling into view
+  setTimeout(() => {
+    // Try twice: once after short delay, once again after a bit more (keyboard likely shown)
     gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
+    setTimeout(() => {
+      gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 500);
+  }, 200);
 }
-
 
 
 
