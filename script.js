@@ -442,6 +442,8 @@ if (resultBox && resultBox.style.display !== 'none') {
   `;
 
   document.getElementById('boilerResult').innerHTML = html;
+  document.getElementById('boilerResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
 }
 
 
