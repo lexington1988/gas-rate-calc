@@ -121,11 +121,18 @@
   <script src="script.js"></script>
 
   <script>
-    function toggleBoilerFinder() {
-      const section = document.getElementById('boilerFinder');
-      section.style.display = 'block';
-      document.getElementById('gcNumber').focus();
-    }
+   function toggleBoilerFinder() {
+  const section = document.getElementById('boilerFinder');
+  section.style.display = 'block';
+
+  // Scroll so the GC input is roughly centered on the screen
+  const gcInput = document.getElementById('gcNumber');
+  gcInput.focus();
+  setTimeout(() => {
+    gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100); // Delay ensures scroll happens after rendering
+}
+
 
     const gcInput = document.getElementById('gcNumber');
     const suggestionsDiv = document.querySelector('.suggestions');
