@@ -463,3 +463,109 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
 });
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  loadBoilerData();
+});
+
+
+
+// 🔽 ✅ START OF FUZZY SEARCH CODE
+let fuse;
+
+function setupFuzzySearch() {
+  if (!window.boilerData) return;
+
+  const enrichedBoilerData = window.boilerData.map(entry => {
+    const make = entry.Make || '';
+    const model = entry.Model || '';
+    const gc = entry["GC Number"] || '';
+    return {
+      ...entry,
+      allText: `${make} ${model} ${gc}`.toLowerCase().replace(/[^\w\s]/g, '')
+    };
+  });
+
+  fuse = new Fuse(enrichedBoilerData, {
+    keys: ['allText'],
+    threshold: 0.4,
+    ignoreLocation: true,
+    minMatchCharLength: 2,
+    useExtendedSearch: true,
+  });
+}
+
+// 🛠 Override loadBoilerData to trigger fuzzy setup
+const originalLoadBoilerData = loadBoilerData;
+loadBoilerData = function () {
+  originalLoadBoilerData();
+  setTimeout(setupFuzzySearch, 500); // wait for CSV to load
+};
+
+const gcInput = document.getElementById('gcNumber');
+const suggestionsDiv = document.querySelector('.suggestions');
+
+function showSuggestions(query) {
+  suggestionsDiv.innerHTML = '';
+  if (!query || !fuse) return;
+
+  const trimmed = query.trim().toLowerCase();
+  const digitsOnly = trimmed.replace(/\D/g, '');
+
+  let results = [];
+
+  const isFullGC = /^\d{7}$/.test(digitsOnly);
+  const isMostlyNumeric = /^[\d\s-]{3,}$/.test(trimmed); // 3+ characters, mostly digits/dashes
+
+  if (isFullGC) {
+    const match = window.boilerData.find(entry => {
+      const gcRaw = (entry["GC Number"] || '').replace(/\D/g, '');
+      return gcRaw === digitsOnly;
+    });
+    if (match) results = [{ item: match }];
+  } else if (isMostlyNumeric) {
+    results = fuse.search(trimmed).slice(0, 8);
+  } else {
+    const tokens = trimmed
+      .split(/\s+/)
+      .filter(Boolean)
+      .map(token => `'${token}`);
+    const searchQuery = tokens.join(' ');
+    results = fuse.search(searchQuery).slice(0, 8);
+  }
+
+  results.forEach(({ item }) => {
+    const div = document.createElement('div');
+    div.textContent = `${item["GC Number"]} - ${item["Make"]} ${item["Model"]}`;
+    div.style.padding = '5px';
+    div.style.cursor = 'pointer';
+    div.addEventListener('click', () => {
+      const raw = item["GC Number"].replace(/\D/g, '');
+      let formattedGC = raw;
+      if (raw.length === 7) {
+        formattedGC = `${raw.slice(0,2)}-${raw.slice(2,5)}-${raw.slice(5,7)}`;
+      }
+
+      gcInput.value = formattedGC;
+      suggestionsDiv.innerHTML = '';
+      showBoilerInfo(item);
+
+      const resultBox = document.getElementById('boilerResult');
+      if (resultBox) {
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+    suggestionsDiv.appendChild(div);
+  });
+}
+
+gcInput.addEventListener('input', function (e) {
+  showSuggestions(e.target.value);
+});
+
+document.addEventListener('click', function (e) {
+  if (e.target !== gcInput) {
+    suggestionsDiv.innerHTML = '';
+  }
+});
+// 🔼 ✅ END OF FUZZY SEARCH CODE
