@@ -295,24 +295,41 @@ function setupGCInput() {
   if (!gcInput) return;
 
   gcInput.addEventListener('input', function (e) {
-    let value = e.target.value.replace(/\D/g, '');
-    let formatted = '';
-
-    if (value.length > 0) formatted += value.substring(0, 2);
-    if (value.length >= 3) formatted += '-' + value.substring(2, 5);
-    if (value.length >= 6) formatted += '-' + value.substring(5, 7);
-
-    e.target.value = formatted;
-  });
-
-  gcInput.addEventListener('keydown', function (e) {
-    const pos = gcInput.selectionStart;
-    if ((e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
-      e.preventDefault();
-      gcInput.setSelectionRange(pos - 1, pos - 1);
+    let raw = e.target.value;
+    
+    // If it's only digits, apply live formatting with dashes
+    if (/^\d*$/.test(raw.replace(/-/g, ''))) {
+      let value = raw.replace(/\D/g, '');
+      let formatted = '';
+      if (value.length > 0) formatted += value.substring(0, 2);
+      if (value.length >= 3) formatted += '-' + value.substring(2, 5);
+      if (value.length >= 6) formatted += '-' + value.substring(5, 7);
+      e.target.value = formatted;
     }
+
+    // Trigger fuzzy suggestions update
+    const event = new Event('input', { bubbles: true });
+    e.target.dispatchEvent(event);
   });
+
+  // Let user backspace smoothly across dashes
+gcInput.addEventListener('keydown', function (e) {
+  const pos = gcInput.selectionStart;
+  const raw = gcInput.value.replace(/-/g, '');
+
+  // Only apply backspace override for numeric GC format like 47-311-87
+  const isFormattedGC = /^\d{2}-\d{3}-\d{2}$/.test(gcInput.value);
+
+  if (isFormattedGC && (e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
+    e.preventDefault();
+    gcInput.setSelectionRange(pos - 1, pos - 1);
+  }
+});
+
 }
+
+
+
 
 function loadBoilerData() {
   fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
