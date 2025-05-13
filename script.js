@@ -296,8 +296,8 @@ function setupGCInput() {
 
   gcInput.addEventListener('input', function (e) {
     let raw = e.target.value;
-    
-    // If it's only digits, apply live formatting with dashes
+
+    // If input is only digits or dashes, format it live
     if (/^\d*$/.test(raw.replace(/-/g, ''))) {
       let value = raw.replace(/\D/g, '');
       let formatted = '';
@@ -306,27 +306,20 @@ function setupGCInput() {
       if (value.length >= 6) formatted += '-' + value.substring(5, 7);
       e.target.value = formatted;
     }
-
-    // Trigger fuzzy suggestions update
-    const event = new Event('input', { bubbles: true });
-    e.target.dispatchEvent(event);
   });
 
-  // Let user backspace smoothly across dashes
-gcInput.addEventListener('keydown', function (e) {
-  const pos = gcInput.selectionStart;
-  const raw = gcInput.value.replace(/-/g, '');
+  gcInput.addEventListener('keydown', function (e) {
+    const pos = gcInput.selectionStart;
+    const isFormattedGC = /^\d{2}-\d{3}-\d{2}$/.test(gcInput.value);
 
-  // Only apply backspace override for numeric GC format like 47-311-87
-  const isFormattedGC = /^\d{2}-\d{3}-\d{2}$/.test(gcInput.value);
-
-  if (isFormattedGC && (e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
-    e.preventDefault();
-    gcInput.setSelectionRange(pos - 1, pos - 1);
-  }
-});
-
+    if (isFormattedGC && (e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
+      e.preventDefault();
+      gcInput.setSelectionRange(pos - 1, pos - 1);
+    }
+  });
+  
 }
+
 
 
 
