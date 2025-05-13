@@ -324,6 +324,8 @@ function setupGCInput() {
 
 
 
+let fuse;
+
 function loadBoilerData() {
   fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
     .then(response => {
@@ -340,9 +342,29 @@ function loadBoilerData() {
         headers.forEach((h, i) => entry[h.trim()] = parts[i]?.trim());
         return entry;
       });
+
+      // ✅ Build fuzzy search index after data is loaded
+      const enrichedBoilerData = window.boilerData.map(entry => {
+        const make = entry.Make || '';
+        const model = entry.Model || '';
+        const gc = entry["GC Number"] || '';
+        return {
+          ...entry,
+          allText: `${make} ${model} ${gc}`.toLowerCase().replace(/[^\w\s]/g, '')
+        };
+      });
+
+      fuse = new Fuse(enrichedBoilerData, {
+        keys: ['allText'],
+        threshold: 0.4,
+        ignoreLocation: true,
+        minMatchCharLength: 2,
+        useExtendedSearch: true,
+      });
     })
     .catch(err => console.error('CSV load error:', err));
 }
+
 
 function findBoilerByGC(gcInput) {
   const formattedGC = gcInput.trim().replace(/-/g, '');
