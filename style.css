@@ -153,14 +153,15 @@ button:hover {
   background: white;
   border: 1px solid #ccc;
   border-radius: 4px;
-  max-height: 200px;        /* Increased height for better mobile space */
-  overflow-y: auto;         /* Enables vertical scrolling */
-  position: relative;
-  z-index: 1000;
+  max-height: 250px;                  /* Increased height for mobile */
+  overflow-y: auto;                   /* Vertical scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth iOS scroll */
+  position: absolute;                /* ✅ Ensures it's not clipped */
+  z-index: 9999;                     /* ✅ Keeps it on top of other content */
   width: 100%;
-  -webkit-overflow-scrolling: touch;  /* ✅ Smooth scrolling on iOS */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
+
 
 /* 🖱️ Make individual items easy to tap */
 .suggestions div {
