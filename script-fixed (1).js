@@ -340,9 +340,12 @@ function loadBoilerData() {
         headers.forEach((h, i) => entry[h.trim()] = parts[i]?.trim());
         return entry;
       });
+
+      setupFuzzySearch(); // ✅ Now runs only after boilerData is fully ready
     })
     .catch(err => console.error('CSV load error:', err));
 }
+
 
 function findBoilerByGC(gcInput) {
   const formattedGC = gcInput.trim().replace(/-/g, '');
