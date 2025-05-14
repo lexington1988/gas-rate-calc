@@ -153,11 +153,32 @@ button:hover {
   background: white;
   border: 1px solid #ccc;
   border-radius: 4px;
-  max-height: 150px;
-  overflow-y: auto;
+  max-height: 200px;        /* Increased height for better mobile space */
+  overflow-y: auto;         /* Enables vertical scrolling */
   position: relative;
-  z-index: 100;
+  z-index: 1000;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;  /* ✅ Smooth scrolling on iOS */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Optional: subtle shadow */
 }
+
+/* 🖱️ Make individual items easy to tap */
+.suggestions div {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+  cursor: pointer;
+  background: white;
+}
+
+.suggestions div:hover {
+  background-color: #f9f9f9;
+}
+
+.suggestions div:last-child {
+  border-bottom: none;
+}
+
 /* ✅ Fix: Hide checkboxes but keep them functional */
 .toggle-wrapper input[type="checkbox"] {
   position: absolute;
@@ -245,3 +266,4 @@ button:hover {
 .tag.no {
   background-color: gray;
 }
+
