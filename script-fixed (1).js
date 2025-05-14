@@ -157,7 +157,7 @@ function startTimer() {
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
   const sec = seconds % 60;
-  return ${min}:${sec < 10 ? '0' : ''}${sec};
+  return `${min}:${sec < 10 ? '0' : ''}${sec}`;
 }
 
 function playBeep() {
@@ -200,11 +200,11 @@ function calculateRate() {
     lastNetKW = netkW;
     lastNetKWMode = 'imperial';
 
-    const netKWDisplay = <span id="netKW">${netkW.toFixed(2)}</span>;
+    const netKWDisplay = `<span id="netKW">${netkW.toFixed(2)}</span>`;
     result.innerHTML =
-      Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br> +
-      Gross Heat Input: ${grosskW.toFixed(2)} kW<br> +
-      Net Heat Input: ${netKWDisplay} kW;
+      `Gas Rate: ${gasRate.toFixed(2)} ft³/hr<br>` +
+      `Gross Heat Input: ${grosskW.toFixed(2)} kW<br>` +
+      `Net Heat Input: ${netKWDisplay} kW`;
     result.style.display = 'block';
 
     if (boiler) showBoilerInfo(boiler);
@@ -236,11 +236,11 @@ function calculateRate() {
     lastNetKW = net;
     lastNetKWMode = 'metric';
 
-    const netKWDisplay = <span id="netKW">${net.toFixed(2)}</span>;
+    const netKWDisplay = `<span id="netKW">${net.toFixed(2)}</span>`;
     result.innerHTML =
-      Gas Rate: ${m3h.toFixed(2)} m³/hr<br> +
-      Gross Heat Input: ${gross.toFixed(2)} kW<br> +
-      Net Heat Input: ${netKWDisplay} kW;
+      `Gas Rate: ${m3h.toFixed(2)} m³/hr<br>` +
+      `Gross Heat Input: ${gross.toFixed(2)} kW<br>` +
+      `Net Heat Input: ${netKWDisplay} kW`;
     result.style.display = 'block';
 
     if (boiler) showBoilerInfo(boiler);
@@ -324,12 +324,10 @@ function setupGCInput() {
 
 
 
-let fuse;
-
 function loadBoilerData() {
   fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
     .then(response => {
-      if (!response.ok) throw new Error(HTTP error! status: ${response.status});
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response.text();
     })
     .then(csvText => {
@@ -342,29 +340,9 @@ function loadBoilerData() {
         headers.forEach((h, i) => entry[h.trim()] = parts[i]?.trim());
         return entry;
       });
-
-      // ✅ Build fuzzy search index after data is loaded
-      const enrichedBoilerData = window.boilerData.map(entry => {
-        const make = entry.Make || '';
-        const model = entry.Model || '';
-        const gc = entry["GC Number"] || '';
-        return {
-          ...entry,
-          allText: ${make} ${model} ${gc}.toLowerCase().replace(/[^\w\s]/g, '')
-        };
-      });
-
-      fuse = new Fuse(enrichedBoilerData, {
-        keys: ['allText'],
-        threshold: 0.4,
-        ignoreLocation: true,
-        minMatchCharLength: 2,
-        useExtendedSearch: true,
-      });
     })
     .catch(err => console.error('CSV load error:', err));
 }
-
 
 function findBoilerByGC(gcInput) {
   const formattedGC = gcInput.trim().replace(/-/g, '');
@@ -387,7 +365,7 @@ function showBoilerInfo(boiler) {
   const ratio = boiler['Max Ratio'] || '';
   const stripRaw = boiler['Strip Service Required']?.trim().toLowerCase() || '';
   const strip = stripRaw === 'yes' ? 'yes' : stripRaw || 'no';
-  const stripBadge = <span class="tag ${strip === 'yes' ? 'yes' : 'no'}">${strip.charAt(0).toUpperCase() + strip.slice(1)}</span>;
+  const stripBadge = `<span class="tag ${strip === 'yes' ? 'yes' : 'no'}">${strip.charAt(0).toUpperCase() + strip.slice(1)}</span>`;
 
   // Tolerance logic
  let toleranceMessage = '';
@@ -405,10 +383,10 @@ if (match && lastNetKW !== null) {
       : '✅ Within manufacturer’s tolerance';
 
     // ✅ Add to boiler card layout
-    toleranceMessage = 
+    toleranceMessage = `
       <div class="tolerance-message" style="grid-column: 1 / -1; font-weight: bold; color: ${outOfRange ? 'red' : 'green'};">
         ${messageText}
-      </div>;
+      </div>`;
 
 // ✅ Also add below the #result box (if it's visible)
 const resultBox = document.getElementById('result');
@@ -434,7 +412,7 @@ if (resultBox && resultBox.style.display !== 'none') {
 }
 
 
-  const html = 
+  const html = `
     <div class="boiler-card">
       <div class="boiler-title">${make} ${model}</div>
       <div class="boiler-grid">
@@ -473,7 +451,7 @@ if (resultBox && resultBox.style.display !== 'none') {
         ${toleranceMessage}
       </div>
     </div>
-  ;
+  `;
 
   document.getElementById('boilerResult').innerHTML = html;
   document.getElementById('boilerResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -485,109 +463,3 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
 });
-document.addEventListener('DOMContentLoaded', () => {
-  init();
-  loadBoilerData();
-});
-
-
-
-// 🔽 ✅ START OF FUZZY SEARCH CODE
-let fuse;
-
-function setupFuzzySearch() {
-  if (!window.boilerData) return;
-
-  const enrichedBoilerData = window.boilerData.map(entry => {
-    const make = entry.Make || '';
-    const model = entry.Model || '';
-    const gc = entry["GC Number"] || '';
-    return {
-      ...entry,
-      allText: ${make} ${model} ${gc}.toLowerCase().replace(/[^\w\s]/g, '')
-    };
-  });
-
-  fuse = new Fuse(enrichedBoilerData, {
-    keys: ['allText'],
-    threshold: 0.4,
-    ignoreLocation: true,
-    minMatchCharLength: 2,
-    useExtendedSearch: true,
-  });
-}
-
-// 🛠 Override loadBoilerData to trigger fuzzy setup
-const originalLoadBoilerData = loadBoilerData;
-loadBoilerData = function () {
-  originalLoadBoilerData();
-  setTimeout(setupFuzzySearch, 500); // wait for CSV to load
-};
-
-const gcInput = document.getElementById('gcNumber');
-const suggestionsDiv = document.querySelector('.suggestions');
-
-function showSuggestions(query) {
-  suggestionsDiv.innerHTML = '';
-  if (!query || !fuse) return;
-
-  const trimmed = query.trim().toLowerCase();
-  const digitsOnly = trimmed.replace(/\D/g, '');
-
-  let results = [];
-
-  const isFullGC = /^\d{7}$/.test(digitsOnly);
-  const isMostlyNumeric = /^[\d\s-]{3,}$/.test(trimmed); // 3+ characters, mostly digits/dashes
-
-  if (isFullGC) {
-    const match = window.boilerData.find(entry => {
-      const gcRaw = (entry["GC Number"] || '').replace(/\D/g, '');
-      return gcRaw === digitsOnly;
-    });
-    if (match) results = [{ item: match }];
-  } else if (isMostlyNumeric) {
-    results = fuse.search(trimmed).slice(0, 8);
-  } else {
-    const tokens = trimmed
-      .split(/\s+/)
-      .filter(Boolean)
-      .map(token => '${token});
-    const searchQuery = tokens.join(' ');
-    results = fuse.search(searchQuery).slice(0, 8);
-  }
-
-  results.forEach(({ item }) => {
-    const div = document.createElement('div');
-    div.textContent = ${item["GC Number"]} - ${item["Make"]} ${item["Model"]};
-    div.style.padding = '5px';
-    div.style.cursor = 'pointer';
-    div.addEventListener('click', () => {
-      const raw = item["GC Number"].replace(/\D/g, '');
-      let formattedGC = raw;
-      if (raw.length === 7) {
-        formattedGC = ${raw.slice(0,2)}-${raw.slice(2,5)}-${raw.slice(5,7)};
-      }
-
-      gcInput.value = formattedGC;
-      suggestionsDiv.innerHTML = '';
-      showBoilerInfo(item);
-
-      const resultBox = document.getElementById('boilerResult');
-      if (resultBox) {
-        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-    suggestionsDiv.appendChild(div);
-  });
-}
-
-gcInput.addEventListener('input', function (e) {
-  showSuggestions(e.target.value);
-});
-
-document.addEventListener('click', function (e) {
-  if (e.target !== gcInput) {
-    suggestionsDiv.innerHTML = '';
-  }
-});
-// 🔼 ✅ END OF FUZZY SEARCH CODE
