@@ -175,13 +175,7 @@ fuse = new Fuse(enrichedBoilerData, {
 // 🔁 Setup fuzzy search after boiler data loads
 document.addEventListener('DOMContentLoaded', () => {
   if (window.boilerData) setupFuzzySearch();
-  else {
-    const originalLoader = loadBoilerData;
-    window.loadBoilerData = function () {
-      originalLoader();
-      setTimeout(setupFuzzySearch, 500);
-    };
-  }
+  
 });
 
 const gcInput = document.getElementById('gcNumber');
