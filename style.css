@@ -16,6 +16,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(128, 0, 128, 0.2);
   transition: background-color 0.3s, color 0.3s;
+  position: relative; /* Added for suggestions box positioning */
 }
 .dark-mode .container {
   background: #2c2c3e;
@@ -148,17 +149,26 @@ button:hover {
 #modeLabel, #mode {
   display: none;
 }
+
+/* 🔧 Updated for mobile scroll fix */
 .suggestions {
   background: white;
   border: 1px solid #ccc;
   border-radius: 4px;
-  max-height: 200px;        /* Increased height for better mobile space */
-  overflow-y: auto;         /* Enables vertical scrolling */
-  position: relative;
+  max-height: 200px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: auto;
+  overscroll-behavior: contain;
+  position: absolute;
   z-index: 1000;
   width: 100%;
-  -webkit-overflow-scrolling: touch;  /* ✅ Smooth scrolling on iOS */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.suggestions:active,
+.suggestions:focus-within {
+  touch-action: pan-y;
 }
 
 /* 🖱️ Make individual items easy to tap */
@@ -178,7 +188,6 @@ button:hover {
   border-bottom: none;
 }
 
-/* ✅ Fix: Hide checkboxes but keep them functional */
 .toggle-wrapper input[type="checkbox"] {
   position: absolute;
   opacity: 0;
@@ -265,10 +274,3 @@ button:hover {
 .tag.no {
   background-color: gray;
 }
-.suggestions {
-  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
-  overflow-y: auto;                  /* Ensure vertical scrolling */
-  touch-action: pan-y;               /* ✅ Helps scrolling in nested elements */
-  overscroll-behavior: contain;     /* Prevents parent scroll from interfering */
-}
-
