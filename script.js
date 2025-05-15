@@ -8,19 +8,20 @@ let lastGrossKW = null;
 let lastNetKWMode = null;
 
 function init() {
-  const beep = document.getElementById('alertSound');
+ const beep = document.getElementById('alertSound');
+const endBeep = document.getElementById('endBeep');
 
-  // ✅ Unlock audio on first user click or tap (mobile compatibility)
-  document.body.addEventListener('click', () => {
-    if (beep) {
-      beep.play().then(() => {
-        beep.pause();              // Immediately pause it
-        beep.currentTime = 0;      // Reset to start
-      }).catch(() => {
-        // Ignore errors — some browsers may still block auto-play
-      });
+document.body.addEventListener('click', () => {
+  [beep, endBeep].forEach(audio => {
+    if (audio) {
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      }).catch(() => {});
     }
-  }, { once: true });
+  });
+}, { once: true });
+
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
   document.getElementById('gcNumber').addEventListener('input', toggleMode);
@@ -155,14 +156,18 @@ function startTimer() {
         playBeep();
       }
       if (secondsLeft <= 0) {
-        clearInterval(countdown);
-        countdown = null;
-        startBtn.textContent = 'Start Timer';
-        timeLeft.classList.remove('highlight');
-        timeLeft.textContent = '0:00';
-        playBeep();
-        calculateRate();
-      }
+  clearInterval(countdown);
+  countdown = null;
+  startBtn.textContent = 'Start Timer';
+  timeLeft.classList.remove('highlight');
+  timeLeft.textContent = '0:00';
+
+  // 🔊 Play a distinct end-of-timer beep
+  playEndBeep();
+
+  calculateRate();
+}
+
     }
   }, 1000);
 }
@@ -177,6 +182,15 @@ function playBeep() {
   const beep = document.getElementById('alertSound');
   beep.currentTime = 0;
   beep.play();
+}
+function playEndBeep() {
+  const endBeep = document.getElementById('endBeep');
+  if (endBeep) {
+    endBeep.currentTime = 0;
+    endBeep.play().catch(() => {
+      // Mobile may still block it if not unlocked
+    });
+  }
 }
 
 function calculateRate() {
