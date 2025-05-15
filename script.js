@@ -10,14 +10,14 @@ let lastNetKWMode = null;
 function init() {
   const beep = document.getElementById('alertSound');
 
-  // ✅ Unlock audio on first user interaction (mobile fix)
+  // ✅ Unlock audio on first user click or tap (mobile compatibility)
   document.body.addEventListener('click', () => {
     if (beep) {
       beep.play().then(() => {
-        beep.pause();  // Immediately pause to avoid playing a sound
-        beep.currentTime = 0;
+        beep.pause();              // Immediately pause it
+        beep.currentTime = 0;      // Reset to start
       }).catch(() => {
-        // Some browsers may still block — we ignore errors
+        // Ignore errors — some browsers may still block auto-play
       });
     }
   }, { once: true });
