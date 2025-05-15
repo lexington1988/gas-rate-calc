@@ -151,26 +151,36 @@ function startTimer() {
     if (!isPaused) {
       secondsLeft--;
       timeLeft.textContent = formatTime(secondsLeft);
-      if (secondsLeft <= 5) {
+
+      if (secondsLeft <= 5 && secondsLeft > 0) {
         timeLeft.classList.add('highlight');
         playBeep();
+
+        // ✅ Short buzz per final 5-second beep
+        if (navigator.vibrate) {
+          navigator.vibrate(100);
+        }
       }
+
       if (secondsLeft <= 0) {
-  clearInterval(countdown);
-  countdown = null;
-  startBtn.textContent = 'Start Timer';
-  timeLeft.classList.remove('highlight');
-  timeLeft.textContent = '0:00';
+        clearInterval(countdown);
+        countdown = null;
+        startBtn.textContent = 'Start Timer';
+        timeLeft.classList.remove('highlight');
+        timeLeft.textContent = '0:00';
 
-  // 🔊 Play a distinct end-of-timer beep
-  playEndBeep();
+        // ✅ Play end beep and strong vibration
+        playEndBeep();
+        if (navigator.vibrate) {
+          navigator.vibrate([200, 100, 200]); // Double-pulse buzz
+        }
 
-  calculateRate();
-}
-
+        calculateRate();
+      }
     }
   }, 1000);
 }
+
 
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
