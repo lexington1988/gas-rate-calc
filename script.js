@@ -8,6 +8,19 @@ let lastGrossKW = null;
 let lastNetKWMode = null;
 
 function init() {
+  const beep = document.getElementById('alertSound');
+
+  // ✅ Unlock audio on first user interaction (mobile fix)
+  document.body.addEventListener('click', () => {
+    if (beep) {
+      beep.play().then(() => {
+        beep.pause();  // Immediately pause to avoid playing a sound
+        beep.currentTime = 0;
+      }).catch(() => {
+        // Some browsers may still block — we ignore errors
+      });
+    }
+  }, { once: true });
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
   document.getElementById('gcNumber').addEventListener('input', toggleMode);
