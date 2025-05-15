@@ -265,4 +265,10 @@ button:hover {
 .tag.no {
   background-color: gray;
 }
+.suggestions {
+  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
+  overflow-y: auto;                  /* Ensure vertical scrolling */
+  touch-action: pan-y;               /* ✅ Helps scrolling in nested elements */
+  overscroll-behavior: contain;     /* Prevents parent scroll from interfering */
+}
 
