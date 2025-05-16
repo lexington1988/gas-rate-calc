@@ -6,46 +6,74 @@
   <title>Gas Rate Calculator</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    <style>
+    body {
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
 
-  <style>
-  .green {
-    color: green;
-    font-weight: bold;
-  }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 16px;
+    }
 
-  .red {
-    color: red;
-    font-weight: bold;
-  }
+    .green {
+      color: green;
+      font-weight: bold;
+    }
 
-  .gc-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    text-align: center;
-  }
+    .red {
+      color: red;
+      font-weight: bold;
+    }
 
-  .gc-wrapper input {
-    max-width: 240px;
-    padding: 8px;
-    text-align: center;
-  }
+    /* ✅ Center the GC number input */
+    .gc-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      text-align: center;
+    }
 
-  .gc-label {
-    margin-bottom: 6px;
-    font-weight: bold;
-  }
+    .gc-wrapper input {
+      max-width: 240px;
+      padding: 8px;
+      text-align: center;
+    }
 
-  /* ✅ Prevent side-to-side scrolling */
-  html, body {
-    overflow-x: hidden;
-  }
-</style>
+    .gc-label {
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+      .toast {
+  visibility: hidden;
+  min-width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px 16px;
+  position: fixed;
+  z-index: 9999;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.5s, bottom 0.5s;
+}
 
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px;
+}
 
+  </style>
 
 </head>
 
@@ -120,126 +148,89 @@
       <!-- ✅ Centered GC input -->
       <div class="gc-wrapper">
         <label for="gcNumber" class="gc-label">G.C. Number:</label>
-        <input type="text" id="gcNumber" placeholder="Enter GC number, make or model">
-
+        <input type="text" id="gcNumber" placeholder="Enter G.C Number (e.g., 47-311-87)">
       </div>
       <div class="suggestions"></div>
       <div id="boilerResult"></div>
     </div>
   </div>
 
-<audio id="alertSound" src="beep.mp3" preload="auto" playsinline></audio>
-<audio id="endBeep" src="end-beep.mp3" preload="auto" playsinline></audio>
+ <audio id="alertSound" src="beep.mp3" preload="auto" playsinline></audio>
+  <audio id="endBeep" src="end-beep.mp3" preload="auto" playsinline></audio>
 
   <script src="script.js"></script>
 
-<script>
+  <script>
 function toggleBoilerFinder() {
   const section = document.getElementById('boilerFinder');
-  const isVisible = section.style.display === 'block';
-  section.style.display = isVisible ? 'none' : 'block';
+  section.style.display = 'block';
 
-  if (!isVisible) {
+  const gcInput = document.getElementById('gcNumber');
+  gcInput.focus();
+
+  // For mobile: allow keyboard to pop up before scrolling into view
+  setTimeout(() => {
+    // Try twice: once after short delay, once again after a bit more (keyboard likely shown)
+    gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => {
+      gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 500);
+  }, 200);
+}
+
+
+
     const gcInput = document.getElementById('gcNumber');
-    gcInput.focus();
-    setTimeout(() => gcInput.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
-  }
-}
+    const suggestionsDiv = document.querySelector('.suggestions');
 
-// ✅ Setup fuzzy search using Fuse.js
-let fuse;
-function setupFuzzySearch() {
-  if (!window.boilerData) return;
- // 🧠 Add virtual combined field "makeModel"
-// 🔁 Build a searchable "allText" field per boiler (GC + Make + Model)
-const enrichedBoilerData = window.boilerData.map(entry => {
-  const make = entry.Make || '';
-  const model = entry.Model || '';
-  const gc = entry["GC Number"] || '';
-  return {
-    ...entry,
-    allText: `${make} ${model} ${gc}`.toLowerCase().replace(/[^\w\s]/g, '')
-  };
-});
+    function normalizeGC(gc) {
+      return gc.replace(/-/g, '').padStart(7, '0');
+    }
 
-fuse = new Fuse(enrichedBoilerData, {
-  keys: ['allText'],
-  threshold: 0.4,
-  ignoreLocation: true,
-  minMatchCharLength: 2,
-  useExtendedSearch: true,     // ✅ Enables token-based matching
-});
+    function displayBoilerInfo(boiler) {
+      const boilerResult = document.getElementById('boilerResult');
+      const makeModel = `<strong>${boiler.Make?.trim() || ''} ${boiler.Model?.trim() || ''}</strong><br>`;
+      const gross = `Gross Heat Input: ${boiler['kW Gross'] || ''} kW<br>`;
+      const net = `Net Heat Input: ${boiler['kW Net'] || ''} kW<br>`;
+      const tolerance = `Net kW (+5%/-10%): ${boiler['Net kW (+5%/-10%)'] || ''}<br>`;
+      const co2Range = `Max CO₂: ${boiler['Max CO2%'] || ''}% / Min CO₂: ${boiler['Min CO2%'] || ''}%<br>`;
+      const ratio = `Max Ratio: ${boiler['Max Ratio'] || ''}<br>`;
+      const co = `Max CO: ${boiler['Max Co (PPM)'] || ''} ppm<br>`;
+      const pressure = `Max Pressure: ${boiler['Max (Burner Pressure Mb)'] || ''} mb / Min Pressure: ${boiler['Min (Burner Pressure Mb)'] || ''} mb<br>`;
+      const rawStrip = (boiler['Strip Service Required'] || '').trim();
+      const strip = rawStrip
+        ? `<div class="small-note"><strong>Strip Service Required:</strong> <em>${rawStrip.toLowerCase() === 'yes' ? 'Yes' : rawStrip}</em></div>`
+        : '';
 
+      boilerResult.innerHTML = makeModel + gross + net + tolerance + co2Range + ratio + co + pressure + strip;
+    }
 
-
-}
-
-// 🔁 Setup fuzzy search after boiler data loads
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.boilerData) setupFuzzySearch();
-  
-});
-
-const gcInput = document.getElementById('gcNumber');
-const suggestionsDiv = document.querySelector('.suggestions');
-
-gcInput.addEventListener('input', function (e) {
-  const query = e.target.value.trim();
-  showSuggestions(query);
-});
-
-document.addEventListener('click', function (e) {
-  if (e.target !== gcInput) {
-    suggestionsDiv.innerHTML = '';
-  }
-});
-
-function showSuggestions(query) {
+ function showSuggestions(query) {
   suggestionsDiv.innerHTML = '';
-  if (!query || !fuse) return;
+  if (!query) return;
 
-  const trimmed = query.trim().toLowerCase();
-  const digitsOnly = trimmed.replace(/\D/g, '');
-  let results = [];
+  const normalizedQuery = normalizeGC(query);
+  const matches = (window.boilerData || []).filter(entry =>
+    normalizeGC(entry["GC Number"] || '').startsWith(normalizedQuery)
+  );
 
-  const isFullGC = /^\d{7}$/.test(digitsOnly);
-  const isMostlyNumeric = /^[\d\s-]{3,}$/.test(trimmed); // 3+ characters, mostly digits/dashes/spaces
-
-  if (isFullGC) {
-    // ✅ Exact match for 7-digit GC number
-    const match = window.boilerData.find(entry => {
-      const gcRaw = (entry["GC Number"] || '').replace(/\D/g, '');
-      return gcRaw === digitsOnly;
-    });
-    if (match) results = [{ item: match }];
-  } else if (isMostlyNumeric) {
-    // ✅ Standard fuzzy search for partial GC input (like 47311)
-    results = fuse.search(trimmed).slice(0, 8);
-  } else {
-    // ✅ Token-based fuzzy search for model/make queries
-    const tokens = trimmed
-      .split(/\s+/)
-      .filter(Boolean)
-      .map(token => `'${token}`);
-    const searchQuery = tokens.join(' ');
-    results = fuse.search(searchQuery).slice(0, 8);
+  // ✅ Only show toast if input is exactly 7 digits and no match found
+  const digitsOnly = query.replace(/\D/g, '');
+  if (digitsOnly.length === 7 && matches.length === 0) {
+    showToast('No matching boilers found');
+    return;
   }
 
-  results.forEach(({ item }) => {
+  // ✅ Show suggestions if matches found
+  matches.forEach(entry => {
     const div = document.createElement('div');
-    div.textContent = `${item["GC Number"]} - ${item["Make"]} ${item["Model"]}`;
+    div.textContent = `${entry["GC Number"]} - ${entry["Make"]} ${entry["Model"]}`;
     div.style.padding = '5px';
     div.style.cursor = 'pointer';
     div.addEventListener('click', () => {
-      const raw = item["GC Number"].replace(/\D/g, '');
-      let formattedGC = raw;
-      if (raw.length === 7) {
-        formattedGC = `${raw.slice(0,2)}-${raw.slice(2,5)}-${raw.slice(5,7)}`;
-      }
-
-      gcInput.value = formattedGC;
+      gcInput.value = entry["GC Number"];
       suggestionsDiv.innerHTML = '';
-      showBoilerInfo(item);
+      showBoilerInfo(entry);
 
       const resultBox = document.getElementById('boilerResult');
       if (resultBox) {
@@ -252,9 +243,21 @@ function showSuggestions(query) {
 
 
 
+    gcInput.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2);
+      if (value.length > 6) value = value.slice(0, 6) + '-' + value.slice(6);
+      e.target.value = value;
+      showSuggestions(e.target.value);
+    });
 
-
-</script>
+    document.addEventListener('click', function (e) {
+      if (e.target !== gcInput) {
+        suggestionsDiv.innerHTML = '';
+      }
+    });
+  </script>
+  <div id="toast" class="toast"></div>
 
 </body>
 </html>
