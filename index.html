@@ -43,31 +43,6 @@
   html, body {
     overflow-x: hidden;
   }
-  
-#toast {
-  visibility: hidden;
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 14px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  max-width: 90vw;
-  text-align: center;
-  z-index: 9999;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  opacity: 0;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-#toast.show {
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(-50%) translateY(-10px);
-}
 
 
 </style>
@@ -284,8 +259,7 @@ function showSuggestions(query) {
 
 
 </script>
-<div id="toast"></div>
-
+<div id="toast" class="toast"></div>
 
 </body>
 </html>
