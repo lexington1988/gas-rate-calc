@@ -207,7 +207,6 @@ function playEndBeep() {
   }
 }
 
-
 function calculateRate() {
   const result = document.getElementById('result');
   result.textContent = '';
@@ -254,12 +253,11 @@ function calculateRate() {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
 
-   if (isNaN(initial) || isNaN(final) || final <= initial) {
+ if (isNaN(initial) || isNaN(final) || final <= initial) {
   showToast('Please enter valid initial and final readings.');
   result.style.display = 'none';
   return;
 }
-
 
     volume = final - initial;
 
@@ -338,24 +336,34 @@ function setupGCInput() {
   if (!gcInput) return;
 
   gcInput.addEventListener('input', function (e) {
-    let value = e.target.value.replace(/\D/g, '');
-    let formatted = '';
+    let raw = e.target.value;
 
-    if (value.length > 0) formatted += value.substring(0, 2);
-    if (value.length >= 3) formatted += '-' + value.substring(2, 5);
-    if (value.length >= 6) formatted += '-' + value.substring(5, 7);
-
-    e.target.value = formatted;
+    // If input is only digits or dashes, format it live
+    if (/^\d*$/.test(raw.replace(/-/g, ''))) {
+      let value = raw.replace(/\D/g, '');
+      let formatted = '';
+      if (value.length > 0) formatted += value.substring(0, 2);
+      if (value.length >= 3) formatted += '-' + value.substring(2, 5);
+      if (value.length >= 6) formatted += '-' + value.substring(5, 7);
+      e.target.value = formatted;
+    }
   });
 
   gcInput.addEventListener('keydown', function (e) {
     const pos = gcInput.selectionStart;
-    if ((e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
+    const isFormattedGC = /^\d{2}-\d{3}-\d{2}$/.test(gcInput.value);
+
+    if (isFormattedGC && (e.key === 'Backspace' || e.key === 'Delete') && (pos === 3 || pos === 7)) {
       e.preventDefault();
       gcInput.setSelectionRange(pos - 1, pos - 1);
     }
   });
+  
 }
+
+
+
+
 
 function loadBoilerData() {
   fetch('https://raw.githubusercontent.com/lexington1988/gas-rate-unfinished/main/service_info_full.csv')
@@ -373,9 +381,12 @@ function loadBoilerData() {
         headers.forEach((h, i) => entry[h.trim()] = parts[i]?.trim());
         return entry;
       });
+
+      setupFuzzySearch(); // ✅ Now runs only after boilerData is fully ready
     })
     .catch(err => console.error('CSV load error:', err));
 }
+
 
 function findBoilerByGC(gcInput) {
   const formattedGC = gcInput.trim().replace(/-/g, '');
@@ -499,14 +510,22 @@ function showToast(message) {
     toast.classList.remove('show');
   }, 3000);
 }
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log('✅ Service worker registered'))
-    .catch(err => console.warn('❌ Service worker failed:', err));
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  // Hide after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
   init();
   loadBoilerData();
+ 
+
 });
