@@ -503,29 +503,9 @@ if (resultBox && resultBox.style.display !== 'none') {
 }
 function showToast(message) {
   const toast = document.getElementById('toast');
-  if (!toast) return;
-  toast.textContent = message;
+  toast.innerHTML = `<span style="color: red; font-weight: bold;">&#9888;</span> ${message} <span style="color: red; font-weight: bold;">&#9888;</span>`;
   toast.classList.add('show');
   setTimeout(() => {
     toast.classList.remove('show');
   }, 3000);
 }
-function showToast(message) {
-  const toast = document.getElementById('toast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.classList.add('show');
-
-  // Hide after 3 seconds
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  init();
-  loadBoilerData();
- 
-
-});
