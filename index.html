@@ -224,11 +224,21 @@ function showSuggestions(query) {
     results = fuse.search(searchQuery).slice(0, 8);
   }
 
-  // ✅ Show toast if no results
   if (results.length === 0) {
-    showToast('No matching boilers found');
-    return;
-  }
+  suggestionsDiv.innerHTML = `
+    <div style="text-align: center;">
+      <span style="color: red; font-weight: bold;">⚠️ No matching boilers found ⚠️</span>
+    </div>
+  `;
+
+  // Auto-hide after 3 seconds
+  setTimeout(() => {
+    suggestionsDiv.innerHTML = '';
+  }, 3000);
+
+  return;
+}
+
   results.forEach(({ item }) => {
   const rawGC = item["GC Number"].replace(/\D/g, '');
   const formattedGC = rawGC.length === 7
