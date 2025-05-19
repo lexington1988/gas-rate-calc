@@ -170,6 +170,14 @@ button:hover {
   cursor: pointer;
   background: white;
 }
+.gc-highlight {
+  color: #6a0dad;
+  font-weight: bold;
+}
+
+.dark-mode .gc-highlight {
+  color: #d6b3ff;
+}
 
 .suggestions div:hover {
   background-color: #f9f9f9;
@@ -292,3 +300,5 @@ button:hover {
   background-color: #555;
   color: #fff;
 }
+
+
