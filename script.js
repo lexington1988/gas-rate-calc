@@ -262,11 +262,23 @@ function calculateRate() {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
 
- if (isNaN(initial) || isNaN(final) || final <= initial) {
-  showToast('Please enter valid initial and final readings.');
-  result.style.display = 'none';
+if (isNaN(initial) || isNaN(final) || final <= initial) {
+  result.innerHTML = `
+    <div style="text-align: center;">
+      <span style="color: red; font-weight: bold;">⚠️ Please enter valid initial and final readings ⚠️</span>
+    </div>`;
+  result.style.display = 'block';
+
+  // Auto-hide after 3 seconds
+  setTimeout(() => {
+    result.innerHTML = '';
+    result.style.display = 'none';
+  }, 3000);
+
   return;
 }
+
+
 
     volume = final - initial;
 
