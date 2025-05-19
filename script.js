@@ -31,15 +31,22 @@ document.body.addEventListener('click', () => {
   toggleMode();
 
  document.getElementById('gcNumber').addEventListener('blur', () => {
-  const gc = document.getElementById('gcNumber').value;
-  const boiler = findBoilerByGC(gc);
+  const input = document.getElementById('gcNumber');
+  const gc = input.value.replace(/\D/g, ''); // remove dashes etc.
+  
+  if (gc.length === 7) {
+    // Re-format it as ##-###-##
+    input.value = `${gc.slice(0, 2)}-${gc.slice(2, 5)}-${gc.slice(5, 7)}`;
+  }
 
+  const boiler = findBoilerByGC(gc);
   if (boiler) {
     showBoilerInfo(boiler);
   } else if (gc.trim() !== '') {
     showToast('No boiler found for this G.C. number');
   }
 });
+
 
 }
 
