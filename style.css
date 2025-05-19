@@ -300,5 +300,9 @@ button:hover {
   background-color: #555;
   color: #fff;
 }
-
-
+@media (max-height: 700px) and (pointer: coarse) {
+  .suggestions {
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+}
