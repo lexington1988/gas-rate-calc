@@ -509,3 +509,12 @@ function showToast(message) {
     toast.classList.remove('show');
   }, 3000);
 }
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  loadBoilerData();
+ 
+
+});
