@@ -547,3 +547,52 @@ document.addEventListener('DOMContentLoaded', () => {
  
 
 });
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then((registration) => {
+        console.log('✅ Service Worker registered');
+
+        // 🔁 Listen for updates
+        registration.onupdatefound = () => {
+          const newWorker = registration.installing;
+          newWorker.onstatechange = () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // ✅ New version available
+              showUpdateBanner();
+            }
+          };
+        };
+      })
+      .catch(err => console.error('Service Worker registration failed:', err));
+  });
+}
+
+// ✅ Theme-matching update banner
+function showUpdateBanner() {
+  const banner = document.createElement('div');
+  banner.innerHTML = `
+    <div style="
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #6a0dad;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      z-index: 10000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    " title="Click to refresh and update">
+      🔄 Update available — click to refresh
+    </div>
+  `;
+  banner.onclick = () => {
+    window.location.reload();
+  };
+  document.body.appendChild(banner);
+}
