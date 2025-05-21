@@ -1,3 +1,30 @@
+// ✅ Firebase setup — paste your real values from Firebase here
+const firebaseConfig = {
+   apiKey: "AIzaSyDH8QRh5zUY-sfr6QSQubD_5pRY0LC9ShY",
+  authDomain: "gas-rate88.firebaseapp.com",
+  projectId: "gas-rate88",
+  storageBucket: "gas-rate88.firebasestorage.app",
+  messagingSenderId: "317310053708",
+  appId: "1:317310053708:web:1a27ad37f4164651a1b3e9",
+  measurementId: "G-F5HVCE6HL9"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// ✅ Show login or app depending on user status
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    // User is logged in
+    document.querySelector('.container').style.display = 'block';
+    document.getElementById('loginScreen').style.display = 'none';
+  } else {
+    // No user logged in
+    document.querySelector('.container').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+  }
+});
+
 let countdown;
 let stopwatchInterval;
 let time = 0;
@@ -595,4 +622,28 @@ function showUpdateBanner() {
     window.location.reload();
   };
   document.body.appendChild(banner);
+}
+function login() {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  const fakeEmail = `${username}@fake.com`;
+
+  firebase.auth().signInWithEmailAndPassword(fakeEmail, password)
+    .then(() => {
+      document.getElementById('loginError').textContent = '';
+    })
+    .catch((error) => {
+      document.getElementById('loginError').textContent = '❌ ' + error.message;
+    });
+}
+
+function logout() {
+  firebase.auth().signOut()
+    .then(() => {
+      console.log('Logged out successfully');
+    })
+    .catch((error) => {
+      console.error('Logout error:', error);
+    });
 }
