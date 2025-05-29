@@ -11,29 +11,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
-
+let currentSessionId = null;
 
 // ✅ Show login or app depending on user status
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
+    // User is logged in
     document.querySelector('.container').style.display = 'block';
     document.getElementById('loginScreen').style.display = 'none';
-
-    const storedSessionId = localStorage.getItem('sessionId');
-    if (storedSessionId) {
-      startSessionMonitor(user.uid, storedSessionId);
-    } else {
-      // Prevent unauthorized re-login without sessionId
-      firebase.auth().signOut();
-    }
   } else {
+    // No user logged in
     document.querySelector('.container').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
   }
 });
-
 
 let countdown;
 let stopwatchInterval;
@@ -640,44 +632,39 @@ function login() {
 
   firebase.auth().signInWithEmailAndPassword(fakeEmail, password)
     .then(async (userCredential) => {
-      document.getElementById('loginError').textContent = '';
-
-      const sessionId = uuidv4(); // 🔑 New session
       const user = userCredential.user;
+      const uid = user.uid;
 
-      // Save sessionId to Firestore
-      await db.collection('sessions').doc(user.uid).set({
-        sessionId: sessionId,
-        timestamp: Date.now()
+      // 🔐 Create a unique session ID for this login
+      currentSessionId = Math.random().toString(36).substring(2, 10);
+      const sessionRef = db.collection("sessions").doc(uid);
+
+      // ✅ Save this session in Firestore
+      await sessionRef.set({ sessionId: currentSessionId }, { merge: true });
+
+      // ✅ Listen for changes (to detect if someone else logs in)
+      sessionRef.onSnapshot((doc) => {
+        const data = doc.data();
+        if (data && data.sessionId !== currentSessionId) {
+          alert("⚠️ This account is now logged in on another device. Logging out...");
+          logout();
+        }
       });
 
-      // Save sessionId to localStorage for this device
-      localStorage.setItem('sessionId', sessionId);
-
-      // Begin checking if this session is still valid
-      startSessionMonitor(user.uid, sessionId);
+      document.getElementById('loginError').textContent = '';
     })
     .catch((error) => {
       document.getElementById('loginError').textContent = '❌ ' + error.message;
     });
 }
 
-function startSessionMonitor(uid, sessionId) {
-  db.collection('sessions').doc(uid).onSnapshot((doc) => {
-    if (doc.exists) {
-      const storedSessionId = doc.data().sessionId;
-      if (storedSessionId !== sessionId) {
-        alert("You've been logged out because your account was used on another device.");
-        firebase.auth().signOut();
-        localStorage.removeItem('sessionId');
-        window.location.reload();
-      }
-    }
-  });
-}
-
 
 function logout() {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    db.collection("sessions").doc(user.uid).delete().catch(console.error);
+  }
+
   firebase.auth().signOut()
     .then(() => {
       console.log('Logged out successfully');
@@ -686,4 +673,3 @@ function logout() {
       console.error('Logout error:', error);
     });
 }
-
