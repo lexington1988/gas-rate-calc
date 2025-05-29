@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ppc-gas-rate-cache-v1.01';
+const CACHE_NAME = 'ppc-gas-rate-cache-v1.02';
 
 const FILES_TO_CACHE = [
   '/',
