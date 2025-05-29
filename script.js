@@ -12,18 +12,28 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const db = firebase.firestore();
+
+
 // ✅ Show login or app depending on user status
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    // User is logged in
     document.querySelector('.container').style.display = 'block';
     document.getElementById('loginScreen').style.display = 'none';
+
+    const storedSessionId = localStorage.getItem('sessionId');
+    if (storedSessionId) {
+      startSessionMonitor(user.uid, storedSessionId);
+    } else {
+      // Prevent unauthorized re-login without sessionId
+      firebase.auth().signOut();
+    }
   } else {
-    // No user logged in
     document.querySelector('.container').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
   }
 });
+
 
 let countdown;
 let stopwatchInterval;
@@ -626,17 +636,46 @@ function showUpdateBanner() {
 function login() {
   const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value;
-
   const fakeEmail = `${username}@fake.com`;
 
   firebase.auth().signInWithEmailAndPassword(fakeEmail, password)
-    .then(() => {
+    .then(async (userCredential) => {
       document.getElementById('loginError').textContent = '';
+
+      const sessionId = uuidv4(); // 🔑 New session
+      const user = userCredential.user;
+
+      // Save sessionId to Firestore
+      await db.collection('sessions').doc(user.uid).set({
+        sessionId: sessionId,
+        timestamp: Date.now()
+      });
+
+      // Save sessionId to localStorage for this device
+      localStorage.setItem('sessionId', sessionId);
+
+      // Begin checking if this session is still valid
+      startSessionMonitor(user.uid, sessionId);
     })
     .catch((error) => {
       document.getElementById('loginError').textContent = '❌ ' + error.message;
     });
 }
+
+function startSessionMonitor(uid, sessionId) {
+  db.collection('sessions').doc(uid).onSnapshot((doc) => {
+    if (doc.exists) {
+      const storedSessionId = doc.data().sessionId;
+      if (storedSessionId !== sessionId) {
+        alert("You've been logged out because your account was used on another device.");
+        firebase.auth().signOut();
+        localStorage.removeItem('sessionId');
+        window.location.reload();
+      }
+    }
+  });
+}
+
 
 function logout() {
   firebase.auth().signOut()
@@ -647,3 +686,4 @@ function logout() {
       console.error('Logout error:', error);
     });
 }
+
