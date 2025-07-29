@@ -291,23 +291,20 @@ function calculateRate() {
     const initial = parseFloat(document.getElementById('initial').value);
     const final = parseFloat(document.getElementById('final').value);
 
-if (isNaN(initial) || isNaN(final) || final <= initial) {
-  result.innerHTML = `
-    <div style="text-align: center;">
-      <span style="color: red; font-weight: bold;">⚠️ Please enter valid initial and final readings ⚠️</span>
-    </div>`;
-  result.style.display = 'block';
+    if (isNaN(initial) || isNaN(final) || final <= initial) {
+      result.innerHTML = `
+        <div style="text-align: center;">
+          <span style="color: red; font-weight: bold;">⚠️ Please enter valid initial and final readings ⚠️</span>
+        </div>`;
+      result.style.display = 'block';
 
-  // Auto-hide after 3 seconds
-  setTimeout(() => {
-    result.innerHTML = '';
-    result.style.display = 'none';
-  }, 3000);
+      setTimeout(() => {
+        result.innerHTML = '';
+        result.style.display = 'none';
+      }, 3000);
 
-  return;
-}
-
-
+      return;
+    }
 
     volume = final - initial;
 
@@ -316,12 +313,13 @@ if (isNaN(initial) || isNaN(final) || final <= initial) {
       ? parseInt(document.getElementById('manualSeconds').value)
       : parseInt(document.getElementById('duration').value);
 
-    const m3h = (3600 * volume) / duration;
     const gasType = document.getElementById('gasType').value;
-    const calorificValue = gasType === 'natural' ? 39.3 : 93.2;
+    const calorificValue = gasType === 'natural' ? 10.76 : 25.86;
 
-    const gross = (3600 * calorificValue * volume) / (duration * 3.6);
-    const net = gross / 1.1;
+    const gross = (3600 * volume * calorificValue) / duration;
+    const net = gross / 1.11;
+
+    const m3h = (3600 * volume) / duration;
 
     lastGrossKW = gross;
     lastNetKW = net;
@@ -339,6 +337,8 @@ if (isNaN(initial) || isNaN(final) || final <= initial) {
 
   result.scrollIntoView({ behavior: 'smooth' });
 }
+
+
 
 function resetTimerOnly() {
   clearInterval(countdown);
