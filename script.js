@@ -37,19 +37,23 @@ let lastGrossKW = null;
 let lastNetKWMode = null;
 
 function init() {
- const beep = document.getElementById('alertSound');
-const endBeep = document.getElementById('endBeep');
+  const beep = document.getElementById('alertSound');
+  const endBeep = document.getElementById('endBeep');
 
-document.body.addEventListener('click', () => {
-  [beep, endBeep].forEach(audio => {
-    if (audio) {
-      audio.play().then(() => {
-        audio.pause();
-        audio.currentTime = 0;
-      }).catch(() => {});
-    }
-  });
-}, { once: true });
+  document.body.addEventListener('click', () => {
+    [beep, endBeep].forEach(audio => {
+      if (audio) {
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        }).catch(() => {});
+      }
+    });
+  }, { once: true });
+
+  // 🌙 Auto-enable dark mode based on system or saved preference
+ applyInitialDarkModeSetting();
+
 
   document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
   document.getElementById('imperialToggle').addEventListener('change', toggleImperialMode);
@@ -59,32 +63,50 @@ document.body.addEventListener('click', () => {
   setupGCInput();
   toggleMode();
 
- document.getElementById('gcNumber').addEventListener('blur', () => {
-  setTimeout(() => {
-    const input = document.getElementById('gcNumber');
-    const gc = input.value.replace(/\D/g, '');
+  document.getElementById('gcNumber').addEventListener('blur', () => {
+    setTimeout(() => {
+      const input = document.getElementById('gcNumber');
+      const gc = input.value.replace(/\D/g, '');
 
-    if (gc.length === 7) {
-      input.value = `${gc.slice(0, 2)}-${gc.slice(2, 5)}-${gc.slice(5, 7)}`;
-    }
+      if (gc.length === 7) {
+        input.value = `${gc.slice(0, 2)}-${gc.slice(2, 5)}-${gc.slice(5, 7)}`;
+      }
 
-    const boiler = findBoilerByGC(gc);
-    if (boiler) {
-      showBoilerInfo(boiler);
-    } else if (gc.trim() !== '') {
-      showToast('No boiler found for this G.C. number');
-    }
-  }, 200); // Wait for click to register before checking value
-});
+      const boiler = findBoilerByGC(gc);
+      if (boiler) {
+        showBoilerInfo(boiler);
+      } else if (gc.trim() !== '') {
+        showToast('No boiler found for this G.C. number');
+      }
+    }, 200);
+  });
+}
 
+function applyInitialDarkModeSetting() {
+  const savedPref = localStorage.getItem('darkModePref');
+  let isDark;
 
+  if (savedPref === 'on') {
+    isDark = true;
+  } else if (savedPref === 'off') {
+    isDark = false;
+  } else {
+    isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
 
+  document.getElementById('darkModeToggle').checked = isDark;
+  document.body.classList.toggle('dark-mode', isDark);
 }
 
 function toggleDarkMode() {
-  const darkMode = document.getElementById('darkModeToggle').checked;
-  document.body.classList.toggle('dark-mode', darkMode);
+  const toggle = document.getElementById('darkModeToggle');
+  const isDark = toggle.checked;
+
+  document.body.classList.toggle('dark-mode', isDark);
+  localStorage.setItem('darkModePref', isDark ? 'on' : 'off');
 }
+
+
 
 function toggleImperialMode() {
   imperialMode = document.getElementById('imperialToggle').checked;
