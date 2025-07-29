@@ -492,14 +492,19 @@ if (resultBox && resultBox.style.display !== 'none') {
     resultNetKW.classList.add(outOfRange ? 'red' : 'green');
   }
 
-  // Add the tolerance message below the result
-  const msg = document.createElement('div');
-  msg.className = 'tolerance-message';
-  msg.style.color = outOfRange ? 'red' : 'green';
-  msg.style.fontWeight = 'bold';
-  msg.style.marginTop = '6px';
-  msg.innerHTML = messageText;
-  resultBox.appendChild(msg);
+ // 🧹 Remove old tolerance message if any
+const oldMsg = resultBox.querySelector('.tolerance-message');
+if (oldMsg) oldMsg.remove();
+
+// ✅ Now add the new one
+const msg = document.createElement('div');
+msg.className = 'tolerance-message';
+msg.style.color = outOfRange ? 'red' : 'green';
+msg.style.fontWeight = 'bold';
+msg.style.marginTop = '6px';
+msg.innerHTML = messageText;
+resultBox.appendChild(msg);
+
 }
 
   }
