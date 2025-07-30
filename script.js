@@ -336,7 +336,8 @@ function calculateRate() {
       : parseInt(document.getElementById('duration').value);
 
     const gasType = document.getElementById('gasType').value;
-    const calorificValue = gasType === 'natural' ? 10.76 : 25.86;
+    const calorificValue = gasType === 'natural' ? 10.766666666666667 : 25.86;
+
 
     const gross = (3600 * volume * calorificValue) / duration;
     const net = gross / 1.11;
